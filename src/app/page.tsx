@@ -1,14 +1,32 @@
-import Image from "next/image";
-import Header from "./components/header";
+"use client";
+// app/page.tsx
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-import Footer from "./components/footer";
+interface Item {
+  id: number;
+  name: string;
+}
 
-export default function Home() {
+const Home = () => {
+  const [data, setData] = useState<Item[]>([]);
+
+  useEffect(() => {
+    axios.get("https://localhost:7148/api/items").then((response) => {
+      setData(response.data);
+    });
+  }, []);
+
   return (
     <div>
-      <Header />
-      <main></main>
-      <Footer />
+      <h1>CMS Client</h1>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
+
+export default Home;
