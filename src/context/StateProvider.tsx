@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import axios from "../utils/axiosConfig";
-import { StateContext } from "./StateContext";
+import { StateContext } from "@/context/StateContext";
+import axios from "@/utils/axiosConfig";
+import { useState } from "react";
 
 export const StateProvider = ({ children }) => {
   const [selectedBuilding, setSelectedBuilding] = useState(null);

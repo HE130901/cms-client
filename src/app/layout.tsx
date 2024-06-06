@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import { StateProvider } from "@/context/stateProvider";
+import { StateProvider } from "@/context/StateProvider";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {

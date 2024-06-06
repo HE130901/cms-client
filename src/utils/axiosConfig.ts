@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://localhost:7148", // URL của backend API
+  baseURL: "https://localhost:7148",
   headers: {
     "Content-Type": "application/json",
   },
@@ -11,7 +11,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // You can handle errors globally here if needed
     return Promise.reject(error);
   }
 );
