@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { StateProvider } from "@/context/StateProvider";
 import "@/styles/globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Trang chủ",
@@ -20,6 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
       </head>
       <body className="bg-amber-100">
         <StateProvider>{children}</StateProvider>
+        <Toaster />
       </body>
     </html>
   );

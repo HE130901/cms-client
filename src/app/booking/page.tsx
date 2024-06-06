@@ -1,21 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
 import BuildingSelector from "@/components/booking/BuildingSelector";
 import FloorSelector from "@/components/booking/FloorSelector";
-import SectionSelector from "@/components/booking/SectionSelector";
 import NicheSelector from "@/components/booking/NicheSelector";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import SectionSelector from "@/components/booking/SectionSelector";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { useStateContext } from "@/context/StateContext";
 import axios from "@/utils/axiosConfig";
-import { toast } from "react-toastify";
+import { time } from "console";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const BookingPage = () => {
   const { selectedBuilding, selectedFloor, selectedSection, selectedNiche } =
@@ -52,7 +47,7 @@ const BookingPage = () => {
       toast.success("Booking submitted successfully", {
         position: "bottom-right",
       });
-      setIsFormVisible(false); // Close the form modal
+      setIsFormVisible(false);
     } catch (error) {
       toast.error("Error submitting form. Please try again.", {
         position: "bottom-right",
@@ -184,7 +179,7 @@ const BookingPage = () => {
                 <Button type="button" onClick={() => setIsFormVisible(false)}>
                   Quay lại
                 </Button>
-                <Button type="submit">Xác nhận</Button>
+                <Button>Xác nhận</Button>
               </DialogFooter>
             </form>
           )}
