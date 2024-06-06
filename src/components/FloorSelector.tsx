@@ -1,31 +1,45 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Button } from "./ui/button";
 
-const floors = [1, 2, 3, 4, 5, 6, 7];
-
 const FloorSelector = ({
+  selectedBuilding,
   selectedFloor,
   setSelectedFloor,
   resetSectionAndNiche,
-}) => (
-  <div className="">
-    <h2 className="text-xl font-semibold mb-2">Select Floor</h2>
-    <div className="flex space-x-2">
-      {floors.map((floor) => (
-        <Button
-          key={floor}
-          onClick={() => {
-            setSelectedFloor(floor);
-            resetSectionAndNiche();
-          }}
-          variant={selectedFloor === floor ? "solid" : "outline"}
-        >
-          Tầng {floor}
-        </Button>
-      ))}
+}) => {
+  const [floors, setFloors] = useState([]);
+
+  useEffect(() => {
+    if (selectedBuilding) {
+      axios
+        .get(`/api/buildings/${selectedBuilding}/floors`)
+        .then((response) => setFloors(response.data))
+        .catch((error) => console.error("Error fetching floors:", error));
+    }
+  }, [selectedBuilding]);
+
+  return (
+    <div className="">
+      <h2 className="text-xl font-semibold mb-2">Select Floor</h2>
+      <div className="flex justify-center space-x-2">
+        {floors.map((floor) => (
+          <Button
+            key={floor.id}
+            onClick={() => {
+              setSelectedFloor(floor.id);
+              resetSectionAndNiche();
+            }}
+            variant={selectedFloor === floor.id ? "solid" : "outline"}
+          >
+            {floor.name}
+          </Button>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default FloorSelector;

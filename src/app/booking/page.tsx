@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import BuildingSelector from "../../components/BuildingSelector";
 import FloorSelector from "../../components/FloorSelector";
 import SectionSelector from "../../components/SectionSelector";
 import NicheSelector from "../../components/NicheSelector";
 import Modal from "../../components/Modal";
+import { Button, Input, Label, Typography } from "@material-tailwind/react";
+import mock from "../../utils/mockAxios"; // Import the mock setup
 
 const BookingPage = () => {
   const [selectedBuilding, setSelectedBuilding] = useState(null);
@@ -19,6 +22,10 @@ const BookingPage = () => {
     email: "",
     phone: "",
   });
+
+  useEffect(() => {
+    mock;
+  }, []);
 
   const resetSelections = () => {
     setSelectedFloor(null);
@@ -81,6 +88,7 @@ const BookingPage = () => {
       {selectedBuilding && (
         <div className="flex justify-center mb-4">
           <FloorSelector
+            selectedBuilding={selectedBuilding}
             selectedFloor={selectedFloor}
             setSelectedFloor={setSelectedFloor}
             resetSectionAndNiche={resetSectionAndNiche}
@@ -90,6 +98,8 @@ const BookingPage = () => {
       {selectedBuilding && selectedFloor && (
         <div className="flex justify-center mb-4">
           <SectionSelector
+            selectedBuilding={selectedBuilding}
+            selectedFloor={selectedFloor}
             selectedSection={selectedSection}
             setSelectedSection={setSelectedSection}
             resetNiche={resetNiche}
@@ -99,6 +109,9 @@ const BookingPage = () => {
       <div className="flex justify-center">
         {selectedBuilding && selectedFloor && selectedSection && (
           <NicheSelector
+            selectedBuilding={selectedBuilding}
+            selectedFloor={selectedFloor}
+            selectedSection={selectedSection}
             selectedNiche={selectedNiche}
             setSelectedNiche={setSelectedNiche}
             openModal={openModal}
