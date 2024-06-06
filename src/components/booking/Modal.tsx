@@ -10,7 +10,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 const Modal = ({ isVisible, onClose, children }) => {
   if (!isVisible) return null;

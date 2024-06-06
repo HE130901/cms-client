@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useStateContext } from "../context/StateContext";
+import { useStateContext } from "@/context/StateContext";
 
 const NicheSelector = ({ openModal }) => {
   const {

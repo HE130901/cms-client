@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Correct import for App Router
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const RegisterForm = () => {

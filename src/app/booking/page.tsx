@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useStateContext } from "@/context/StateContext";
-import BuildingSelector from "@/components/BuildingSelector";
-import FloorSelector from "@/components/FloorSelector";
-import SectionSelector from "@/components/SectionSelector";
-import NicheSelector from "@/components/NicheSelector";
-import Modal from "@/components/Modal";
+import BuildingSelector from "@/components/booking/BuildingSelector";
+import FloorSelector from "@/components/booking/FloorSelector";
+import SectionSelector from "@/components/booking/SectionSelector";
+import NicheSelector from "@/components/booking/NicheSelector";
+import Modal from "@/components/booking/Modal";
 
 const BookingPage = () => {
   const { selectedBuilding, selectedFloor, selectedSection, selectedNiche } =
