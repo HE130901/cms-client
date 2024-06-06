@@ -107,7 +107,7 @@ const BookingPage = () => {
                 </div>
                 <div className="mb-4">
                   <h3 className="text-lg font-semibold mb-2">
-                    Thông tin chi tiết ô chứa
+                    Thông tin ô chứa
                   </h3>
                   <p>Kích thước: 30x40 cm</p>
                   <p>Giá niêm yết: 1.000.000đ/ô/năm</p>
