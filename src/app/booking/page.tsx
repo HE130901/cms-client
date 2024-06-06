@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import BuildingSelector from "../../components/BuildingSelector";
 import FloorSelector from "../../components/FloorSelector";
-import SectionSelector from "../../components/SectionSelector";
-import NicheSelector from "../../components/NicheSelector";
 import Modal from "../../components/Modal";
-import { Button, Input, Label, Typography } from "@material-tailwind/react";
-import mock from "../../utils/mockAxios"; // Import the mock setup
+import NicheSelector from "../../components/NicheSelector";
+import SectionSelector from "../../components/SectionSelector";
+//import mock from "../../utils/mockAxios"; // Import the mock setup
 
 const BookingPage = () => {
   const [selectedBuilding, setSelectedBuilding] = useState(null);
@@ -23,9 +21,9 @@ const BookingPage = () => {
     phone: "",
   });
 
-  useEffect(() => {
-    mock;
-  }, []);
+  // useEffect(() => {
+  //   mock;
+  // }, []);
 
   const resetSelections = () => {
     setSelectedFloor(null);

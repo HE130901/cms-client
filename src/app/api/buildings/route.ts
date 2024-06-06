@@ -1,18 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+// src/app/api/buildings/route.ts
+import { NextResponse } from "next/server";
 import axiosInstance from "@/utils/axiosConfig";
 
-export async function GET(req) {
+export async function GET() {
   try {
     const response = await axiosInstance.get("/buildings");
-
-    if (response.status === 200) {
-      return NextResponse.json(response.data);
-    } else {
-      return NextResponse.json(
-        { message: response.data.message },
-        { status: response.status }
-      );
-    }
+    return NextResponse.json(response.data);
   } catch (error) {
     console.error("Error fetching buildings:", error);
     return NextResponse.json(

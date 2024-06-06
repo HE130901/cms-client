@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
 import { Button } from "./ui/button";
 
 const SectionSelector = ({
@@ -15,10 +15,8 @@ const SectionSelector = ({
 
   useEffect(() => {
     if (selectedBuilding && selectedFloor) {
-      axios
-        .get(
-          `/api/buildings/${selectedBuilding}/floors/${selectedFloor}/sections`
-        )
+      axiosInstance
+        .get(`/buildings/${selectedBuilding}/floors/${selectedFloor}/sections`)
         .then((response) => setSections(response.data))
         .catch((error) => console.error("Error fetching sections:", error));
     }

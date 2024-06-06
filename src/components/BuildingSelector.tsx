@@ -1,6 +1,7 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
 import { Button } from "./ui/button";
 
 const BuildingSelector = ({
@@ -12,8 +13,8 @@ const BuildingSelector = ({
 
   useEffect(() => {
     // Fetch buildings from the backend
-    axios
-      .get("/api/buildings")
+    axiosInstance
+      .get("/Buildings")
       .then((response) => {
         setBuildings(response.data);
       })
@@ -24,14 +25,14 @@ const BuildingSelector = ({
     <div className="">
       <h2 className="text-xl font-semibold mb-2">Select Building</h2>
       <div className="flex justify-center space-x-2">
-        {buildings.map((building, index) => (
+        {buildings.map((building) => (
           <Button
-            key={index}
+            key={building.id}
             onClick={() => {
-              setSelectedBuilding(building.name);
+              setSelectedBuilding(building.id);
               resetSelections();
             }}
-            variant={selectedBuilding === building.name ? "solid" : "outline"}
+            variant={selectedBuilding === building.id ? "solid" : "outline"}
           >
             {building.name}
           </Button>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
 import { Button } from "./ui/button";
 
 const FloorSelector = ({
@@ -14,8 +14,8 @@ const FloorSelector = ({
 
   useEffect(() => {
     if (selectedBuilding) {
-      axios
-        .get(`/api/buildings/${selectedBuilding}/floors`)
+      axiosInstance
+        .get(`/Buildings/${selectedBuilding}/floors`)
         .then((response) => setFloors(response.data))
         .catch((error) => console.error("Error fetching floors:", error));
     }

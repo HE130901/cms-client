@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
 import { Button } from "@material-tailwind/react";
 
 const NicheSelector = ({
@@ -18,8 +18,8 @@ const NicheSelector = ({
     if (selectedBuilding && selectedFloor && selectedSection) {
       const fetchNiches = async () => {
         try {
-          const response = await axios.get(
-            `/api/buildings/${selectedBuilding}/floors/${selectedFloor}/sections/${selectedSection}/niches`
+          const response = await axiosInstance.get(
+            `/buildings/${selectedBuilding}/floors/${selectedFloor}/sections/${selectedSection}/niches`
           );
           setNiches(response.data);
         } catch (error) {
