@@ -1,39 +1,38 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
-import { Button } from "./ui/button";
+import React, { useEffect } from "react";
+import { useStateContext } from "../context/StateContext";
+import { Button } from "@/components/ui/button";
 
-const SectionSelector = ({
-  selectedBuilding,
-  selectedFloor,
-  selectedSection,
-  setSelectedSection,
-  resetNiche,
-}) => {
-  const [sections, setSections] = useState([]);
+const SectionSelector = () => {
+  const {
+    selectedBuilding,
+    selectedFloor,
+    selectedSection,
+    setSelectedSection,
+    sections,
+    fetchSections,
+    resetNiche,
+  } = useStateContext();
 
   useEffect(() => {
     if (selectedBuilding && selectedFloor) {
-      axiosInstance
-        .get(`/buildings/${selectedBuilding}/floors/${selectedFloor}/sections`)
-        .then((response) => setSections(response.data))
-        .catch((error) => console.error("Error fetching sections:", error));
+      fetchSections(selectedBuilding.id, selectedFloor.id);
     }
   }, [selectedBuilding, selectedFloor]);
 
   return (
-    <div className="">
+    <div>
       <h2 className="text-xl font-semibold mb-2">Select Section</h2>
       <div className="flex justify-center space-x-2">
         {sections.map((section) => (
           <Button
             key={section.id}
             onClick={() => {
-              setSelectedSection(section.id);
+              setSelectedSection(section);
               resetNiche();
             }}
-            variant={selectedSection === section.id ? "solid" : "outline"}
+            variant={selectedSection?.id === section.id ? "default" : "outline"}
           >
             {section.name}
           </Button>

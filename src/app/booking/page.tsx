@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import BuildingSelector from "../../components/BuildingSelector";
-import FloorSelector from "../../components/FloorSelector";
-import Modal from "../../components/Modal";
-import NicheSelector from "../../components/NicheSelector";
-import SectionSelector from "../../components/SectionSelector";
-//import mock from "../../utils/mockAxios"; // Import the mock setup
+import React, { useState } from "react";
+import { useStateContext } from "@/context/StateContext";
+import BuildingSelector from "@/components/BuildingSelector";
+import FloorSelector from "@/components/FloorSelector";
+import SectionSelector from "@/components/SectionSelector";
+import NicheSelector from "@/components/NicheSelector";
+import Modal from "@/components/Modal";
 
 const BookingPage = () => {
-  const [selectedBuilding, setSelectedBuilding] = useState(null);
-  const [selectedFloor, setSelectedFloor] = useState(null);
-  const [selectedSection, setSelectedSection] = useState(null);
-  const [selectedNiche, setSelectedNiche] = useState(null);
+  const { selectedBuilding, selectedFloor, selectedSection, selectedNiche } =
+    useStateContext();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -20,25 +18,6 @@ const BookingPage = () => {
     email: "",
     phone: "",
   });
-
-  // useEffect(() => {
-  //   mock;
-  // }, []);
-
-  const resetSelections = () => {
-    setSelectedFloor(null);
-    setSelectedSection(null);
-    setSelectedNiche(null);
-  };
-
-  const resetSectionAndNiche = () => {
-    setSelectedSection(null);
-    setSelectedNiche(null);
-  };
-
-  const resetNiche = () => {
-    setSelectedNiche(null);
-  };
 
   const openModal = () => {
     setIsModalVisible(true);
@@ -50,7 +29,6 @@ const BookingPage = () => {
   };
 
   const handleBack = () => {
-    resetNiche();
     closeModal();
   };
 
@@ -64,7 +42,6 @@ const BookingPage = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log("Form submitted:", formData);
     closeModal();
   };
@@ -77,45 +54,23 @@ const BookingPage = () => {
     <div className="container mx-auto">
       <h1 className="text-3xl font-bold text-center mb-4">Booking</h1>
       <div className="flex justify-center mb-4">
-        <BuildingSelector
-          selectedBuilding={selectedBuilding}
-          setSelectedBuilding={setSelectedBuilding}
-          resetSelections={resetSelections}
-        />
+        <BuildingSelector />
       </div>
       {selectedBuilding && (
         <div className="flex justify-center mb-4">
-          <FloorSelector
-            selectedBuilding={selectedBuilding}
-            selectedFloor={selectedFloor}
-            setSelectedFloor={setSelectedFloor}
-            resetSectionAndNiche={resetSectionAndNiche}
-          />
+          <FloorSelector />
         </div>
       )}
       {selectedBuilding && selectedFloor && (
         <div className="flex justify-center mb-4">
-          <SectionSelector
-            selectedBuilding={selectedBuilding}
-            selectedFloor={selectedFloor}
-            selectedSection={selectedSection}
-            setSelectedSection={setSelectedSection}
-            resetNiche={resetNiche}
-          />
+          <SectionSelector />
         </div>
       )}
-      <div className="flex justify-center">
-        {selectedBuilding && selectedFloor && selectedSection && (
-          <NicheSelector
-            selectedBuilding={selectedBuilding}
-            selectedFloor={selectedFloor}
-            selectedSection={selectedSection}
-            selectedNiche={selectedNiche}
-            setSelectedNiche={setSelectedNiche}
-            openModal={openModal}
-          />
-        )}
-      </div>
+      {selectedBuilding && selectedFloor && selectedSection && (
+        <div className="flex justify-center">
+          <NicheSelector openModal={openModal} />
+        </div>
+      )}
       <Modal isVisible={isModalVisible} onClose={closeModal}>
         {selectedBuilding &&
           selectedFloor &&
@@ -126,16 +81,16 @@ const BookingPage = () => {
               <h2 className="text-xl font-semibold">Selected:</h2>
               <div className="mt-4">
                 <p>
-                  <strong>Building:</strong> {selectedBuilding}
+                  <strong>Building:</strong> {JSON.stringify(selectedBuilding)}
                 </p>
                 <p>
-                  <strong>Floor:</strong> Tầng {selectedFloor}
+                  <strong>Floor:</strong> {JSON.stringify(selectedFloor)}
                 </p>
                 <p>
-                  <strong>Section:</strong> Khu {selectedSection}
+                  <strong>Section:</strong> {JSON.stringify(selectedSection)}
                 </p>
                 <p>
-                  <strong>Niche:</strong> {selectedNiche}
+                  <strong>Niche:</strong> {JSON.stringify(selectedNiche)}
                 </p>
               </div>
               <div className="mt-4">
@@ -153,7 +108,7 @@ const BookingPage = () => {
                     className="px-4 py-2 bg-blue-500 text-white rounded"
                     onClick={showForm}
                   >
-                    Đặt ô {selectedNiche}
+                    Đặt ô {selectedNiche?.id}
                   </button>
                 </div>
               </div>

@@ -1,38 +1,36 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
-import { Button } from "./ui/button";
+import React, { useEffect } from "react";
+import { useStateContext } from "@/context/StateContext";
+import { Button } from "@/components/ui/button";
 
-const BuildingSelector = ({
-  selectedBuilding,
-  setSelectedBuilding,
-  resetSelections,
-}) => {
-  const [buildings, setBuildings] = useState([]);
+const BuildingSelector = () => {
+  const {
+    selectedBuilding,
+    setSelectedBuilding,
+    buildings,
+    fetchBuildings,
+    resetSelections,
+  } = useStateContext();
 
   useEffect(() => {
-    // Fetch buildings from the backend
-    axiosInstance
-      .get("/Buildings")
-      .then((response) => {
-        setBuildings(response.data);
-      })
-      .catch((error) => console.error("Error fetching buildings:", error));
+    fetchBuildings();
   }, []);
 
   return (
-    <div className="">
+    <div>
       <h2 className="text-xl font-semibold mb-2">Select Building</h2>
       <div className="flex justify-center space-x-2">
         {buildings.map((building) => (
           <Button
             key={building.id}
             onClick={() => {
-              setSelectedBuilding(building.id);
+              setSelectedBuilding(building);
               resetSelections();
             }}
-            variant={selectedBuilding === building.id ? "solid" : "outline"}
+            variant={
+              selectedBuilding?.id === building.id ? "default" : "outline"
+            }
           >
             {building.name}
           </Button>

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import "@/styles/globals.css";
-
-// app/layout.tsx
 import { ReactNode } from "react";
-import Header from "@/components/header/Header";
+import { StateProvider } from "@/context/stateProvider";
+import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "Trang chủ",
   description: "Trang chủ của CMS Client",
 };
+
 interface LayoutProps {
   children: ReactNode;
 }
@@ -19,7 +18,9 @@ const Layout = ({ children }: LayoutProps) => {
       <head>
         <title>CMS Client</title>
       </head>
-      <body className="bg-amber-100">{children}</body>
+      <body className="bg-amber-100">
+        <StateProvider>{children}</StateProvider>
+      </body>
     </html>
   );
 };

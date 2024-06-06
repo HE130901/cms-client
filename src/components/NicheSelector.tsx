@@ -1,32 +1,22 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
-import { Button } from "@material-tailwind/react";
+import React, { useEffect } from "react";
+import { useStateContext } from "../context/StateContext";
 
-const NicheSelector = ({
-  selectedBuilding,
-  selectedFloor,
-  selectedSection,
-  selectedNiche,
-  setSelectedNiche,
-  openModal,
-}) => {
-  const [niches, setNiches] = useState([]);
+const NicheSelector = ({ openModal }) => {
+  const {
+    selectedBuilding,
+    selectedFloor,
+    selectedSection,
+    selectedNiche,
+    setSelectedNiche,
+    niches,
+    fetchNiches,
+  } = useStateContext();
 
   useEffect(() => {
     if (selectedBuilding && selectedFloor && selectedSection) {
-      const fetchNiches = async () => {
-        try {
-          const response = await axiosInstance.get(
-            `/buildings/${selectedBuilding}/floors/${selectedFloor}/sections/${selectedSection}/niches`
-          );
-          setNiches(response.data);
-        } catch (error) {
-          console.error("Error fetching niches:", error);
-        }
-      };
-      fetchNiches();
+      fetchNiches(selectedBuilding.id, selectedFloor.id, selectedSection.id);
     }
   }, [selectedBuilding, selectedFloor, selectedSection]);
 
@@ -44,7 +34,7 @@ const NicheSelector = ({
               key={niche.id}
               onClick={() => {
                 if (niche.status === "available") {
-                  setSelectedNiche(niche.id);
+                  setSelectedNiche(niche);
                   openModal();
                 }
               }}
@@ -53,7 +43,7 @@ const NicheSelector = ({
                   ? "bg-black text-white"
                   : niche.status === "booked"
                   ? "bg-gray-200"
-                  : selectedNiche === niche.id
+                  : selectedNiche?.id === niche.id
                   ? "bg-blue-200 border-blue-500"
                   : "bg-white"
               }`}
@@ -69,7 +59,7 @@ const NicheSelector = ({
               key={niche.id}
               onClick={() => {
                 if (niche.status === "available") {
-                  setSelectedNiche(niche.id);
+                  setSelectedNiche(niche);
                   openModal();
                 }
               }}
@@ -78,7 +68,7 @@ const NicheSelector = ({
                   ? "bg-black text-white"
                   : niche.status === "booked"
                   ? "bg-gray-200"
-                  : selectedNiche === niche.id
+                  : selectedNiche?.id === niche.id
                   ? "bg-blue-200 border-blue-500"
                   : "bg-white"
               }`}

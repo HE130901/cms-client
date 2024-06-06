@@ -1,38 +1,37 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../utils/axiosConfig"; // Import the new axios instance
-import { Button } from "./ui/button";
+import React, { useEffect } from "react";
+import { useStateContext } from "../context/StateContext";
+import { Button } from "@/components/ui/button";
 
-const FloorSelector = ({
-  selectedBuilding,
-  selectedFloor,
-  setSelectedFloor,
-  resetSectionAndNiche,
-}) => {
-  const [floors, setFloors] = useState([]);
+const FloorSelector = () => {
+  const {
+    selectedBuilding,
+    selectedFloor,
+    setSelectedFloor,
+    floors,
+    fetchFloors,
+    resetSectionAndNiche,
+  } = useStateContext();
 
   useEffect(() => {
     if (selectedBuilding) {
-      axiosInstance
-        .get(`/Buildings/${selectedBuilding}/floors`)
-        .then((response) => setFloors(response.data))
-        .catch((error) => console.error("Error fetching floors:", error));
+      fetchFloors(selectedBuilding.id);
     }
   }, [selectedBuilding]);
 
   return (
-    <div className="">
+    <div>
       <h2 className="text-xl font-semibold mb-2">Select Floor</h2>
       <div className="flex justify-center space-x-2">
         {floors.map((floor) => (
           <Button
             key={floor.id}
             onClick={() => {
-              setSelectedFloor(floor.id);
+              setSelectedFloor(floor);
               resetSectionAndNiche();
             }}
-            variant={selectedFloor === floor.id ? "solid" : "outline"}
+            variant={selectedFloor?.id === floor.id ? "default" : "outline"}
           >
             {floor.name}
           </Button>
