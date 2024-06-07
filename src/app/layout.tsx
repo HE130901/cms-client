@@ -1,8 +1,8 @@
+import { Toaster } from "@/components/ui/sonner";
+import { StateProvider } from "@/context/StateContext";
+import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import { StateProvider } from "@/context/StateProvider";
-import "@/styles/globals.css";
-import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Trang chủ",

@@ -1,3 +1,4 @@
+// pages/booking/page.tsx
 "use client";
 
 import BuildingSelector from "@/components/booking/BuildingSelector";
@@ -8,13 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { useStateContext } from "@/context/StateContext";
 import axios from "@/utils/axiosConfig";
-import { time } from "console";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const BookingPage = () => {
-  const { selectedBuilding, selectedFloor, selectedSection, selectedNiche } =
-    useStateContext();
+  const {
+    selectedBuilding,
+    selectedFloor,
+    selectedSection,
+    selectedNiche,
+    setNiches,
+    niches,
+  } = useStateContext();
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -44,10 +50,18 @@ const BookingPage = () => {
 
     try {
       await axios.post("/api/booking/submit", dataToSubmit);
+
+      // Update the niche status locally
+      const updatedNiches = niches.map((niche) =>
+        niche.id === selectedNiche.id ? { ...niche, status: "booked" } : niche
+      );
+      setNiches(updatedNiches);
+
       toast.success("Booking submitted successfully", {
         position: "bottom-right",
       });
       setIsFormVisible(false);
+      setIsDetailsVisible(false);
     } catch (error) {
       toast.error("Error submitting form. Please try again.", {
         position: "bottom-right",
@@ -179,7 +193,7 @@ const BookingPage = () => {
                 <Button type="button" onClick={() => setIsFormVisible(false)}>
                   Quay lại
                 </Button>
-                <Button>Xác nhận</Button>
+                <Button type="submit">Xác nhận</Button>
               </DialogFooter>
             </form>
           )}
