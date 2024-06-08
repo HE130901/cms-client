@@ -4,37 +4,39 @@ import React, { useEffect } from "react";
 import { useStateContext } from "@/context/StateContext";
 import { Button } from "@/components/ui/button";
 
-const SectionSelector = () => {
+const AreaSelector = () => {
   const {
     selectedBuilding,
     selectedFloor,
-    selectedSection,
-    setSelectedSection,
-    sections,
-    fetchSections,
+    selectedArea,
+    setSelectedArea,
+    areas,
+    fetchAreas,
     resetNiche,
   } = useStateContext();
 
   useEffect(() => {
     if (selectedBuilding && selectedFloor) {
-      fetchSections(selectedBuilding.id, selectedFloor.id);
+      fetchAreas(selectedBuilding.buildingId, selectedFloor.floorId);
     }
   }, [selectedBuilding, selectedFloor]);
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-2">Select Section</h2>
+      <h2 className="text-xl font-semibold text-center mb-2">Chọn khu</h2>
       <div className="flex justify-center space-x-2">
-        {sections.map((section) => (
+        {areas.map((area) => (
           <Button
-            key={section.id}
+            key={area.areaId}
             onClick={() => {
-              setSelectedSection(section);
+              setSelectedArea(area);
               resetNiche();
             }}
-            variant={selectedSection?.id === section.id ? "default" : "outline"}
+            variant={
+              selectedArea?.areaId === area.areaId ? "default" : "outline"
+            }
           >
-            {section.name}
+            {area.areaNumber}
           </Button>
         ))}
       </div>
@@ -42,4 +44,4 @@ const SectionSelector = () => {
   );
 };
 
-export default SectionSelector;
+export default AreaSelector;

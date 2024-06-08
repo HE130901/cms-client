@@ -1,3 +1,4 @@
+import Header from "@/components/header/Header";
 import { Toaster } from "@/components/ui/sonner";
 import { StateProvider } from "@/context/StateContext";
 import "@/styles/globals.css";
@@ -19,8 +20,11 @@ const Layout = ({ children }: LayoutProps) => {
       <head>
         <title>CMS Client</title>
       </head>
-      <body className="bg-amber-100">
-        <StateProvider>{children}</StateProvider>
+      <body className="bg-amber-50">
+        <StateProvider>
+          <Header />
+          {children}
+        </StateProvider>
         <Toaster />
       </body>
     </html>

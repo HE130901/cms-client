@@ -16,24 +16,26 @@ const FloorSelector = () => {
 
   useEffect(() => {
     if (selectedBuilding) {
-      fetchFloors(selectedBuilding.id);
+      fetchFloors(selectedBuilding.buildingId);
     }
   }, [selectedBuilding]);
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-2">Select Floor</h2>
+      <h2 className="text-xl font-semibold text-center mb-2">Chọn tầng</h2>
       <div className="flex justify-center space-x-2">
         {floors.map((floor) => (
           <Button
-            key={floor.id}
+            key={floor.floorId}
             onClick={() => {
               setSelectedFloor(floor);
               resetSectionAndNiche();
             }}
-            variant={selectedFloor?.id === floor.id ? "default" : "outline"}
+            variant={
+              selectedFloor?.floorId === floor.floorId ? "default" : "outline"
+            }
           >
-            {floor.name}
+            {floor.floorName}
           </Button>
         ))}
       </div>

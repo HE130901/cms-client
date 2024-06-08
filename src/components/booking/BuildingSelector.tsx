@@ -19,20 +19,22 @@ const BuildingSelector = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-2">Select Building</h2>
+      <h2 className="text-xl font-semibold text-center mb-2">Chọn tòa nhà</h2>
       <div className="flex justify-center space-x-2">
         {buildings.map((building) => (
           <Button
-            key={building.id}
+            key={building.buildingId}
             onClick={() => {
               setSelectedBuilding(building);
               resetSelections();
             }}
             variant={
-              selectedBuilding?.id === building.id ? "default" : "outline"
+              selectedBuilding?.buildingId === building.buildingId
+                ? "default"
+                : "outline"
             }
           >
-            {building.name}
+            {building.buildingName}
           </Button>
         ))}
       </div>

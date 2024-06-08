@@ -7,74 +7,65 @@ const NicheSelector = ({ openModal }) => {
   const {
     selectedBuilding,
     selectedFloor,
-    selectedSection,
-    selectedNiche,
+    selectedArea,
     setSelectedNiche,
     niches,
     fetchNiches,
   } = useStateContext();
 
   useEffect(() => {
-    if (selectedBuilding && selectedFloor && selectedSection) {
-      fetchNiches(selectedBuilding.id, selectedFloor.id, selectedSection.id);
+    if (selectedBuilding && selectedFloor && selectedArea) {
+      fetchNiches(
+        selectedBuilding.buildingId,
+        selectedFloor.floorId,
+        selectedArea.areaId
+      );
     }
-  }, [selectedBuilding, selectedFloor, selectedSection]);
-
-  // Split niches into two halves
-  const firstHalf = niches.slice(0, Math.ceil(niches.length / 2));
-  const secondHalf = niches.slice(Math.ceil(niches.length / 2));
+  }, [selectedBuilding, selectedFloor, selectedArea]);
 
   return (
     <div className="my-4 text-center">
-      <h2 className="text-xl font-semibold mb-2">Select Niche</h2>
+      <h2 className="text-xl text-center font-semibold mb-2">Chọn ô</h2>
       <div className="flex justify-center space-x-4">
         <div className="inline-grid grid-cols-10 gap-2">
-          {firstHalf.map((niche) => (
+          {niches.slice(0, Math.ceil(niches.length / 2)).map((niche) => (
             <div
-              key={niche.id}
+              key={niche.nicheId}
               onClick={() => {
-                if (niche.status === "available") {
-                  setSelectedNiche(niche);
-                  openModal();
-                }
+                setSelectedNiche(niche);
+                openModal();
               }}
               className={`p-4 border rounded cursor-pointer text-center flex items-center justify-center ${
-                niche.status === "unavailable"
+                niche.status === "Unavailable"
                   ? "bg-black text-white"
-                  : niche.status === "booked"
+                  : niche.status === "Booked"
                   ? "bg-gray-200"
-                  : selectedNiche?.id === niche.id
-                  ? "bg-blue-200 border-blue-500"
                   : "bg-white"
               }`}
               style={{ width: "50px", height: "50px" }}
             >
-              {niche.id}
+              {niche.nicheNumber}
             </div>
           ))}
         </div>
         <div className="inline-grid grid-cols-10 gap-2">
-          {secondHalf.map((niche) => (
+          {niches.slice(Math.ceil(niches.length / 2)).map((niche) => (
             <div
-              key={niche.id}
+              key={niche.nicheId}
               onClick={() => {
-                if (niche.status === "available") {
-                  setSelectedNiche(niche);
-                  openModal();
-                }
+                setSelectedNiche(niche);
+                openModal();
               }}
               className={`p-4 border rounded cursor-pointer text-center flex items-center justify-center ${
-                niche.status === "unavailable"
+                niche.status === "Unavailable"
                   ? "bg-black text-white"
-                  : niche.status === "booked"
+                  : niche.status === "Booked"
                   ? "bg-gray-200"
-                  : selectedNiche?.id === niche.id
-                  ? "bg-blue-200 border-blue-500"
                   : "bg-white"
               }`}
               style={{ width: "50px", height: "50px" }}
             >
-              {niche.id}
+              {niche.nicheNumber}
             </div>
           ))}
         </div>
