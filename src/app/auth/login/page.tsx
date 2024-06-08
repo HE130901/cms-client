@@ -1,59 +1,92 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import Link from "next/link";
 import { useStateContext } from "@/context/StateContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+
+const schema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
+});
 
 const Login = () => {
   const { login } = useStateContext();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login(formData.email, formData.password);
+  const onSubmit = async (data) => {
+    try {
+      await login(data.email, data.password);
+      toast.success("Login successful!");
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5}>
-        <Typography variant="h4" gutterBottom>
-          Login
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            name="email"
+    <div className="max-w-sm mx-auto mt-5 pt-36">
+      <h1 className="text-2xl font-bold mb-4">Login</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-4">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Email
+          </label>
+          <input
+            id="email"
             type="email"
-            fullWidth
-            margin="normal"
-            onChange={handleChange}
-            required
+            {...register("email")}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
           />
-          <TextField
-            label="Password"
-            name="password"
+          {errors.email && (
+            <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <input
+            id="password"
             type="password"
-            fullWidth
-            margin="normal"
-            onChange={handleChange}
-            required
+            {...register("password")}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Login
-          </Button>
-        </form>
-      </Box>
-    </Container>
+          {errors.password && (
+            <p className="mt-2 text-sm text-red-600">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+        <button
+          type="submit"
+          className="w-full px-4 py-2 text-black bg-orange-200 rounded-md hover:bg-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
+        >
+          Login
+        </button>
+      </form>
+      <Link href="/auth/register">
+        <p className="w-full mt-4 px-4 py-2 text-black border border-orange-300 rounded-md hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 block text-center">
+          Switch to Register
+        </p>
+      </Link>
+    </div>
   );
 };
 

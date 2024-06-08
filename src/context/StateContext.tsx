@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "@/utils/axiosConfig";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const StateContext = createContext(null);
 
@@ -98,6 +99,7 @@ export const StateProvider = ({ children }) => {
       router.push("/booking");
     } catch (error) {
       console.error("Login failed", error);
+      toast.error("Login failed. Please check your credentials and try again.");
     }
   };
 
@@ -105,8 +107,10 @@ export const StateProvider = ({ children }) => {
     try {
       await axios.post("/api/auth/register", formData);
       router.push("/auth/login");
+      toast.success("Registration successful. Please log in.");
     } catch (error) {
       console.error("Registration failed", error);
+      toast.error("Registration failed. Please try again.");
     }
   };
 
@@ -114,6 +118,21 @@ export const StateProvider = ({ children }) => {
     localStorage.removeItem("token");
     setUser(null);
     router.push("/");
+  };
+
+  const makeNicheReservation = async (reservationData) => {
+    try {
+      const response = await axios.post(
+        "/api/niche-reservations",
+        reservationData
+      );
+      toast.success("Niche reservation successful.");
+      return response.data;
+    } catch (error) {
+      console.error("Niche reservation failed", error);
+      toast.error("Niche reservation failed. Please try again.");
+      throw error;
+    }
   };
 
   return (
@@ -142,6 +161,7 @@ export const StateProvider = ({ children }) => {
         login,
         register,
         logout,
+        makeNicheReservation,
       }}
     >
       {children}

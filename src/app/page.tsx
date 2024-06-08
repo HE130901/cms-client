@@ -2,6 +2,7 @@
 
 import HeaderHome from "@/components/header/Header";
 import Hero from "@/components/home/hero";
+import Information from "@/components/home/information";
 
 // app/page.tsx
 
@@ -10,7 +11,7 @@ const Home = () => {
     <div>
       <HeaderHome />
       <Hero />
-      <Hero />
+      <Information />
       <Hero />
     </div>
   );

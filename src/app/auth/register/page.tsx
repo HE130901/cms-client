@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import Link from "next/link";
 import { useStateContext } from "@/context/StateContext";
 
 const Register = () => {
@@ -28,67 +28,101 @@ const Register = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5}>
-        <Typography variant="h4" gutterBottom>
-          Register
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Full Name"
+    <div className="max-w-md mx-auto mt-10 pt-36">
+      <h1 className="text-2xl font-bold mb-4">Register</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Full Name
+          </label>
+          <input
+            type="text"
             name="fullName"
-            fullWidth
-            margin="normal"
+            value={formData.fullName}
             onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
             required
           />
-          <TextField
-            label="Email"
-            name="email"
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
+          <input
             type="email"
-            fullWidth
-            margin="normal"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
             required
           />
-          <TextField
-            label="Phone"
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Phone
+          </label>
+          <input
+            type="text"
             name="phone"
-            fullWidth
-            margin="normal"
+            value={formData.phone}
             onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
             required
           />
-          <TextField
-            label="Address"
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Address
+          </label>
+          <input
+            type="text"
             name="address"
-            fullWidth
-            margin="normal"
+            value={formData.address}
             onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
           />
-          <TextField
-            label="Password"
-            name="password"
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <input
             type="password"
-            fullWidth
-            margin="normal"
+            name="password"
+            value={formData.password}
             onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
             required
           />
-          <TextField
-            label="Citizen ID"
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Citizen ID
+          </label>
+          <input
+            type="text"
             name="citizenId"
-            fullWidth
-            margin="normal"
+            value={formData.citizenId}
             onChange={handleChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm"
             required
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+        </div>
+        <div>
+          <button
+            type="submit"
+            className="w-full px-4 py-2 text-white bg-orange-300 rounded-md hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-300"
+          >
             Register
-          </Button>
-        </form>
-      </Box>
-    </Container>
+          </button>
+        </div>
+      </form>
+      <Link href="/auth/login">
+        <p className="w-full mt-4 px-4 py-2 text-orange-300 border border-orange-300 rounded-md hover:bg-orange-100 focus:outline-none focus:ring-2 focus:ring-orange-300 block text-center">
+          Switch to Login
+        </p>
+      </Link>
+    </div>
   );
 };
 

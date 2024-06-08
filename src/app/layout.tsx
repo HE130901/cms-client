@@ -1,4 +1,5 @@
 import Header from "@/components/header/Header";
+import CallHotline from "@/components/home/call-hotline";
 import { Toaster } from "@/components/ui/sonner";
 import { StateProvider } from "@/context/StateContext";
 import "@/styles/globals.css";
@@ -24,8 +25,10 @@ const Layout = ({ children }: LayoutProps) => {
         <StateProvider>
           <Header />
           {children}
+          <CallHotline />
+
+          <Toaster />
         </StateProvider>
-        <Toaster />
       </body>
     </html>
   );

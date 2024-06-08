@@ -3,6 +3,7 @@
 import { Button, Typography } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import logo from "@/assets/images/logo.png";
 import videoSrc from "@/assets/videos/video.mp4";
 
@@ -46,17 +47,18 @@ function Hero() {
             </motion.p>
 
             <motion.div className="flex items-center gap-4">
-              <Button
-                variant="gradient"
-                className="shadow-lg hover:shadow-xl rounded-full px-8 py-4 text-sm md:text-base lg:text-lg animate-bounce bg-red-500 hover:bg-red-600"
-                size="lg"
-                onClick={() => (window.location.href = "/booking")}
-                placeholder="Button Placeholder"
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
-              >
-                Đặt chỗ ngay
-              </Button>
+              <Link href="/booking">
+                <Button
+                  variant="gradient"
+                  className="shadow-lg hover:shadow-xl rounded-full px-8 py-4 text-sm md:text-base lg:text-lg animate-bounce bg-red-500 hover:bg-red-600"
+                  size="lg"
+                  placeholder="Button Placeholder"
+                  onPointerEnterCapture={() => {}}
+                  onPointerLeaveCapture={() => {}}
+                >
+                  Đặt chỗ ngay
+                </Button>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

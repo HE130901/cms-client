@@ -1,10 +1,12 @@
 "use client";
+
 import logo from "@/assets/images/logo.png";
 import {
   HomeIcon,
   InformationCircleIcon,
   StarIcon,
   UserCircleIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import {
   Button,
@@ -12,6 +14,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import React from "react";
 import { useStateContext } from "@/context/StateContext";
@@ -19,21 +22,15 @@ import { usePathname } from "next/navigation";
 
 interface NavItemProps {
   children: React.ReactNode;
-  href?: string;
+  href: string;
 }
 
 function NavItem({ children, href }: NavItemProps) {
   return (
     <li className="hover:transform hover:scale-105 transition-transform duration-300">
-      <Typography
-        as="a"
-        href={href || "#"}
-        target="_self"
-        variant="paragraph"
-        className="flex items-center gap-2 font-medium"
-      >
-        {children}
-      </Typography>
+      <Link href={href}>
+        <p className="flex items-center gap-2 font-medium">{children}</p>
+      </Link>
     </li>
   );
 }
@@ -89,7 +86,7 @@ export function Header() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between">
-        <a href="/" target="_self">
+        <Link href="/" passHref>
           <Image
             alt="logo"
             src={logo}
@@ -97,7 +94,7 @@ export function Header() {
             width={180}
             className="rounded-lg hover:transform hover:scale-105 transition-transform duration-300 hover:cursor-pointer"
           />
-        </a>
+        </Link>
         <ul
           className={`ml-10 hidden items-center gap-6 lg:flex ${
             isScrolling || !isHomePage ? "text-black" : "text-white"
@@ -105,10 +102,8 @@ export function Header() {
         >
           {NAV_MENU.map(({ name, icon: Icon, href }) => (
             <NavItem key={name} href={href}>
-              <div className="flex items-center gap-2">
-                <Icon className="h-5 w-5" />
-                <span className="font-bold">{name}</span>
-              </div>
+              <Icon className="h-5 w-5" />
+              <span className="font-bold">{name}</span>
             </NavItem>
           ))}
         </ul>
@@ -122,27 +117,28 @@ export function Header() {
               <Button
                 variant="filled"
                 color={isScrolling || !isHomePage ? "gray" : "white"}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border"
               >
+                <ArrowLeftOnRectangleIcon className="h-5 w-5" />
                 Đăng xuất
               </Button>
             </motion.button>
           ) : (
-            <motion.a
-              href="/auth/login"
-              target="_self"
+            <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Button
-                variant="filled"
-                color={isScrolling || !isHomePage ? "gray" : "white"}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black"
-              >
-                <UserCircleIcon className="h-5 w-5" />
-                Đăng nhập
-              </Button>
-            </motion.a>
+              <Link href="/auth/login" passHref>
+                <Button
+                  variant="filled"
+                  color={isScrolling || !isHomePage ? "gray" : "white"}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black"
+                >
+                  <UserCircleIcon className="h-5 w-5" />
+                  Đăng nhập
+                </Button>
+              </Link>
+            </motion.div>
           )}
         </div>
       </div>
