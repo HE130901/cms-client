@@ -25,15 +25,43 @@ export const StateProvider = ({ children }) => {
   const [areas, setAreas] = useState([]);
   const [niches, setNiches] = useState([]);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setUser({ token });
+      fetchCurrentUser(token);
+    } else {
+      setLoading(false);
     }
   }, []);
+
+  const fetchCurrentUser = async (token) => {
+    try {
+      const customerId = await axios.get("/api/auth/get-cusId", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const customerFullname = await axios.get("/api/auth/get-cusFullname", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const customerCitizenId = await axios.get("/api/auth/get-cusCitizenId", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setUser({
+        customerId: String(customerId.data),
+        fullName: String(customerFullname.data),
+        citizenId: String(customerCitizenId.data),
+        token,
+      });
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchBuildings = async () => {
     try {
@@ -95,11 +123,11 @@ export const StateProvider = ({ children }) => {
       const response = await axios.post("/api/auth/login", { email, password });
       const { token } = response.data;
       localStorage.setItem("token", token);
-      setUser({ token });
+      fetchCurrentUser(token);
       router.push("/booking");
     } catch (error) {
-      console.error("Login failed", error);
-      toast.error("Login failed. Please check your credentials and try again.");
+      console.error("Đăng nhập thất bại", error);
+      toast.error("Đăng nhập thất bại. Hãy kiểm tra lại thông tin.");
     }
   };
 
@@ -107,10 +135,10 @@ export const StateProvider = ({ children }) => {
     try {
       await axios.post("/api/auth/register", formData);
       router.push("/auth/login");
-      toast.success("Registration successful. Please log in.");
+      toast.success("Đăng ký thành công.");
     } catch (error) {
       console.error("Registration failed", error);
-      toast.error("Registration failed. Please try again.");
+      toast.error("Đăng ký thất bại. Vui lòng thử lại sau.");
     }
   };
 
@@ -123,14 +151,16 @@ export const StateProvider = ({ children }) => {
   const makeNicheReservation = async (reservationData) => {
     try {
       const response = await axios.post(
-        "/api/niche-reservations",
-        reservationData
+        "/api/Reservations/create-reservation",
+        reservationData,
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
       );
-      toast.success("Niche reservation successful.");
       return response.data;
     } catch (error) {
-      console.error("Niche reservation failed", error);
-      toast.error("Niche reservation failed. Please try again.");
       throw error;
     }
   };
@@ -147,9 +177,13 @@ export const StateProvider = ({ children }) => {
         selectedNiche,
         setSelectedNiche,
         buildings,
+        setBuildings,
         floors,
+        setFloors,
         areas,
+        setAreas,
         niches,
+        setNiches,
         fetchBuildings,
         fetchFloors,
         fetchAreas,
@@ -158,6 +192,7 @@ export const StateProvider = ({ children }) => {
         resetSectionAndNiche,
         resetNiche,
         user,
+        loading,
         login,
         register,
         logout,

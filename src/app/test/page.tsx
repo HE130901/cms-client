@@ -1,32 +1,23 @@
-"use client";
-// app/page.tsx
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useStateContext } from "@/context/StateContext";
 
-interface Item {
-  id: number;
-  name: string;
-}
+const UserProfile = () => {
+  const { user, loading } = useStateContext();
 
-const Test = () => {
-  const [data, setData] = useState<Item[]>([]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  useEffect(() => {
-    axios.get("https://localhost:7148/api/items").then((response) => {
-      setData(response.data);
-    });
-  }, []);
+  if (!user) {
+    return <div>Please log in.</div>;
+  }
 
   return (
     <div>
-      <h1>Test connect backend</h1>
-      <ul>
-        {data.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
+      <h1>User Profile</h1>
+      <p>Name: {user.fullName}</p>
+      <p>Citizen ID: {user.citizenId}</p>
     </div>
   );
 };
 
-export default Test;
+export default UserProfile;

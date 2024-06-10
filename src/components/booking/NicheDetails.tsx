@@ -34,10 +34,10 @@ const NicheDetails = ({
               <strong>Floor:</strong> {selectedFloor?.floorName}
             </p>
             <p>
-              <strong>Area:</strong> {selectedArea?.areaNumber}
+              <strong>Area:</strong> {selectedArea?.areaName}
             </p>
             <p>
-              <strong>Niche:</strong> {selectedNiche.nicheNumber}
+              <strong>Niche:</strong> {selectedNiche.nicheName}
             </p>
             <p>
               <strong>Status:</strong> {selectedNiche.status}

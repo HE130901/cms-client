@@ -36,7 +36,7 @@ const AreaSelector = () => {
               selectedArea?.areaId === area.areaId ? "default" : "outline"
             }
           >
-            {area.areaNumber}
+            {area.areaName}
           </Button>
         ))}
       </div>

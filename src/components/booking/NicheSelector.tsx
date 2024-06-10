@@ -44,7 +44,7 @@ const NicheSelector = ({ openModal }) => {
               }`}
               style={{ width: "50px", height: "50px" }}
             >
-              {niche.nicheNumber}
+              {niche.nicheName}
             </div>
           ))}
         </div>
@@ -65,7 +65,7 @@ const NicheSelector = ({ openModal }) => {
               }`}
               style={{ width: "50px", height: "50px" }}
             >
-              {niche.nicheNumber}
+              {niche.nicheName}
             </div>
           ))}
         </div>
