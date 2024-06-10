@@ -23,37 +23,37 @@ const NicheDetails = ({
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Niche Details</DialogTitle>
+          <DialogTitle>Thông tin chi tiết ô chứa</DialogTitle>
         </DialogHeader>
         {selectedNiche && (
           <div className="mb-4">
             <p>
-              <strong>Building:</strong> {selectedBuilding?.buildingName}
+              <strong>Tòa nhà:</strong> {selectedBuilding?.buildingName}
             </p>
             <p>
-              <strong>Floor:</strong> {selectedFloor?.floorName}
+              <strong>Tầng:</strong> {selectedFloor?.floorName}
             </p>
             <p>
-              <strong>Area:</strong> {selectedArea?.areaName}
+              <strong>Khu:</strong> {selectedArea?.areaName}
             </p>
             <p>
-              <strong>Niche:</strong> {selectedNiche.nicheName}
+              <strong>Ô số:</strong> {selectedNiche.nicheName}
             </p>
             <p>
-              <strong>Status:</strong> {selectedNiche.status}
+              <strong>Trạng thái:</strong> {selectedNiche.status}
             </p>
             <p>
-              <strong>Description:</strong> {selectedNiche.nicheDescription}
+              <strong>Mô tả:</strong> {selectedNiche.nicheDescription}
             </p>
           </div>
         )}
         <DialogFooter>
-          <Button type="button" onClick={onClose}>
-            Close
+          <Button type="button" variant={"secondary"} onClick={onClose}>
+            Quay lại
           </Button>
           {selectedNiche && selectedNiche.status === "Available" && (
             <Button type="button" onClick={onBook}>
-              Book this Niche
+              Đặt ô số {selectedNiche.nicheName}
             </Button>
           )}
         </DialogFooter>

@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "@/utils/axiosConfig";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,7 @@ const StateContext = createContext(null);
 export const useStateContext = () => {
   const context = useContext(StateContext);
   if (!context) {
-    throw new Error("useStateContext must be used within a StateProvider");
+    throw new Error("useStateContext phải được sử dụng trong StateProvider");
   }
   return context;
 };
@@ -57,7 +56,7 @@ export const StateProvider = ({ children }) => {
         token,
       });
     } catch (error) {
-      console.error("Error fetching current user:", error);
+      console.error("Lỗi khi lấy thông tin người dùng hiện tại:", error);
     } finally {
       setLoading(false);
     }
@@ -68,7 +67,7 @@ export const StateProvider = ({ children }) => {
       const response = await axios.get("/api/buildings");
       setBuildings(response.data);
     } catch (error) {
-      console.error("Error fetching buildings:", error);
+      console.error("Lỗi khi lấy danh sách tòa nhà:", error);
     }
   };
 
@@ -77,7 +76,7 @@ export const StateProvider = ({ children }) => {
       const response = await axios.get(`/api/buildings/${buildingId}/floors`);
       setFloors(response.data);
     } catch (error) {
-      console.error("Error fetching floors:", error);
+      console.error("Lỗi khi lấy danh sách tầng:", error);
     }
   };
 
@@ -88,7 +87,7 @@ export const StateProvider = ({ children }) => {
       );
       setAreas(response.data);
     } catch (error) {
-      console.error("Error fetching areas:", error);
+      console.error("Lỗi khi lấy danh sách khu vực:", error);
     }
   };
 
@@ -99,8 +98,16 @@ export const StateProvider = ({ children }) => {
       );
       setNiches(response.data);
     } catch (error) {
-      console.error("Error fetching niches:", error);
+      console.error("Lỗi khi lấy danh sách ô chứa:", error);
     }
+  };
+
+  const updateNicheStatus = (nicheId, status) => {
+    setNiches((prevNiches) =>
+      prevNiches.map((niche) =>
+        niche.nicheId === nicheId ? { ...niche, status } : niche
+      )
+    );
   };
 
   const resetSelections = () => {
@@ -121,13 +128,20 @@ export const StateProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await axios.post("/api/auth/login", { email, password });
-      const { token } = response.data;
+      const { token, role } = response.data;
       localStorage.setItem("token", token);
       fetchCurrentUser(token);
-      router.push("/booking");
+      if (role === "Customer") {
+        router.push("/customer-dashboard");
+      } else if (role === "Staff") {
+        router.push("/staff-dashboard");
+      }
+      toast.success("Đăng nhập thành công!");
     } catch (error) {
       console.error("Đăng nhập thất bại", error);
-      toast.error("Đăng nhập thất bại. Hãy kiểm tra lại thông tin.");
+      toast.error(
+        "Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập của bạn."
+      );
     }
   };
 
@@ -137,7 +151,7 @@ export const StateProvider = ({ children }) => {
       router.push("/auth/login");
       toast.success("Đăng ký thành công.");
     } catch (error) {
-      console.error("Registration failed", error);
+      console.error("Đăng ký thất bại", error);
       toast.error("Đăng ký thất bại. Vui lòng thử lại sau.");
     }
   };
@@ -188,6 +202,7 @@ export const StateProvider = ({ children }) => {
         fetchFloors,
         fetchAreas,
         fetchNiches,
+        updateNicheStatus,
         resetSelections,
         resetSectionAndNiche,
         resetNiche,

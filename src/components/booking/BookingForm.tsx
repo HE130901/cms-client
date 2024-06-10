@@ -72,8 +72,7 @@ const BookingForm = ({ isVisible, onClose }) => {
     selectedFloor,
     selectedArea,
     selectedNiche,
-    setNiches,
-    niches,
+    updateNicheStatus,
     makeNicheReservation,
     user,
   } = useStateContext();
@@ -115,15 +114,12 @@ const BookingForm = ({ isVisible, onClose }) => {
 
     try {
       await makeNicheReservation(dataToSubmit);
-      const updatedNiches = niches.map((niche) =>
-        niche.nicheId === selectedNiche.nicheId
-          ? { ...niche, status: "booked" }
-          : niche
-      );
-      setNiches(updatedNiches);
 
+      // Update the status of the selected niche immediately
+      updateNicheStatus(selectedNiche.nicheId, "Booked");
+
+      toast.success("Đặt ô chứa thành công!");
       onClose();
-      toast.success("Reservation created successfully!");
     } catch (error) {
       console.error("Error submitting form:", error);
       if (error.response) {
@@ -233,7 +229,6 @@ const BookingForm = ({ isVisible, onClose }) => {
               </p>
             )}
           </div>
-
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
               Thời gian thuê (năm)
