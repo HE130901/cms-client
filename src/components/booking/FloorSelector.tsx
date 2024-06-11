@@ -22,7 +22,7 @@ const FloorSelector = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-center mb-2">Chọn tầng</h2>
+      <h2 className="text-xl font-semibold mb-2">Chọn tầng</h2>
       <div className="flex justify-center space-x-2">
         {floors.map((floor) => (
           <Button

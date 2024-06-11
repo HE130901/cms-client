@@ -23,6 +23,7 @@ export const StateProvider = ({ children }) => {
   const [floors, setFloors] = useState([]);
   const [areas, setAreas] = useState([]);
   const [niches, setNiches] = useState([]);
+  const [reservations, setReservations] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -102,6 +103,15 @@ export const StateProvider = ({ children }) => {
     }
   };
 
+  const fetchReservations = async () => {
+    try {
+      const response = await axios.get("/api/nichereservations");
+      setReservations(response.data);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách đơn đặt ô chứa:", error);
+    }
+  };
+
   const updateNicheStatus = (nicheId, status) => {
     setNiches((prevNiches) =>
       prevNiches.map((niche) =>
@@ -133,7 +143,7 @@ export const StateProvider = ({ children }) => {
       fetchCurrentUser(token);
       if (role === "Customer") {
         router.push("/customer-dashboard");
-      } else if (role === "Staff") {
+      } else if (role === "staff") {
         router.push("/staff-dashboard");
       }
       toast.success("Đăng nhập thành công!");
@@ -198,10 +208,13 @@ export const StateProvider = ({ children }) => {
         setAreas,
         niches,
         setNiches,
+        reservations,
+        setReservations,
         fetchBuildings,
         fetchFloors,
         fetchAreas,
         fetchNiches,
+        fetchReservations,
         updateNicheStatus,
         resetSelections,
         resetSectionAndNiche,

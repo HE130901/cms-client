@@ -23,7 +23,7 @@ const AreaSelector = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-center mb-2">Chọn khu</h2>
+      <h2 className="text-xl font-semibold  mb-2">Chọn khu</h2>
       <div className="flex justify-center space-x-2">
         {areas.map((area) => (
           <Button

@@ -33,18 +33,17 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 pt-32">
-      <h1 className="text-3xl font-bold text-center mb-8">Đặt chỗ</h1>
-      <div className="flex justify-center mb-6">
+    <div className="container p-4">
+      <div className="flex  mb-6">
         <BuildingSelector />
       </div>
       {selectedBuilding && (
-        <div className="flex justify-center mb-6">
+        <div className="flex mb-6">
           <FloorSelector />
         </div>
       )}
       {selectedBuilding && selectedFloor && (
-        <div className="flex justify-center mb-6">
+        <div className="flex  mb-6">
           <AreaSelector />
         </div>
       )}

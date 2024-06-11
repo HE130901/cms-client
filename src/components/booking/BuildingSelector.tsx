@@ -19,7 +19,7 @@ const BuildingSelector = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-center mb-2">Chọn tòa nhà</h2>
+      <h2 className="text-xl font-semibold mb-2">Chọn tòa nhà</h2>
       <div className="flex justify-center space-x-2">
         {buildings.map((building) => (
           <Button

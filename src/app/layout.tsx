@@ -7,8 +7,8 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Trang chủ",
-  description: "Trang chủ của CMS Client",
+  title: "An Bình Viên",
+  description: "Nơi an nghỉ cuối cùng, bình yên và trang trọng",
 };
 
 interface LayoutProps {
@@ -18,15 +18,10 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <html>
-      <head>
-        <title>CMS Client</title>
-      </head>
       <body className="bg-amber-50">
         <StateProvider>
           <Header />
           {children}
-          <CallHotline />
-
           <Toaster />
         </StateProvider>
       </body>
