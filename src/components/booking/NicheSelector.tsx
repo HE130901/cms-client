@@ -25,7 +25,7 @@ const NicheSelector = ({ openModal }) => {
 
   return (
     <div className="my-4 text-center">
-      <h2 className="text-xl text-center font-semibold mb-2">Chọn ô</h2>
+      <h2 className="text-xl text-center font-semibold mb-2">Chọn ô chứa</h2>
       <div className="flex justify-center space-x-4">
         <div className="inline-grid grid-cols-10 gap-2">
           {niches.slice(0, Math.ceil(niches.length / 2)).map((niche) => (
@@ -79,10 +79,7 @@ const NicheSelector = ({ openModal }) => {
           <div className="w-4 h-4 bg-white border"></div>
           <span>Có thể chọn</span>
         </div>
-        <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-blue-200 border-blue-500"></div>
-          <span>Đang chọn</span>
-        </div>
+
         <div className="flex items-center space-x-2">
           <div className="w-4 h-4 bg-gray-200"></div>
           <span>Đang được đặt</span>

@@ -35,7 +35,7 @@ const Login = () => {
 
   return (
     <div className="max-w-sm mx-auto mt-5 pt-36">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
+      <h1 className="text-2xl font-bold mb-4">Đăng nhập</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <label
@@ -59,7 +59,7 @@ const Login = () => {
             htmlFor="password"
             className="block text-sm font-medium text-gray-700"
           >
-            Password
+            Mật khẩu
           </label>
           <input
             id="password"
@@ -77,12 +77,12 @@ const Login = () => {
           type="submit"
           className="w-full px-4 py-2 text-black bg-orange-200 rounded-md hover:bg-orange-300 focus:outline-none focus:ring-2 focus:ring-orange-300"
         >
-          Login
+          Đăng nhập
         </button>
       </form>
       <Link href="/auth/register">
         <p className="w-full mt-4 px-4 py-2 text-black border border-orange-300 rounded-md hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 block text-center">
-          Switch to Register
+          Đăng ký tài khoản mới
         </p>
       </Link>
     </div>

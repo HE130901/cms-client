@@ -60,10 +60,22 @@ const Sidebar = ({ currentView, setCurrentView }) => (
         onClick={() => setCurrentView("contract")}
       />
       <SidebarLink
-        label="Dịch vụ"
+        label="Theo dõi dịch vụ"
         icon={RectangleGroupIcon}
         active={currentView === "service"}
         onClick={() => setCurrentView("service")}
+      />{" "}
+      <SidebarLink
+        label="Theo dõi ô chứa"
+        icon={RectangleGroupIcon}
+        active={currentView === "niche"}
+        onClick={() => setCurrentView("niche")}
+      />
+      <SidebarLink
+        label="Quản lý tài khoản"
+        icon={RectangleGroupIcon}
+        active={currentView === "account"}
+        onClick={() => setCurrentView("account")}
       />
     </div>
   </nav>
@@ -88,10 +100,10 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-orange-50 pl-4 pt-24">
+    <div className="flex h-screen bg-orange-50 pl-4 pt-24 h-screen">
       <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
       <div className="flex-1 overflow-auto">
-        <main className="px-8 py-6 bg-orange-50 mx-4 my-4">
+        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
           {renderContent()}
         </main>
       </div>

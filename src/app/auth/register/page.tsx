@@ -33,7 +33,7 @@ const Register = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Full Name
+            Họ và Tên
           </label>
           <input
             type="text"
@@ -59,7 +59,7 @@ const Register = () => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Phone
+            Số điện thoại
           </label>
           <input
             type="text"
@@ -72,7 +72,7 @@ const Register = () => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Address
+            Địa chỉ
           </label>
           <input
             type="text"
@@ -84,7 +84,7 @@ const Register = () => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Password
+            Mật khẩu
           </label>
           <input
             type="password"
@@ -97,7 +97,7 @@ const Register = () => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Citizen ID
+            Số CCCD
           </label>
           <input
             type="text"
@@ -113,13 +113,13 @@ const Register = () => {
             type="submit"
             className="w-full px-4 py-2 text-white bg-orange-300 rounded-md hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-300"
           >
-            Register
+            Đăng ký
           </button>
         </div>
       </form>
       <Link href="/auth/login">
         <p className="w-full mt-4 px-4 py-2 text-orange-300 border border-orange-300 rounded-md hover:bg-orange-100 focus:outline-none focus:ring-2 focus:ring-orange-300 block text-center">
-          Switch to Login
+          Đăng nhập
         </p>
       </Link>
     </div>
