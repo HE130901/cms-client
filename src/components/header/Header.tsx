@@ -44,7 +44,7 @@ const NAV_MENU = [
   {
     name: "Dịch vụ",
     icon: StarIcon,
-    href: "/customer-dashboard",
+    href: "/dashboard",
   },
   {
     name: "Thông tin",

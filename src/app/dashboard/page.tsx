@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  DocumentIcon,
   BuildingOfficeIcon,
   HomeIcon,
   DocumentTextIcon,
@@ -13,6 +12,7 @@ import BookingPage from "@/components/booking/BookingPage";
 import ServiceOrder from "@/components/staff/ServiceOrder";
 import Contract from "@/components/staff/Contract";
 import Service from "@/components/staff/Service";
+import { useStateContext } from "@/context/StateContext";
 
 const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
   <button
@@ -32,7 +32,7 @@ const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
   </button>
 );
 
-const Sidebar = ({ currentView, setCurrentView }) => (
+const Sidebar = ({ currentView, setCurrentView, userRole }) => (
   <nav className="flex-shrink-0 bg-orange-100 md:w-64 sm:w-56 rounded-md shadow-md">
     <div className="flex items-center h-16 px-4 bg-orange-500 rounded-md shadow-md">
       <Link href="#" className="flex items-center" prefetch={false}>
@@ -42,7 +42,7 @@ const Sidebar = ({ currentView, setCurrentView }) => (
     </div>
     <div className="px-4 py-6 space-y-2">
       <SidebarLink
-        label="Đặt ô chứa trực tuyến"
+        label="Đặt ô chứa"
         icon={BuildingOfficeIcon}
         active={currentView === "bookingPage"}
         onClick={() => setCurrentView("bookingPage")}
@@ -59,18 +59,14 @@ const Sidebar = ({ currentView, setCurrentView }) => (
         active={currentView === "contract"}
         onClick={() => setCurrentView("contract")}
       />
-      <SidebarLink
-        label="Theo dõi dịch vụ"
-        icon={RectangleGroupIcon}
-        active={currentView === "service"}
-        onClick={() => setCurrentView("service")}
-      />{" "}
-      <SidebarLink
-        label="Theo dõi ô chứa"
-        icon={RectangleGroupIcon}
-        active={currentView === "niche"}
-        onClick={() => setCurrentView("niche")}
-      />
+      {userRole !== "Guest" && (
+        <SidebarLink
+          label="Quản lý ô chứa"
+          icon={RectangleGroupIcon}
+          active={currentView === "niche"}
+          onClick={() => setCurrentView("niche")}
+        />
+      )}
       <SidebarLink
         label="Quản lý tài khoản"
         icon={RectangleGroupIcon}
@@ -82,6 +78,7 @@ const Sidebar = ({ currentView, setCurrentView }) => (
 );
 
 const CustomerDashboard = () => {
+  const { user } = useStateContext();
   const [currentView, setCurrentView] = useState("bookingPage");
 
   const renderContent = () => {
@@ -101,7 +98,11 @@ const CustomerDashboard = () => {
 
   return (
     <div className="flex h-screen bg-orange-50 pl-4 pt-24 h-screen">
-      <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+      <Sidebar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        userRole={user?.role}
+      />
       <div className="flex-1 overflow-auto">
         <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
           {renderContent()}

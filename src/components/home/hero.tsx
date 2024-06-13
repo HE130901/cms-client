@@ -47,7 +47,7 @@ function Hero() {
             </motion.p>
 
             <motion.div className="flex items-center gap-4">
-              <Link href="/booking">
+              <Link href="/dashboard">
                 <Button
                   variant="gradient"
                   className="shadow-lg hover:shadow-xl rounded-full px-8 py-4 text-sm md:text-base lg:text-lg animate-bounce bg-red-500 hover:bg-red-600"

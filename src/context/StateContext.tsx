@@ -40,22 +40,25 @@ export const StateProvider = ({ children }) => {
 
   const fetchCurrentUser = async (token) => {
     try {
-      const customerId = await axios.get("/api/auth/get-cusId", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const customerFullname = await axios.get("/api/auth/get-cusFullname", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const customerCitizenId = await axios.get("/api/auth/get-cusCitizenId", {
+      const response = await axios.get("/api/auth/get-current-user", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
+      const { customerId, fullName, citizenId, role } = response.data;
+
       setUser({
-        customerId: String(customerId.data),
-        fullName: String(customerFullname.data),
-        citizenId: String(customerCitizenId.data),
+        customerId: String(customerId),
+        fullName: String(fullName),
+        citizenId: String(citizenId),
+        role: String(role),
         token,
       });
+
+      if (role === "Guest" || role === "Customer") {
+        router.push("/dashboard");
+      } else if (role === "Staff" || role === "Manager") {
+        router.push("/staff-dashboard");
+      }
     } catch (error) {
       console.error("Lỗi khi lấy thông tin người dùng hiện tại:", error);
     } finally {
@@ -141,9 +144,10 @@ export const StateProvider = ({ children }) => {
       const { token, role } = response.data;
       localStorage.setItem("token", token);
       fetchCurrentUser(token);
-      if (role === "Customer") {
-        router.push("/customer-dashboard");
-      } else if (role === "staff") {
+
+      if (role === "Guest" || role === "Customer") {
+        router.push("/dashboard");
+      } else if (role === "Staff" || role === "Manager") {
         router.push("/staff-dashboard");
       }
       toast.success("Đăng nhập thành công!");

@@ -22,6 +22,8 @@ const Layout = ({ children }: LayoutProps) => {
         <StateProvider>
           <Header />
           {children}
+
+          <CallHotline />
           <Toaster />
         </StateProvider>
       </body>
