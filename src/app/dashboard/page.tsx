@@ -26,6 +26,14 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
   <button
@@ -64,6 +72,7 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
           </span>
         </Link>
       </div>
+
       <div className="px-4 py-6 space-y-2">
         <SidebarLink
           label="Đặt ô chứa"
@@ -138,10 +147,28 @@ const CustomerDashboard = () => {
         setCurrentView={setCurrentView}
         userRole={user?.role}
       />
-      <div className="flex-1 overflow-auto">
-        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
-          {renderContent()}
-        </main>
+      <div className="flex flex-1 overflow-auto">
+        <div className="flex-1">
+          <Breadcrumb className="pl-4 pt-4">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/dashboard">Dịch vụ</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Trang hiện tại</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
+          <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
+            {renderContent()}
+          </main>
+        </div>
       </div>
     </div>
   );
