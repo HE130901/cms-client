@@ -43,13 +43,17 @@ export const StateProvider = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const { customerId, fullName, citizenId, role } = response.data;
+      const { customerId, fullName, citizenId, role, email, phone, address } =
+        response.data;
 
       setUser({
         customerId: String(customerId),
         fullName: String(fullName),
         citizenId: String(citizenId),
         role: String(role),
+        email: String(email),
+        phone: String(phone),
+        address: String(address),
         token,
       });
 
@@ -72,7 +76,6 @@ export const StateProvider = ({ children }) => {
       localStorage.setItem("token", token);
       await fetchCurrentUser(token);
 
-      // Redirect based on role
       if (role === "Guest" || role === "Customer") {
         router.push("/dashboard");
       } else if (role === "Staff" || role === "Manager") {
@@ -144,15 +147,6 @@ export const StateProvider = ({ children }) => {
     }
   };
 
-  const fetchReservations = async () => {
-    try {
-      const response = await axios.get("/api/nichereservations");
-      setReservations(response.data);
-    } catch (error) {
-      console.error("Lỗi khi lấy danh sách đơn đặt ô chứa:", error);
-    }
-  };
-
   const updateNicheStatus = (nicheId, status) => {
     setNiches((prevNiches) =>
       prevNiches.map((niche) =>
@@ -174,23 +168,6 @@ export const StateProvider = ({ children }) => {
 
   const resetNiche = () => {
     setSelectedNiche(null);
-  };
-
-  const makeNicheReservation = async (reservationData) => {
-    try {
-      const response = await axios.post(
-        "/api/Reservations/create-reservation",
-        reservationData,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
   };
 
   return (
@@ -218,7 +195,6 @@ export const StateProvider = ({ children }) => {
         fetchFloors,
         fetchAreas,
         fetchNiches,
-        fetchReservations,
         updateNicheStatus,
         resetSelections,
         resetSectionAndNiche,
@@ -228,7 +204,6 @@ export const StateProvider = ({ children }) => {
         login,
         register,
         logout,
-        makeNicheReservation,
       }}
     >
       {children}

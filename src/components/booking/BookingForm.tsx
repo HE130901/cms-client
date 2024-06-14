@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useStateContext } from "@/context/StateContext";
@@ -12,70 +10,26 @@ import { z } from "zod";
 
 const bookingSchema = z.object({
   customerName: z.string().min(1, "Tên của bạn là bắt buộc"),
-  recipientFullname: z
-    .string()
-    .min(1, "Tên của người được đặt ô chứa là bắt buộc"),
-  recipientCitizenId: z
-    .string()
-    .min(1, "Số CCCD là bắt buộc")
-    .refine(
-      async (val) => {
-        try {
-          const response = await axios.get(`/api/Recipients/check-citizen-id`, {
-            params: { citizenId: val },
-          });
-          return !response.data.exists;
-        } catch (error) {
-          console.error("Error checking citizen ID:", error);
-          return false;
-        }
-      },
-      {
-        message: "Số CCCD này đã tồn tại trong cơ sở dữ liệu.",
-      }
-    ),
-  recipientDOB: z.string().refine(
-    (val) => {
-      const birthDate = new Date(val);
-      const today = new Date();
-      const age = today.getFullYear() - birthDate.getFullYear();
-      return age >= 60;
-    },
-    {
-      message: "Người được đặt ô chứa phải trên 60 tuổi.",
-    }
-  ),
-  buyerCitizenId: z.string().min(1, "Số CCCD của người mua là bắt buộc"),
-  rentalPeriod: z
-    .number()
-    .int()
-    .min(1, "Thời gian thuê tối thiểu là 1 năm")
-    .max(10, "Thời gian thuê tối đa là 10 năm"),
+  customerPhone: z.string().min(1, "Số điện thoại của bạn là bắt buộc"),
+  customerAddress: z.string().min(1, "Địa chỉ của bạn là bắt buộc"),
   contractDate: z.string().refine(
     (val) => {
       const contractDate = new Date(val);
       const today = new Date();
-      const oneMonthLater = new Date(today);
-      oneMonthLater.setMonth(today.getMonth() + 1);
-      return contractDate >= today && contractDate <= oneMonthLater;
+      const sevenDaysLater = new Date(today);
+      sevenDaysLater.setDate(today.getDate() + 7);
+      return contractDate >= today && contractDate <= sevenDaysLater;
     },
     {
       message:
-        "Ngày hẹn ký hợp đồng phải trong vòng 1 tháng kể từ ngày hiện tại.",
+        "Ngày hẹn ký hợp đồng phải trong vòng 7 ngày kể từ ngày hiện tại.",
     }
   ),
 });
 
 const BookingForm = ({ isVisible, onClose }) => {
-  const {
-    selectedBuilding,
-    selectedFloor,
-    selectedArea,
-    selectedNiche,
-    updateNicheStatus,
-    makeNicheReservation,
-    user,
-  } = useStateContext();
+  const { selectedBuilding, selectedFloor, selectedArea, selectedNiche, user } =
+    useStateContext();
 
   const {
     register,
@@ -86,40 +40,32 @@ const BookingForm = ({ isVisible, onClose }) => {
     resolver: zodResolver(bookingSchema),
   });
 
+  const [reservationDetails, setReservationDetails] = useState(null);
+
   useEffect(() => {
     if (user) {
       setValue("customerName", user.fullName);
-      setValue("buyerCitizenId", user.citizenId);
+      setValue("customerPhone", user.phone);
+      setValue("customerAddress", user.address);
+      setValue("contractDate", new Date().toISOString().split("T")[0]);
     }
   }, [setValue, user]);
 
   const onSubmit = async (data) => {
     const dataToSubmit = {
-      customerName: String(data.customerName),
-      recipientFullname: String(data.recipientFullname),
-      recipientCitizenId: String(data.recipientCitizenId),
-      recipientDOB: new Date(data.recipientDOB).toISOString().split("T")[0],
-      buyerCitizenId: String(data.buyerCitizenId),
-      rentalPeriod: data.rentalPeriod,
-      contractDate: new Date(data.contractDate).toISOString().split("T")[0],
-      buildingId: selectedBuilding?.buildingId,
-      floorId: selectedFloor?.floorId,
-      areaId: selectedArea?.areaId,
-      nicheId: selectedNiche?.nicheId,
-      status: "Pending",
-      reservationDate: new Date().toISOString().split("T")[0],
+      customerID: user.customerId, // Ensure this matches the user data
+      nicheID: selectedNiche?.nicheId,
+      confirmationDate: data.contractDate,
     };
 
     console.log("Submitting data:", dataToSubmit);
 
     try {
-      await makeNicheReservation(dataToSubmit);
-
-      // Update the status of the selected niche immediately
-      updateNicheStatus(selectedNiche.nicheId, "Booked");
+      const response = await axios.post("/api/NicheReservations", dataToSubmit);
+      const reservation = response.data;
+      setReservationDetails(reservation);
 
       toast.success("Đặt ô chứa thành công!");
-      onClose();
     } catch (error) {
       console.error("Error submitting form:", error);
       if (error.response) {
@@ -129,9 +75,7 @@ const BookingForm = ({ isVisible, onClose }) => {
             toast.error(`${key}: ${value}`);
           });
         } else {
-          toast.error(
-            `Failed to create reservation: ${error.response.data.message}`
-          );
+          toast.error(`Bạn chỉ được đặt duy nhất 1 ô chứa!`);
         }
       } else {
         toast.error("Failed to create reservation.");
@@ -142,136 +86,137 @@ const BookingForm = ({ isVisible, onClose }) => {
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="p-4 bg-white rounded"
-        >
-          <h2 className="text-xl font-bold mb-4">Đăng ký đặt chỗ</h2>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Tên của người mua
-            </label>
-            <input
-              type="text"
-              {...register("customerName")}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-              readOnly
-            />
-            {errors.customerName && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.customerName.message}
+        {!reservationDetails ? (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="p-4 bg-white rounded"
+          >
+            <h2 className="text-xl font-bold mb-4">Đăng ký đặt chỗ</h2>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Họ và tên
+              </label>
+              <input
+                type="text"
+                {...register("customerName")}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+                readOnly
+              />
+              {errors.customerName && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.customerName.message}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Số điện thoại
+              </label>
+              <input
+                type="text"
+                {...register("customerPhone")}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+                readOnly
+              />
+              {errors.customerPhone && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.customerPhone.message}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Địa chỉ
+              </label>
+              <input
+                type="text"
+                {...register("customerAddress")}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+                readOnly
+              />
+              {errors.customerAddress && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.customerAddress.message}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Ô đã chọn
+              </label>
+              <input
+                type="text"
+                value={`${selectedBuilding?.buildingName} - ${selectedFloor?.floorName} - ${selectedArea?.areaName} - Ô số ${selectedNiche?.nicheName}`}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                readOnly
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Ngày hẹn ký hợp đồng
+              </label>
+              <input
+                type="date"
+                {...register("contractDate")}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                required
+              />
+              {errors.contractDate && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.contractDate.message}
+                </p>
+              )}
+            </div>
+            <div className="flex justify-end">
+              <Button type="button" onClick={onClose}>
+                Quay lại
+              </Button>
+              <Button type="submit" className="ml-2">
+                Xác nhận
+              </Button>
+            </div>
+          </form>
+        ) : (
+          <div className="p-4 bg-white rounded">
+            <h2 className="text-xl font-bold mb-4">Thông tin đặt chỗ</h2>
+            <div className="mb-4">
+              <p className="text-sm font-medium text-gray-700">Mã đặt chỗ:</p>
+              <p>{reservationDetails.reservationID}</p>
+            </div>
+            <div className="mb-4">
+              <p className="text-sm font-medium text-gray-700">Họ và tên:</p>
+              <p>{reservationDetails.customerName}</p>
+            </div>
+            <div className="mb-4">
+              <p className="text-sm font-medium text-gray-700">
+                Số điện thoại:
               </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Số CCCD của người mua
-            </label>
-            <input
-              type="text"
-              {...register("buyerCitizenId")}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-              readOnly
-            />
-            {errors.buyerCitizenId && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.buyerCitizenId.message}
+              <p>{reservationDetails.customerPhone}</p>
+            </div>
+            <div className="mb-4">
+              <p className="text-sm font-medium text-gray-700">Địa chỉ:</p>
+              <p>{reservationDetails.customerAddress}</p>
+            </div>
+            <div className="mb-4">
+              <p className="text-sm font-medium text-gray-700">Ô đã chọn:</p>
+              <p>{`${selectedBuilding?.buildingName} - ${selectedFloor?.floorName} - ${selectedArea?.areaName} - Ô số ${selectedNiche?.nicheName}`}</p>
+            </div>
+            <div className="mb-4">
+              <p className="text-sm font-medium text-gray-700">
+                Ngày hẹn ký hợp đồng:
               </p>
-            )}
+              <p>{reservationDetails.confirmationDate}</p>
+            </div>
+            <div className="flex justify-end">
+              <Button type="button" onClick={onClose}>
+                Quay lại
+              </Button>
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Tên của người nhận ô chứa
-            </label>
-            <input
-              type="text"
-              {...register("recipientFullname")}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-            {errors.recipientFullname && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.recipientFullname.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Số CCCD của người nhận ô chứa
-            </label>
-            <input
-              type="text"
-              {...register("recipientCitizenId")}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-            {errors.recipientCitizenId && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.recipientCitizenId.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Ngày sinh của người nhận ô chứa
-            </label>
-            <input
-              type="date"
-              {...register("recipientDOB")}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-            {errors.recipientDOB && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.recipientDOB.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Thời gian thuê (năm)
-            </label>
-            <input
-              type="number"
-              {...register("rentalPeriod", { valueAsNumber: true })}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-              min="1"
-              max="10"
-            />
-            {errors.rentalPeriod && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.rentalPeriod.message}
-              </p>
-            )}
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Ngày hẹn ký hợp đồng
-            </label>
-            <input
-              type="date"
-              {...register("contractDate")}
-              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-            {errors.contractDate && (
-              <p className="mt-2 text-sm text-red-600">
-                {errors.contractDate.message}
-              </p>
-            )}
-          </div>
-          <div className="flex justify-end">
-            <Button type="button" onClick={onClose}>
-              Quay lại
-            </Button>
-            <Button type="submit" className="ml-2">
-              Xác nhận
-            </Button>
-          </div>
-        </form>
+        )}
       </DialogContent>
     </Dialog>
   );

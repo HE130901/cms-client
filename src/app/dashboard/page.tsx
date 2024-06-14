@@ -8,12 +8,15 @@ import {
   PencilSquareIcon,
   RectangleGroupIcon,
 } from "@heroicons/react/24/outline";
-import BookingPage from "@/components/booking/BookingPage";
-import ServiceOrder from "@/components/staff/ServiceOrder";
+import BookingPage from "@/components/dashboard/NicheBookingPage";
+import ServiceOrder from "@/components/dashboard/ServiceOrderPage";
 import Contract from "@/components/staff/Contract";
 import Service from "@/components/staff/Service";
 import { useStateContext } from "@/context/StateContext";
 import withAuth from "@/components/withAuth";
+import ReservationList from "@/components/dashboard/ReservationPage";
+import VisitOrderPage from "@/components/dashboard/VisitOrderPage";
+import ProfilePage from "@/components/dashboard/ProfilePage";
 
 const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
   <button
@@ -45,8 +48,8 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
       <SidebarLink
         label="Đặt ô chứa"
         icon={BuildingOfficeIcon}
-        active={currentView === "bookingPage"}
-        onClick={() => setCurrentView("bookingPage")}
+        active={currentView === "nicheBooking"}
+        onClick={() => setCurrentView("nicheBooking")}
       />
       <SidebarLink
         label="Đặt dịch vụ"
@@ -55,24 +58,30 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
         onClick={() => setCurrentView("serviceOrder")}
       />
       <SidebarLink
-        label="Đăng ký viếng thăm"
+        label="Đặt lịch viếng"
         icon={PencilSquareIcon}
-        active={currentView === "contract"}
-        onClick={() => setCurrentView("contract")}
+        active={currentView === "visitOrder"}
+        onClick={() => setCurrentView("visitOrder")}
       />
       {userRole !== "Guest" && (
         <SidebarLink
-          label="Quản lý ô chứa"
+          label="Quản lý hợp đồng"
           icon={RectangleGroupIcon}
-          active={currentView === "niche"}
-          onClick={() => setCurrentView("niche")}
+          active={currentView === "contract"}
+          onClick={() => setCurrentView("contract")}
         />
       )}
       <SidebarLink
+        label="Quản lý đơn"
+        icon={RectangleGroupIcon}
+        active={currentView === "reservation"}
+        onClick={() => setCurrentView("reservation")}
+      />
+      <SidebarLink
         label="Quản lý tài khoản"
         icon={RectangleGroupIcon}
-        active={currentView === "account"}
-        onClick={() => setCurrentView("account")}
+        active={currentView === "profile"}
+        onClick={() => setCurrentView("profile")}
       />
     </div>
   </nav>
@@ -80,18 +89,22 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
 
 const CustomerDashboard = () => {
   const { user } = useStateContext();
-  const [currentView, setCurrentView] = useState("bookingPage");
+  const [currentView, setCurrentView] = useState("nicheBooking");
 
   const renderContent = () => {
     switch (currentView) {
-      case "bookingPage":
+      case "nicheBooking":
         return <BookingPage />;
       case "serviceOrder":
         return <ServiceOrder />;
+      case "visitOrder":
+        return <VisitOrderPage />;
       case "contract":
         return <Contract />;
-      case "service":
-        return <Service />;
+      case "reservation":
+        return <ReservationList />;
+      case "profile":
+        return <ProfilePage />;
       default:
         return <BookingPage />;
     }

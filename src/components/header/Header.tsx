@@ -8,17 +8,13 @@ import {
   UserCircleIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
-import {
-  Button,
-  Navbar as MTNavbar,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, Navbar as MTNavbar } from "@material-tailwind/react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import React from "react";
 import { useStateContext } from "@/context/StateContext";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface NavItemProps {
   children: React.ReactNode;
@@ -27,9 +23,14 @@ interface NavItemProps {
 
 function NavItem({ children, href }: NavItemProps) {
   return (
-    <li className="hover:transform hover:scale-105 transition-transform duration-300">
+    <li className="transition-transform duration-300 ease-in-out hover:scale-105">
       <Link href={href}>
-        <p className="flex items-center gap-2 font-medium">{children}</p>
+        <motion.div
+          whileHover={{ scale: 1.05 }} // Hiệu ứng scale khi hover
+          className="flex items-center gap-2 font-medium cursor-pointer"
+        >
+          {children}
+        </motion.div>
       </Link>
     </li>
   );
@@ -81,19 +82,24 @@ export function Header() {
       blurred={false}
       className={`fixed top-0 z-50 border-0 transition-colors duration-300 ${
         isScrolling || !isHomePage
-          ? "bg-orange-100 shadow-lg text-black"
+          ? "bg-orange-200 shadow-lg text-black"
           : "bg-transparent shadow-none text-white"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
         <Link href="/" passHref>
-          <Image
-            alt="logo"
-            src={logo}
-            height={100}
-            width={180}
-            className="rounded-lg hover:transform hover:scale-105 transition-transform duration-300 hover:cursor-pointer"
-          />
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="rounded-lg overflow-hidden hover:cursor-pointer"
+          >
+            <Image
+              alt="logo"
+              src={logo}
+              height={50}
+              width={150}
+              className="rounded-lg"
+            />
+          </motion.div>
         </Link>
         <ul
           className={`ml-10 hidden items-center gap-6 lg:flex ${
@@ -117,7 +123,7 @@ export function Header() {
               <Button
                 variant="filled"
                 color={isScrolling || !isHomePage ? "gray" : "white"}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
               >
                 <ArrowLeftOnRectangleIcon className="h-5 w-5" />
                 Đăng xuất
@@ -132,7 +138,7 @@ export function Header() {
                 <Button
                   variant="filled"
                   color={isScrolling || !isHomePage ? "gray" : "white"}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
                 >
                   <UserCircleIcon className="h-5 w-5" />
                   Đăng nhập

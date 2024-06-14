@@ -10,8 +10,10 @@ import BookingForm from "@/components/booking/BookingForm";
 import { useStateContext } from "@/context/StateContext";
 import Image from "next/image";
 import exampleImage from "@/assets/images/towersdsd.jpg"; // Adjust the path to your image accordingly
+import axios from "@/utils/axiosConfig";
+import { toast } from "sonner";
 
-const BookingPage = () => {
+const NicheBookingPage = () => {
   const {
     selectedBuilding,
     setSelectedBuilding,
@@ -23,9 +25,12 @@ const BookingPage = () => {
     fetchBuildings,
     fetchFloors,
     fetchAreas,
+    user,
   } = useStateContext();
+
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
     const initializeSelection = async () => {
@@ -69,6 +74,23 @@ const BookingPage = () => {
     setSelectedArea,
   ]);
 
+  useEffect(() => {
+    if (user) {
+      fetchReservations(user.customerId);
+    }
+  }, [user]);
+
+  const fetchReservations = async (customerId) => {
+    try {
+      const response = await axios.get(
+        `/api/NicheReservations/customer/${customerId}`
+      );
+      setReservations(response.data);
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+    }
+  };
+
   const openDetailsModal = () => {
     setIsDetailsVisible(true);
   };
@@ -84,6 +106,7 @@ const BookingPage = () => {
 
   const closeBookingForm = () => {
     setIsFormVisible(false);
+    fetchReservations(user.customerId); // Refresh the reservations list
   };
 
   return (
@@ -132,4 +155,4 @@ const BookingPage = () => {
   );
 };
 
-export default BookingPage;
+export default NicheBookingPage;
