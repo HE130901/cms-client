@@ -8,23 +8,10 @@ import {
   PencilSquareIcon,
   RectangleGroupIcon,
 } from "@heroicons/react/24/outline";
-import BookingPage from "@/components/dashboard/NicheBookingPage";
-import ServiceOrder from "@/components/dashboard/ServiceOrderPage";
-import Contract from "@/components/staff/Contract";
-import Service from "@/components/staff/Service";
+import { useRouter } from "next/navigation";
 import { useStateContext } from "@/context/StateContext";
 import withAuth from "@/components/withAuth";
-import ReservationList from "@/components/dashboard/ReservationPage";
-import VisitOrderPage from "@/components/dashboard/VisitOrderPage";
-import ProfilePage from "@/components/dashboard/ProfilePage";
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetTitle,
-  SheetDescription,
-  SheetClose,
-} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -35,22 +22,23 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`flex items-center px-4 py-2 text-gray-800 ${
-      active ? "bg-orange-300 text-white" : "hover:bg-orange-200"
-    } rounded-md transition-colors duration-300`}
-  >
-    <Icon className={`h-5 w-5 ${active ? "text-white" : "text-gray-800"}`} />
-    <span
-      className={`ml-2 text-sm font-medium ${
-        active ? "text-white" : "text-gray-800"
-      }`}
+const SidebarLink = ({ label, icon: Icon, href, active }) => (
+  <Link href={href}>
+    <div
+      className={`flex items-center px-4 py-2 text-gray-800 ${
+        active ? "bg-orange-300 text-white" : "hover:bg-orange-200"
+      } rounded-md transition-colors duration-300`}
     >
-      {label}
-    </span>
-  </button>
+      <Icon className={`h-5 w-5 ${active ? "text-white" : "text-gray-800"}`} />
+      <span
+        className={`ml-2 text-sm font-medium ${
+          active ? "text-white" : "text-gray-800"
+        }`}
+      >
+        {label}
+      </span>
+    </div>
+  </Link>
 );
 
 const Sidebar = ({ currentView, setCurrentView, userRole }) => (
@@ -77,40 +65,40 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
         <SidebarLink
           label="Đặt ô chứa"
           icon={BuildingOfficeIcon}
+          href="/niche-booking"
           active={currentView === "nicheBooking"}
-          onClick={() => setCurrentView("nicheBooking")}
         />
         <SidebarLink
           label="Đặt dịch vụ"
           icon={DocumentTextIcon}
+          href="/service-order"
           active={currentView === "serviceOrder"}
-          onClick={() => setCurrentView("serviceOrder")}
         />
         <SidebarLink
           label="Đặt lịch viếng"
           icon={PencilSquareIcon}
+          href="/visit-order"
           active={currentView === "visitOrder"}
-          onClick={() => setCurrentView("visitOrder")}
         />
         {userRole !== "Guest" && (
           <SidebarLink
             label="Quản lý hợp đồng"
             icon={RectangleGroupIcon}
+            href="/contract"
             active={currentView === "contract"}
-            onClick={() => setCurrentView("contract")}
           />
         )}
         <SidebarLink
           label="Quản lý đơn"
           icon={RectangleGroupIcon}
+          href="/reservation"
           active={currentView === "reservation"}
-          onClick={() => setCurrentView("reservation")}
         />
         <SidebarLink
           label="Quản lý tài khoản"
           icon={RectangleGroupIcon}
+          href="/profile"
           active={currentView === "profile"}
-          onClick={() => setCurrentView("profile")}
         />
       </div>
     </SheetContent>
@@ -119,26 +107,8 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
 
 const CustomerDashboard = () => {
   const { user } = useStateContext();
-  const [currentView, setCurrentView] = useState("nicheBooking");
-
-  const renderContent = () => {
-    switch (currentView) {
-      case "nicheBooking":
-        return <BookingPage />;
-      case "serviceOrder":
-        return <ServiceOrder />;
-      case "visitOrder":
-        return <VisitOrderPage />;
-      case "contract":
-        return <Contract />;
-      case "reservation":
-        return <ReservationList />;
-      case "profile":
-        return <ProfilePage />;
-      default:
-        return <BookingPage />;
-    }
-  };
+  const router = useRouter();
+  const [currentView, setCurrentView] = useState("");
 
   return (
     <div className="flex h-screen bg-orange-50 pt-24 h-screen">
@@ -166,7 +136,12 @@ const CustomerDashboard = () => {
           </Breadcrumb>
 
           <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
-            {renderContent()}
+            <h1 className="text-2xl font-semibold mb-4">Dịch vụ</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
+              cumque, quas, quae, quidem dolorum voluptatum quia laborum
+              voluptatem natus doloremque iusto.
+            </p>
           </main>
         </div>
       </div>
