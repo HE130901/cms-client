@@ -17,6 +17,15 @@ import withAuth from "@/components/withAuth";
 import ReservationList from "@/components/dashboard/ReservationPage";
 import VisitOrderPage from "@/components/dashboard/VisitOrderPage";
 import ProfilePage from "@/components/dashboard/ProfilePage";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
   <button
@@ -37,54 +46,66 @@ const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
 );
 
 const Sidebar = ({ currentView, setCurrentView, userRole }) => (
-  <nav className="flex-shrink-0 bg-orange-100 md:w-64 sm:w-56 rounded-md shadow-md">
-    <div className="flex items-center h-16 px-4 bg-orange-500 rounded-md shadow-md">
-      <Link href="#" className="flex items-center" prefetch={false}>
-        <HomeIcon className="h-6 w-6 text-white" />
-        <span className="ml-2 text-lg font-semibold text-white">Xin chào</span>
-      </Link>
-    </div>
-    <div className="px-4 py-6 space-y-2">
-      <SidebarLink
-        label="Đặt ô chứa"
-        icon={BuildingOfficeIcon}
-        active={currentView === "nicheBooking"}
-        onClick={() => setCurrentView("nicheBooking")}
-      />
-      <SidebarLink
-        label="Đặt dịch vụ"
-        icon={DocumentTextIcon}
-        active={currentView === "serviceOrder"}
-        onClick={() => setCurrentView("serviceOrder")}
-      />
-      <SidebarLink
-        label="Đặt lịch viếng"
-        icon={PencilSquareIcon}
-        active={currentView === "visitOrder"}
-        onClick={() => setCurrentView("visitOrder")}
-      />
-      {userRole !== "Guest" && (
+  <Sheet>
+    <SheetTrigger asChild>
+      <Button className="fixed top-4 left-4 z-50 p-2 bg-orange-500 text-white rounded-md shadow-md">
+        Menu
+      </Button>
+    </SheetTrigger>
+    <SheetContent
+      side="left"
+      className="w-64 bg-orange-100 rounded-md shadow-md"
+    >
+      <div className="flex items-center h-16 px-4 bg-orange-500 rounded-md shadow-md">
+        <Link href="#" className="flex items-center" prefetch={false}>
+          <HomeIcon className="h-6 w-6 text-white" />
+          <span className="ml-2 text-lg font-semibold text-white">
+            Xin chào
+          </span>
+        </Link>
+      </div>
+      <div className="px-4 py-6 space-y-2">
         <SidebarLink
-          label="Quản lý hợp đồng"
-          icon={RectangleGroupIcon}
-          active={currentView === "contract"}
-          onClick={() => setCurrentView("contract")}
+          label="Đặt ô chứa"
+          icon={BuildingOfficeIcon}
+          active={currentView === "nicheBooking"}
+          onClick={() => setCurrentView("nicheBooking")}
         />
-      )}
-      <SidebarLink
-        label="Quản lý đơn"
-        icon={RectangleGroupIcon}
-        active={currentView === "reservation"}
-        onClick={() => setCurrentView("reservation")}
-      />
-      <SidebarLink
-        label="Quản lý tài khoản"
-        icon={RectangleGroupIcon}
-        active={currentView === "profile"}
-        onClick={() => setCurrentView("profile")}
-      />
-    </div>
-  </nav>
+        <SidebarLink
+          label="Đặt dịch vụ"
+          icon={DocumentTextIcon}
+          active={currentView === "serviceOrder"}
+          onClick={() => setCurrentView("serviceOrder")}
+        />
+        <SidebarLink
+          label="Đặt lịch viếng"
+          icon={PencilSquareIcon}
+          active={currentView === "visitOrder"}
+          onClick={() => setCurrentView("visitOrder")}
+        />
+        {userRole !== "Guest" && (
+          <SidebarLink
+            label="Quản lý hợp đồng"
+            icon={RectangleGroupIcon}
+            active={currentView === "contract"}
+            onClick={() => setCurrentView("contract")}
+          />
+        )}
+        <SidebarLink
+          label="Quản lý đơn"
+          icon={RectangleGroupIcon}
+          active={currentView === "reservation"}
+          onClick={() => setCurrentView("reservation")}
+        />
+        <SidebarLink
+          label="Quản lý tài khoản"
+          icon={RectangleGroupIcon}
+          active={currentView === "profile"}
+          onClick={() => setCurrentView("profile")}
+        />
+      </div>
+    </SheetContent>
+  </Sheet>
 );
 
 const CustomerDashboard = () => {
@@ -111,7 +132,7 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-orange-50 pl-4 pt-24 h-screen">
+    <div className="flex h-screen bg-orange-50 pt-24 h-screen">
       <Sidebar
         currentView={currentView}
         setCurrentView={setCurrentView}
