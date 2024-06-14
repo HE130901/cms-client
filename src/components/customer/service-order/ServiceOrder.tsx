@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "@/utils/axiosConfig";
 import { useStateContext } from "@/context/StateContext";
-import ServiceOrder from "../staff/ServiceOrder";
+import ServiceOrder from "../../staff/ServiceOrder";
 
-const ContractPage = () => {
+const ServiceOrderPage = () => {
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Quản lý hợp đồng</h2>
+      <h2 className="text-xl font-bold mb-4">Danh sách dịch vụ</h2>
     </div>
   );
 };
 
-export default ContractPage;
+export default ServiceOrderPage;

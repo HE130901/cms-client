@@ -1,4 +1,5 @@
 "use client";
+import ContractPage from "@/components/customer/contract-manager/ContractPage";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,10 +8,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import NicheBookingPage from "@/components/dashboard/NicheBookingPage";
 import withAuth from "@/components/withAuth";
 
-const NicheBooking = () => {
+const ContractManager = () => {
   return (
     <div className="flex flex-1 overflow-auto pt-24">
       <div className="flex-1">
@@ -25,17 +25,17 @@ const NicheBooking = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Đặt ô chứa</BreadcrumbPage>
+              <BreadcrumbPage>Quản lý hợp đồng</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
 
         <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
-          <NicheBookingPage />
+          <ContractPage />
         </main>
       </div>
     </div>
   );
 };
 
-export default withAuth(NicheBooking);
+export default withAuth(ContractManager);

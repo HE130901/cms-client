@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AreaSelector from "@/components/booking/AreaSelector";
-import BuildingSelector from "@/components/booking/BuildingSelector";
-import FloorSelector from "@/components/booking/FloorSelector";
-import NicheSelector from "@/components/booking/NicheSelector";
-import NicheDetails from "@/components/booking/NicheDetails";
-import BookingForm from "@/components/booking/BookingForm";
+import AreaSelector from "@/components/customer/niche-reservation/AreaSelector";
+import BuildingSelector from "@/components/customer/niche-reservation/BuildingSelector";
+import FloorSelector from "@/components/customer/niche-reservation/FloorSelector";
+import NicheSelector from "@/components/customer/niche-reservation/NicheSelector";
+import NicheDetails from "@/components/customer/niche-reservation/NicheDetails";
+import BookingForm from "@/components/customer/niche-reservation/BookingForm";
 import { useStateContext } from "@/context/StateContext";
 import Image from "next/image";
 import exampleImage from "@/assets/images/towersdsd.jpg"; // Adjust the path to your image accordingly

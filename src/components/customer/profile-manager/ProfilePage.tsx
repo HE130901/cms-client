@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "@/utils/axiosConfig";
 import { useStateContext } from "@/context/StateContext";
-import ServiceOrder from "../staff/ServiceOrder";
+import ServiceOrder from "../../staff/ServiceOrder";
 
 const ProfilePage = () => {
   return (

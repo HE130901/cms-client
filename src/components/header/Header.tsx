@@ -7,6 +7,11 @@ import {
   StarIcon,
   UserCircleIcon,
   ArrowLeftOnRectangleIcon,
+  Bars3Icon,
+  BuildingOfficeIcon,
+  DocumentTextIcon,
+  PencilSquareIcon,
+  RectangleGroupIcon,
 } from "@heroicons/react/24/solid";
 import { Button, Navbar as MTNavbar } from "@material-tailwind/react";
 import Image from "next/image";
@@ -15,6 +20,7 @@ import React from "react";
 import { useStateContext } from "@/context/StateContext";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 
 interface NavItemProps {
   children: React.ReactNode;
@@ -26,7 +32,7 @@ function NavItem({ children, href }: NavItemProps) {
     <li className="transition-transform duration-300 ease-in-out hover:scale-105">
       <Link href={href}>
         <motion.div
-          whileHover={{ scale: 1.05 }} // Hiệu ứng scale khi hover
+          whileHover={{ scale: 1.05 }}
           className="flex items-center gap-2 font-medium cursor-pointer"
         >
           {children}
@@ -54,7 +60,69 @@ const NAV_MENU = [
   },
 ];
 
-export function Header() {
+const SidebarLink = ({ label, icon: Icon, href, active }) => (
+  <Link href={href}>
+    <div
+      className={`flex items-center px-4 py-2 text-gray-800 ${
+        active ? "bg-orange-300 text-white" : "hover:bg-orange-200"
+      } rounded-md transition-colors duration-300`}
+    >
+      <Icon className={`h-5 w-5 ${active ? "text-white" : "text-gray-800"}`} />
+      <span
+        className={`ml-2 text-sm font-medium ${
+          active ? "text-white" : "text-gray-800"
+        }`}
+      >
+        {label}
+      </span>
+    </div>
+  </Link>
+);
+
+const Sidebar = ({ currentView, setCurrentView, userRole }) => (
+  <div className="px-4 py-6 space-y-2">
+    <SidebarLink
+      label="Đặt ô chứa"
+      icon={BuildingOfficeIcon}
+      href="/niche-reservation"
+      active={currentView === "nicheReservation"}
+    />
+    <SidebarLink
+      label="Đặt dịch vụ"
+      icon={DocumentTextIcon}
+      href="/service-order"
+      active={currentView === "serviceOrder"}
+    />
+    <SidebarLink
+      label="Đặt lịch viếng"
+      icon={PencilSquareIcon}
+      href="/visit-reservation"
+      active={currentView === "visitReservation"}
+    />
+    {userRole !== "Guest" && (
+      <SidebarLink
+        label="Quản lý hợp đồng"
+        icon={RectangleGroupIcon}
+        href="/contract-manager"
+        active={currentView === "contractManager"}
+      />
+    )}
+    <SidebarLink
+      label="Quản lý đơn"
+      icon={RectangleGroupIcon}
+      href="/reservation-manager"
+      active={currentView === "reservationManager"}
+    />
+    <SidebarLink
+      label="Quản lý tài khoản"
+      icon={RectangleGroupIcon}
+      href="/profile-manager"
+      active={currentView === "profileManager"}
+    />
+  </div>
+);
+
+export function Header({ currentView, setCurrentView, userRole }) {
   const [isScrolling, setIsScrolling] = React.useState(false);
   const { user, logout } = useStateContext();
   const pathname = usePathname();
@@ -87,20 +155,39 @@ export function Header() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
-        <Link href="/" passHref>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="rounded-lg overflow-hidden hover:cursor-pointer"
-          >
-            <Image
-              alt="logo"
-              src={logo}
-              height={50}
-              width={150}
-              className="rounded-lg"
-            />
-          </motion.div>
-        </Link>
+        <div className="flex items-center">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button className="mr-4 p-2 bg-orange-500 text-white rounded-md shadow-md">
+                <Bars3Icon className="h-5 w-5 mr-2" /> Menu
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="w-64 bg-orange-100 rounded-md shadow-md"
+            >
+              <Sidebar
+                currentView={currentView}
+                setCurrentView={setCurrentView}
+                userRole={userRole}
+              />
+            </SheetContent>
+          </Sheet>
+          <Link href="/" passHref>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="rounded-lg overflow-hidden hover:cursor-pointer"
+            >
+              <Image
+                alt="logo"
+                src={logo}
+                height={50}
+                width={150}
+                className="rounded-lg"
+              />
+            </motion.div>
+          </Link>
+        </div>
         <ul
           className={`ml-10 hidden items-center gap-6 lg:flex ${
             isScrolling || !isHomePage ? "text-black" : "text-white"

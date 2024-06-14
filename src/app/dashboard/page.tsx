@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import {
   BuildingOfficeIcon,
   HomeIcon,
@@ -11,8 +10,6 @@ import {
 import { useRouter } from "next/navigation";
 import { useStateContext } from "@/context/StateContext";
 import withAuth from "@/components/withAuth";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,6 +18,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Header from "@/components/header/Header"; // Import the Header component
 
 const SidebarLink = ({ label, icon: Icon, href, active }) => (
   <Link href={href}>
@@ -42,77 +40,55 @@ const SidebarLink = ({ label, icon: Icon, href, active }) => (
 );
 
 const Sidebar = ({ currentView, setCurrentView, userRole }) => (
-  <Sheet>
-    <SheetTrigger asChild>
-      <Button className="fixed top-4 left-4 z-50 p-2 bg-orange-500 text-white rounded-md shadow-md">
-        Menu
-      </Button>
-    </SheetTrigger>
-    <SheetContent
-      side="left"
-      className="w-64 bg-orange-100 rounded-md shadow-md"
-    >
-      <div className="flex items-center h-16 px-4 bg-orange-500 rounded-md shadow-md">
-        <Link href="#" className="flex items-center" prefetch={false}>
-          <HomeIcon className="h-6 w-6 text-white" />
-          <span className="ml-2 text-lg font-semibold text-white">
-            Xin chào
-          </span>
-        </Link>
-      </div>
-
-      <div className="px-4 py-6 space-y-2">
-        <SidebarLink
-          label="Đặt ô chứa"
-          icon={BuildingOfficeIcon}
-          href="/niche-booking"
-          active={currentView === "nicheBooking"}
-        />
-        <SidebarLink
-          label="Đặt dịch vụ"
-          icon={DocumentTextIcon}
-          href="/service-order"
-          active={currentView === "serviceOrder"}
-        />
-        <SidebarLink
-          label="Đặt lịch viếng"
-          icon={PencilSquareIcon}
-          href="/visit-order"
-          active={currentView === "visitOrder"}
-        />
-        {userRole !== "Guest" && (
-          <SidebarLink
-            label="Quản lý hợp đồng"
-            icon={RectangleGroupIcon}
-            href="/contract"
-            active={currentView === "contract"}
-          />
-        )}
-        <SidebarLink
-          label="Quản lý đơn"
-          icon={RectangleGroupIcon}
-          href="/reservation"
-          active={currentView === "reservation"}
-        />
-        <SidebarLink
-          label="Quản lý tài khoản"
-          icon={RectangleGroupIcon}
-          href="/profile"
-          active={currentView === "profile"}
-        />
-      </div>
-    </SheetContent>
-  </Sheet>
+  <div className="px-4 py-6 space-y-2">
+    <SidebarLink
+      label="Đặt ô chứa"
+      icon={BuildingOfficeIcon}
+      href="/niche-booking"
+      active={currentView === "nicheBooking"}
+    />
+    <SidebarLink
+      label="Đặt dịch vụ"
+      icon={DocumentTextIcon}
+      href="/service-order"
+      active={currentView === "serviceOrder"}
+    />
+    <SidebarLink
+      label="Đặt lịch viếng"
+      icon={PencilSquareIcon}
+      href="/visit-order"
+      active={currentView === "visitOrder"}
+    />
+    {userRole !== "Guest" && (
+      <SidebarLink
+        label="Quản lý hợp đồng"
+        icon={RectangleGroupIcon}
+        href="/contract"
+        active={currentView === "contract"}
+      />
+    )}
+    <SidebarLink
+      label="Quản lý đơn"
+      icon={RectangleGroupIcon}
+      href="/reservation"
+      active={currentView === "reservation"}
+    />
+    <SidebarLink
+      label="Quản lý tài khoản"
+      icon={RectangleGroupIcon}
+      href="/profile"
+      active={currentView === "profile"}
+    />
+  </div>
 );
 
 const CustomerDashboard = () => {
   const { user } = useStateContext();
-  const router = useRouter();
   const [currentView, setCurrentView] = useState("");
 
   return (
     <div className="flex h-screen bg-orange-50 pt-24 h-screen">
-      <Sidebar
+      <Header
         currentView={currentView}
         setCurrentView={setCurrentView}
         userRole={user?.role}
