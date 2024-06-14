@@ -1,4 +1,4 @@
-//src/app/auth/login/page.tsx
+// src/app/auth/login/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -30,7 +30,7 @@ const Login = () => {
     try {
       await login(data.email, data.password);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.response?.data.message || "Login failed");
     }
   };
 

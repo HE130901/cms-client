@@ -13,6 +13,7 @@ import ServiceOrder from "@/components/staff/ServiceOrder";
 import Contract from "@/components/staff/Contract";
 import Service from "@/components/staff/Service";
 import { useStateContext } from "@/context/StateContext";
+import withAuth from "@/components/withAuth";
 
 const SidebarLink = ({ label, icon: Icon, active, onClick }) => (
   <button
@@ -112,4 +113,4 @@ const CustomerDashboard = () => {
   );
 };
 
-export default CustomerDashboard;
+export default withAuth(CustomerDashboard);

@@ -28,7 +28,6 @@ export const StateProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -64,6 +63,45 @@ export const StateProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const login = async (email, password) => {
+    try {
+      const response = await axios.post("/api/auth/login", { email, password });
+      const { token, role } = response.data;
+      localStorage.setItem("token", token);
+      await fetchCurrentUser(token);
+
+      // Redirect based on role
+      if (role === "Guest" || role === "Customer") {
+        router.push("/dashboard");
+      } else if (role === "Staff" || role === "Manager") {
+        router.push("/staff-dashboard");
+      }
+      toast.success("Đăng nhập thành công!");
+    } catch (error) {
+      console.error("Đăng nhập thất bại", error);
+      toast.error(
+        "Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập của bạn."
+      );
+    }
+  };
+
+  const register = async (formData) => {
+    try {
+      await axios.post("/api/auth/register", formData);
+      router.push("/auth/login");
+      toast.success("Đăng ký thành công.");
+    } catch (error) {
+      console.error("Đăng ký thất bại", error);
+      toast.error("Đăng ký thất bại. Vui lòng thử lại sau.");
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    router.push("/");
   };
 
   const fetchBuildings = async () => {
@@ -136,44 +174,6 @@ export const StateProvider = ({ children }) => {
 
   const resetNiche = () => {
     setSelectedNiche(null);
-  };
-
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post("/api/auth/login", { email, password });
-      const { token, role } = response.data;
-      localStorage.setItem("token", token);
-      fetchCurrentUser(token);
-
-      if (role === "Guest" || role === "Customer") {
-        router.push("/dashboard");
-      } else if (role === "Staff" || role === "Manager") {
-        router.push("/staff-dashboard");
-      }
-      toast.success("Đăng nhập thành công!");
-    } catch (error) {
-      console.error("Đăng nhập thất bại", error);
-      toast.error(
-        "Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập của bạn."
-      );
-    }
-  };
-
-  const register = async (formData) => {
-    try {
-      await axios.post("/api/auth/register", formData);
-      router.push("/auth/login");
-      toast.success("Đăng ký thành công.");
-    } catch (error) {
-      console.error("Đăng ký thất bại", error);
-      toast.error("Đăng ký thất bại. Vui lòng thử lại sau.");
-    }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    router.push("/");
   };
 
   const makeNicheReservation = async (reservationData) => {
