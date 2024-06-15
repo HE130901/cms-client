@@ -31,6 +31,9 @@ const NicheBooking = () => {
         </Breadcrumb>
 
         <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
+          <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight text-center transition-colors first:mt-0">
+            Đặt ô chứa
+          </h2>
           <NicheBookingPage />
         </main>
       </div>

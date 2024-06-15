@@ -1,5 +1,8 @@
 "use client";
-import ServiceOrderPage from "@/components/customer/service-order/ServiceOrder";
+// src/app/service-order/page.tsx
+
+import React from "react";
+import withAuth from "@/components/withAuth";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,9 +11,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import withAuth from "@/components/withAuth";
+import ServiceOrderContent from "@/components/customer/service-order/ServiceOrderContent";
 
-const VisitReservation = () => {
+const ServiceOrderPage: React.FC = () => {
   return (
     <div className="flex flex-1 overflow-auto pt-24">
       <div className="flex-1">
@@ -29,13 +32,15 @@ const VisitReservation = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
         <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
-          <ServiceOrderPage />
+          <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight text-center transition-colors first:mt-0">
+            Danh sách dịch vụ
+          </h2>
+          <ServiceOrderContent />
         </main>
       </div>
     </div>
   );
 };
 
-export default withAuth(VisitReservation);
+export default withAuth(ServiceOrderPage);

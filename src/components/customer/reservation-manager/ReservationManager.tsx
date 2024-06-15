@@ -48,7 +48,7 @@ const ReservationManagerPage = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Quản lý đơn đặt chỗ</h2>
+      <h2 className="text-2xl font-bold mb-6">Quản lý đơn</h2>
 
       <div className="mb-8">
         <h3 className="text-xl font-bold mb-4">Danh sách đơn đặt chỗ</h3>
@@ -70,7 +70,7 @@ const ReservationManagerPage = () => {
                     <strong>Ngày đặt:</strong> {reservation.createdDate}
                   </p>
                   <p>
-                    <strong>Ngày ký hợp đồng:</strong>{" "}
+                    <strong>Ngày hẹn ký hợp đồng:</strong>{" "}
                     {reservation.confirmationDate}
                   </p>
                   <p>

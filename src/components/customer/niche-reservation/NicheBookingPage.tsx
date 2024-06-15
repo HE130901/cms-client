@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import AreaSelector from "@/components/customer/niche-reservation/AreaSelector";
 import BuildingSelector from "@/components/customer/niche-reservation/BuildingSelector";
 import FloorSelector from "@/components/customer/niche-reservation/FloorSelector";
@@ -8,7 +9,6 @@ import NicheSelector from "@/components/customer/niche-reservation/NicheSelector
 import NicheDetails from "@/components/customer/niche-reservation/NicheDetails";
 import BookingForm from "@/components/customer/niche-reservation/BookingForm";
 import { useStateContext } from "@/context/StateContext";
-import Image from "next/image";
 import exampleImage from "@/assets/images/towersdsd.jpg"; // Adjust the path to your image accordingly
 import axios from "@/utils/axiosConfig";
 import { toast } from "sonner";
@@ -110,9 +110,9 @@ const NicheBookingPage = () => {
   };
 
   return (
-    <div className="container">
-      <div className="flex mb-6">
-        <div className="w-2/3">
+    <div className="container mx-auto p-4">
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex-1">
           <div className="mb-6 text-center">
             <BuildingSelector />
           </div>
@@ -127,7 +127,7 @@ const NicheBookingPage = () => {
             </div>
           )}
         </div>
-        <div className="w-1/4 flex items-center justify-center shadow-lg">
+        <div className="w-full md:w-1/4 flex items-center justify-center shadow-lg">
           <Image
             src={exampleImage}
             alt="Example Image"
