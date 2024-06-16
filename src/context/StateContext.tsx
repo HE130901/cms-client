@@ -110,7 +110,7 @@ export const StateProvider = ({ children }) => {
   const fetchBuildings = async () => {
     try {
       const response = await axios.get("/api/buildings");
-      setBuildings(response.data);
+      setBuildings(response.data.$values); // Extract the $values array
     } catch (error) {
       console.error("Lỗi khi lấy danh sách tòa nhà:", error);
     }
@@ -119,7 +119,7 @@ export const StateProvider = ({ children }) => {
   const fetchFloors = async (buildingId) => {
     try {
       const response = await axios.get(`/api/buildings/${buildingId}/floors`);
-      setFloors(response.data);
+      setFloors(response.data.$values);
     } catch (error) {
       console.error("Lỗi khi lấy danh sách tầng:", error);
     }
@@ -130,7 +130,7 @@ export const StateProvider = ({ children }) => {
       const response = await axios.get(
         `/api/buildings/${buildingId}/floors/${floorId}/areas`
       );
-      setAreas(response.data);
+      setAreas(response.data.$values);
     } catch (error) {
       console.error("Lỗi khi lấy danh sách khu vực:", error);
     }
@@ -141,7 +141,7 @@ export const StateProvider = ({ children }) => {
       const response = await axios.get(
         `/api/buildings/${buildingId}/floors/${floorId}/areas/${areaId}/niches`
       );
-      setNiches(response.data);
+      setNiches(response.data.$values);
     } catch (error) {
       console.error("Lỗi khi lấy danh sách ô chứa:", error);
     }

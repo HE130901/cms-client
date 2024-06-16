@@ -84,45 +84,45 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
     <SidebarLink
       label="Đặt ô chứa"
       icon={BuildingOfficeIcon}
-      href="/niche-reservation"
+      href="/dashboard/niche-reservation"
       active={currentView === "nicheReservation"}
     />
     <SidebarLink
       label="Đặt dịch vụ"
       icon={DocumentTextIcon}
-      href="/service-order"
+      href="/dashboard/service-order"
       active={currentView === "serviceOrder"}
     />
     <SidebarLink
       label="Đặt lịch viếng"
       icon={PencilSquareIcon}
-      href="/visit-reservation"
+      href="/dashboard/visit-reservation"
       active={currentView === "visitReservation"}
     />
     {userRole !== "Guest" && (
       <SidebarLink
         label="Quản lý hợp đồng"
         icon={RectangleGroupIcon}
-        href="/contract-manager"
+        href="/dashboard/contract-manager"
         active={currentView === "contractManager"}
       />
     )}
     <SidebarLink
       label="Quản lý đơn"
       icon={RectangleGroupIcon}
-      href="/reservation-manager"
+      href="/dashboard/reservation-manager"
       active={currentView === "reservationManager"}
     />
     <SidebarLink
       label="Quản lý tài khoản"
       icon={RectangleGroupIcon}
-      href="/profile-manager"
+      href="/dashboard/profile-manager"
       active={currentView === "profileManager"}
     />
   </div>
 );
 
-export function Header({ currentView, setCurrentView, userRole }) {
+export function Header({ currentView, setCurrentView }) {
   const [isScrolling, setIsScrolling] = React.useState(false);
   const { user, logout } = useStateContext();
   const pathname = usePathname();
@@ -169,7 +169,7 @@ export function Header({ currentView, setCurrentView, userRole }) {
               <Sidebar
                 currentView={currentView}
                 setCurrentView={setCurrentView}
-                userRole={userRole}
+                userRole={user?.role}
               />
             </SheetContent>
           </Sheet>

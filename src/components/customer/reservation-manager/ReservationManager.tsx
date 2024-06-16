@@ -13,7 +13,7 @@ const ReservationManagerPage = () => {
   const [reservationToDelete, setReservationToDelete] = useState(null);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.customerId) {
       fetchReservations(user.customerId);
     }
   }, [user]);
@@ -21,25 +21,31 @@ const ReservationManagerPage = () => {
   const fetchReservations = async (customerId) => {
     try {
       const response = await axios.get(
-        `/api/NicheReservations/customer/${customerId}`
+        `/api/NicheReservations/Customer/${customerId}`
       );
-      setReservations(response.data);
+      console.log("Fetched reservations:", response.data); // Debugging line
+      setReservations(response.data.$values);
     } catch (error) {
       console.error("Error fetching reservations:", error);
     }
   };
 
-  const confirmDeleteReservation = (reservationID) => {
-    setReservationToDelete(reservationID);
+  const confirmDeleteReservation = (reservationId) => {
+    setReservationToDelete(reservationId);
     setIsDialogOpen(true);
   };
 
   const deleteReservation = async () => {
     try {
       await axios.delete(`/api/NicheReservations/${reservationToDelete}`);
-      toast.success("Đơn đặt chỗ đã được xóa thành công!");
-      fetchReservations(user.customerId);
+      toast.success("Reservation deleted successfully!");
+      setReservations(
+        reservations.filter(
+          (reservation) => reservation.reservationId !== reservationToDelete
+        )
+      );
       setIsDialogOpen(false);
+      setReservationToDelete(null);
     } catch (error) {
       console.error("Error deleting reservation:", error);
       toast.error("Failed to delete the reservation.");
@@ -48,72 +54,72 @@ const ReservationManagerPage = () => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Quản lý đơn</h2>
+      <h2 className="text-2xl font-bold mb-6">Manage Reservations</h2>
 
       <div className="mb-8">
-        <h3 className="text-xl font-bold mb-4">Danh sách đơn đặt chỗ</h3>
+        <h3 className="text-xl font-bold mb-4">Reservation List</h3>
         {reservations.length > 0 ? (
           <ul className="space-y-4">
             {reservations.map((reservation) => (
               <li
-                key={reservation.reservationID}
+                key={reservation.reservationId}
                 className="p-4 border border-gray-300 rounded-md shadow-sm flex justify-between items-center"
               >
                 <div>
                   <p>
-                    <strong>Mã đặt chỗ:</strong> {reservation.reservationID}
+                    <strong>Reservation ID:</strong> {reservation.reservationId}
                   </p>
                   <p>
-                    <strong>Ô chứa:</strong> {reservation.nicheID}
+                    <strong>Niche ID:</strong> {reservation.nicheId}
                   </p>
                   <p>
-                    <strong>Ngày đặt:</strong> {reservation.createdDate}
+                    <strong>Created Date:</strong> {reservation.createdDate}
                   </p>
                   <p>
-                    <strong>Ngày hẹn ký hợp đồng:</strong>{" "}
+                    <strong>Confirmation Date:</strong>{" "}
                     {reservation.confirmationDate}
                   </p>
                   <p>
-                    <strong>Trạng thái:</strong> {reservation.status}
+                    <strong>Status:</strong> {reservation.status}
                   </p>
                 </div>
                 <Button
                   variant="destructive"
                   onClick={() =>
-                    confirmDeleteReservation(reservation.reservationID)
+                    confirmDeleteReservation(reservation.reservationId)
                   }
                 >
-                  Xóa
+                  Delete
                 </Button>
               </li>
             ))}
           </ul>
         ) : (
-          <p>Bạn chưa có đơn đặt chỗ nào.</p>
+          <p>You have no reservations.</p>
         )}
       </div>
 
       <div className="mb-8">
-        <h3 className="text-xl font-bold mb-4">Danh sách đơn đặt dịch vụ</h3>
-        <p>Chức năng này đang được phát triển.</p>
+        <h3 className="text-xl font-bold mb-4">Service Reservations</h3>
+        <p>This feature is under development.</p>
       </div>
 
       <div>
-        <h3 className="text-xl font-bold mb-4">Danh sách đơn đăng ký viếng</h3>
-        <p>Chức năng này đang được phát triển.</p>
+        <h3 className="text-xl font-bold mb-4">Visit Registrations</h3>
+        <p>This feature is under development.</p>
       </div>
 
       {isDialogOpen && (
         <Dialog open={isDialogOpen} onOpenChange={() => setIsDialogOpen(false)}>
           <DialogContent>
-            <h2 className="text-xl font-bold mb-4">Xác nhận xóa</h2>
-            <p>Bạn có chắc chắn muốn xóa đơn đặt chỗ này không?</p>
+            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+            <p>Are you sure you want to delete this reservation?</p>
             <div className="flex justify-end space-x-2 mt-4">
               <Button variant="default" onClick={() => setIsDialogOpen(false)}>
-                Hủy
+                Cancel
               </Button>
               <Button variant="destructive" onClick={deleteReservation}>
-                Xóa
+                Delete
               </Button>
             </div>
           </DialogContent>
