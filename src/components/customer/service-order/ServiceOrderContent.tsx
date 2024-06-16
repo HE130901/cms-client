@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "@/utils/axiosConfig";
 import ServiceCard from "@/components/customer/service-order/ServiceCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -17,7 +17,7 @@ const ServiceOrderContent: React.FC = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get("/api/Services");
-        setServices(response.data);
+        setServices(response.data.$values);
       } catch (err) {
         setError(err.message);
       } finally {
