@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import exampleImage from "@/assets/images/towersdsd.jpg"; // Adjust the path to your image accordingly
 import AreaSelector from "@/components/customer/niche-reservation/AreaSelector";
+import BookingForm from "@/components/customer/niche-reservation/BookingForm";
 import BuildingSelector from "@/components/customer/niche-reservation/BuildingSelector";
 import FloorSelector from "@/components/customer/niche-reservation/FloorSelector";
-import NicheSelector from "@/components/customer/niche-reservation/NicheSelector";
 import NicheDetails from "@/components/customer/niche-reservation/NicheDetails";
-import BookingForm from "@/components/customer/niche-reservation/BookingForm";
+import NicheSelector from "@/components/customer/niche-reservation/NicheSelector";
 import { useStateContext } from "@/context/StateContext";
-import exampleImage from "@/assets/images/towersdsd.jpg"; // Adjust the path to your image accordingly
-import axios from "@/utils/axiosConfig";
-import { toast } from "sonner";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const NicheBookingPage = () => {
   const {
@@ -32,40 +30,7 @@ const NicheBookingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [reservations, setReservations] = useState([]);
 
-  useEffect(() => {
-    const initializeSelection = async () => {
-      try {
-        const buildings = await fetchBuildings();
-        if (buildings && buildings.length > 0) {
-          const defaultBuilding =
-            buildings.find((building) => building.name === "Nhà 1") ||
-            buildings[0];
-          setSelectedBuilding(defaultBuilding);
-
-          const floors = await fetchFloors(defaultBuilding.buildingId);
-          if (floors && floors.length > 0) {
-            const defaultFloor =
-              floors.find((floor) => floor.name === "Tầng 1") || floors[0];
-            setSelectedFloor(defaultFloor);
-
-            const areas = await fetchAreas(
-              defaultBuilding.buildingId,
-              defaultFloor.floorId
-            );
-            if (areas && areas.length > 0) {
-              const defaultArea =
-                areas.find((area) => area.name === "Khu 1") || areas[0];
-              setSelectedArea(defaultArea);
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Error initializing selection:", error);
-      }
-    };
-
-    initializeSelection();
-  }, [
+  useEffect(() => {}, [
     fetchBuildings,
     fetchFloors,
     fetchAreas,
@@ -74,22 +39,7 @@ const NicheBookingPage = () => {
     setSelectedArea,
   ]);
 
-  useEffect(() => {
-    if (user) {
-      fetchReservations(user.customerId);
-    }
-  }, [user]);
-
-  const fetchReservations = async (customerId) => {
-    try {
-      const response = await axios.get(
-        `/api/NicheReservations/customer/${customerId}`
-      );
-      setReservations(response.data);
-    } catch (error) {
-      console.error("Error fetching reservations:", error);
-    }
-  };
+  useEffect(() => {}, [user]);
 
   const openDetailsModal = () => {
     setIsDetailsVisible(true);
@@ -106,7 +56,6 @@ const NicheBookingPage = () => {
 
   const closeBookingForm = () => {
     setIsFormVisible(false);
-    fetchReservations(user.customerId); // Refresh the reservations list
   };
 
   return (
@@ -150,6 +99,7 @@ const NicheBookingPage = () => {
         selectedNiche={selectedNiche}
         onBook={openBookingForm}
       />
+
       <BookingForm isVisible={isFormVisible} onClose={closeBookingForm} />
     </div>
   );

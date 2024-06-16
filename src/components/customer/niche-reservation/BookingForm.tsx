@@ -51,18 +51,15 @@ const BookingForm = ({ isVisible, onClose }) => {
 
   const onSubmit = async (data) => {
     const dataToSubmit = {
-      customerID: user.customerId, // Ensure this matches the user data
+      customerID: user.customerId,
       nicheID: selectedNiche?.nicheId,
       confirmationDate: data.contractDate,
     };
 
-    console.log("Submitting data:", dataToSubmit);
-
     try {
       await axios.post("/api/NicheReservations", dataToSubmit);
-
       toast.success("Đặt ô chứa thành công!");
-      onClose(); // Close the form upon successful submission
+      onClose();
     } catch (error) {
       console.error("Error submitting form:", error);
       if (error.response) {

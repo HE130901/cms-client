@@ -71,7 +71,7 @@ const NicheSelector = ({ openModal }) => {
                   niche.status === "Unavailable"
                     ? "bg-black text-white cursor-not-allowed"
                     : niche.status === "Booked"
-                    ? "bg-gray-200 cursor-not-allowed"
+                    ? "bg-gray-400 cursor-not-allowed"
                     : "bg-white border hover:bg-orange-300 hover:scale-105"
                 }`}
               >
@@ -91,7 +91,7 @@ const NicheSelector = ({ openModal }) => {
           <span>Có thể chọn</span>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-4 h-4 bg-gray-200"></div>
+          <div className="w-4 h-4 bg-gray-400"></div>
           <span>Đang được đặt</span>
         </div>
       </div>

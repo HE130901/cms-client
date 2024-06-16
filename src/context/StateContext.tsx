@@ -147,14 +147,6 @@ export const StateProvider = ({ children }) => {
     }
   };
 
-  const updateNicheStatus = (nicheId, status) => {
-    setNiches((prevNiches) =>
-      prevNiches.map((niche) =>
-        niche.nicheId === nicheId ? { ...niche, status } : niche
-      )
-    );
-  };
-
   const resetSelections = () => {
     setSelectedFloor(null);
     setSelectedArea(null);
@@ -195,7 +187,6 @@ export const StateProvider = ({ children }) => {
         fetchFloors,
         fetchAreas,
         fetchNiches,
-        updateNicheStatus,
         resetSelections,
         resetSectionAndNiche,
         resetNiche,
