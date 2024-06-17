@@ -1,6 +1,6 @@
 "use client";
 import NicheReservationList from "@/components/customer/reservation-manager/NicheReservationList";
-import VisitReservationPage from "@/components/customer/reservation-manager/VisitReservation";
+import VisitRegistrationList from "@/components/customer/reservation-manager/VisitRegistrationList";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,7 +33,7 @@ const ReservationManager = () => {
 
         <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
           <NicheReservationList />
-          <VisitReservationPage />
+          <VisitRegistrationList />
         </main>
       </div>
     </div>

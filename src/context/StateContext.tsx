@@ -24,10 +24,12 @@ export const StateProvider = ({ children }) => {
   const [areas, setAreas] = useState([]);
   const [niches, setNiches] = useState([]);
   const [reservations, setReservations] = useState([]);
+  const [visitRegistrations, setVisitRegistrations] = useState([]);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -155,7 +157,6 @@ export const StateProvider = ({ children }) => {
       console.error("Error fetching reservations:", error);
     }
   };
-
   const deleteReservation = async (reservationId) => {
     try {
       await axios.delete(`/api/NicheReservations/${reservationId}`);
@@ -168,6 +169,32 @@ export const StateProvider = ({ children }) => {
     } catch (error) {
       console.error("Error deleting reservation:", error);
       toast.error("Failed to delete the reservation.");
+    }
+  };
+
+  const fetchVisitRegistrations = async (customerId) => {
+    try {
+      const response = await axios.get(
+        `/api/VisitRegistrations/customer/${customerId}`
+      );
+      setVisitRegistrations(response.data.$values);
+    } catch (error) {
+      console.error("Error fetching visit registrations:", error);
+    }
+  };
+
+  const deleteVisitRegistration = async (visitId) => {
+    try {
+      await axios.delete(`/api/VisitRegistrations/${visitId}`);
+      setVisitRegistrations((prevRegistrations) =>
+        prevRegistrations.filter(
+          (registration) => registration.visitId !== visitId
+        )
+      );
+      toast.success("Visit registration deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting visit registration:", error);
+      toast.error("Failed to delete the visit registration.");
     }
   };
 
@@ -207,12 +234,16 @@ export const StateProvider = ({ children }) => {
         setNiches,
         reservations,
         setReservations,
+        visitRegistrations,
+        setVisitRegistrations,
         fetchBuildings,
         fetchFloors,
         fetchAreas,
         fetchNiches,
         fetchReservations,
         deleteReservation,
+        fetchVisitRegistrations,
+        deleteVisitRegistration,
         resetSelections,
         resetSectionAndNiche,
         resetNiche,

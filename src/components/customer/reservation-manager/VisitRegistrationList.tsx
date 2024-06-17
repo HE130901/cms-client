@@ -7,9 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
-const VisitReservationPage = () => {
-  const { user } = useStateContext();
-  const [visitRegistrations, setVisitRegistrations] = useState([]);
+const VisitRegistrationList = () => {
+  const {
+    user,
+    visitRegistrations,
+    setVisitRegistrations,
+    fetchVisitRegistrations,
+    deleteVisitRegistration,
+  } = useStateContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [registrationToDelete, setRegistrationToDelete] = useState(null);
 
@@ -19,37 +24,15 @@ const VisitReservationPage = () => {
     }
   }, [user]);
 
-  const fetchVisitRegistrations = async (customerId) => {
-    try {
-      const response = await axios.get(
-        `/api/VisitRegistrations/customer/${customerId}`
-      );
-      setVisitRegistrations(response.data.$values);
-    } catch (error) {
-      console.error("Error fetching visit registrations:", error);
-    }
-  };
-
   const confirmDeleteRegistration = (visitId) => {
     setRegistrationToDelete(visitId);
     setIsDialogOpen(true);
   };
 
-  const deleteRegistration = async () => {
-    try {
-      await axios.delete(`/api/VisitRegistrations/${registrationToDelete}`);
-      toast.success("Visit registration deleted successfully!");
-      setVisitRegistrations(
-        visitRegistrations.filter(
-          (registration) => registration.visitId !== registrationToDelete
-        )
-      );
-      setIsDialogOpen(false);
-      setRegistrationToDelete(null);
-    } catch (error) {
-      console.error("Error deleting visit registration:", error);
-      toast.error("Failed to delete the visit registration.");
-    }
+  const handleDeleteRegistration = async () => {
+    await deleteVisitRegistration(registrationToDelete);
+    setIsDialogOpen(false);
+    setRegistrationToDelete(null);
   };
 
   return (
@@ -103,7 +86,7 @@ const VisitReservationPage = () => {
               <Button variant="default" onClick={() => setIsDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button variant="destructive" onClick={deleteRegistration}>
+              <Button variant="destructive" onClick={handleDeleteRegistration}>
                 Delete
               </Button>
             </div>
@@ -114,4 +97,4 @@ const VisitReservationPage = () => {
   );
 };
 
-export default VisitReservationPage;
+export default VisitRegistrationList;

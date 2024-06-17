@@ -1,5 +1,6 @@
 "use client";
-import VisitReservationPage from "@/components/customer/visit-reservation/VisitReservation";
+import VisitRegistrationList from "@/components/customer/reservation-manager/VisitRegistrationList";
+import VisitRegistrationPage from "@/components/customer/visit-registration/VisitRegistrationPage";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import withAuth from "@/components/withAuth";
 
-const VisitReservation = () => {
+const VisitRegistration = () => {
   return (
     <div className="flex flex-1 overflow-auto pt-24">
       <div className="flex-1">
@@ -30,12 +31,13 @@ const VisitReservation = () => {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
-          <VisitReservationPage />
+        <main className="px-4 md:px-8 py-6 bg-orange-100 mx-2 md:mx-4 my-4 h-auto rounded-md">
+          <VisitRegistrationPage />
+          <VisitRegistrationList />
         </main>
       </div>
     </div>
   );
 };
 
-export default withAuth(VisitReservation);
+export default withAuth(VisitRegistration);

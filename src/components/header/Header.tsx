@@ -96,8 +96,8 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
     <SidebarLink
       label="Đặt lịch viếng"
       icon={PencilSquareIcon}
-      href="/dashboard/visit-reservation"
-      active={currentView === "visitReservation"}
+      href="/dashboard/visit-registration"
+      active={currentView === "visitRegistration"}
     />
     <SidebarLink
       label="Đặt dịch vụ"
