@@ -23,21 +23,18 @@ const NicheSelector = ({ openModal }) => {
     }
   }, [selectedBuilding, selectedFloor, selectedArea]);
 
-  // Sort the niches based on their names or IDs to ensure they are displayed in the correct order
   const sortedNiches = [...niches].sort((a, b) => {
     const aName = parseInt(a.nicheName, 10);
     const bName = parseInt(b.nicheName, 10);
     return aName - bName;
   });
 
-  // Group niches into rows, assuming each row has 20 niches
   const rows = [];
   const nichesPerRow = 20;
   for (let i = 0; i < sortedNiches.length; i += nichesPerRow) {
     rows.push(sortedNiches.slice(i, i + nichesPerRow));
   }
 
-  // Create a mapping for floor labels
   const floorLabels = {
     0: "Tầng 5",
     1: "Tầng 4",
@@ -47,8 +44,8 @@ const NicheSelector = ({ openModal }) => {
   };
 
   return (
-    <div className="text-center bg-orange-200 px-8 py-4 rounded-md">
-      <h2 className="text-xl text-center font-bold mb-2 pb-4">
+    <div className="text-center bg-orange-200 px-8 py-4 rounded-md shadow-md">
+      <h2 className="text-xl text-center font-bold mb-4">
         {selectedBuilding?.buildingName} - {selectedFloor?.floorName} -{" "}
         {selectedArea?.areaName}
       </h2>

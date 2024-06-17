@@ -14,26 +14,30 @@ const NicheBooking = () => {
   return (
     <div className="flex flex-1 overflow-auto pt-24">
       <div className="flex-1">
-        <Breadcrumb className="pl-4 pt-4">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard">Dịch vụ</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Đặt ô chứa</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
-        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
-          <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight text-center transition-colors first:mt-0">
+        <div className="flex items-center justify-between pl-4 pt-4">
+          <div className="flex items-center flex-grow">
+            <Breadcrumb className="flex-grow">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard">Dịch vụ</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Đặt ô chứa</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <h2 className="text-3xl font-semibold tracking-tight text-center flex-grow mr-56">
             Đặt ô chứa
           </h2>
+          <div className="flex-grow"></div>
+        </div>
+        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
           <NicheReservationPage />
         </main>
       </div>
