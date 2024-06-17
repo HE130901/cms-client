@@ -29,18 +29,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   };
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg dark:shadow-none"
-    >
-      <img
-        src={servicePicture}
-        alt={serviceName}
-        width={400}
-        height={400}
-        className="w-full h-[300px] object-cover"
-      />
+    <Card className="w-full rounded-lg overflow-hidden shadow-lg dark:shadow-none">
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="h-[300px] overflow-hidden"
+      >
+        <img
+          src={servicePicture}
+          alt={serviceName}
+          width={400}
+          height={400}
+          className="w-full h-full object-cover"
+        />
+      </motion.div>
       <CardContent className="p-6 space-y-4">
         <div className="space-y-2">
           <CardTitle className="text-xl font-semibold">{serviceName}</CardTitle>
@@ -53,7 +55,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           <Button size="sm">Đặt ngay</Button>
         </div>
       </CardContent>
-    </motion.div>
+    </Card>
   );
 };
 

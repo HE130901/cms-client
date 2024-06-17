@@ -88,17 +88,18 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
       active={currentView === "nicheReservation"}
     />
     <SidebarLink
-      label="Đặt dịch vụ"
-      icon={DocumentTextIcon}
-      href="/dashboard/service-order"
-      active={currentView === "serviceOrder"}
-    />
-    <SidebarLink
       label="Đặt lịch viếng"
       icon={PencilSquareIcon}
       href="/dashboard/visit-reservation"
       active={currentView === "visitReservation"}
     />
+    <SidebarLink
+      label="Đặt dịch vụ"
+      icon={DocumentTextIcon}
+      href="/dashboard/service-order"
+      active={currentView === "serviceOrder"}
+    />
+
     {userRole !== "Guest" && (
       <SidebarLink
         label="Quản lý hợp đồng"
@@ -159,7 +160,7 @@ export function Header({ currentView, setCurrentView }) {
           <Sheet>
             <SheetTrigger asChild>
               <Button className="mr-4 p-2 bg-orange-500 text-white rounded-md shadow-md">
-                <Bars3Icon className="h-5 w-5 mr-2" /> Menu
+                <Bars3Icon className="h-5 w-5" />
               </Button>
             </SheetTrigger>
             <SheetContent
@@ -189,7 +190,7 @@ export function Header({ currentView, setCurrentView }) {
           </Link>
         </div>
         <ul
-          className={`ml-10 hidden items-center gap-6 lg:flex ${
+          className={`hidden lg:flex items-center gap-6 ${
             isScrolling || !isHomePage ? "text-black" : "text-white"
           }`}
         >
@@ -200,38 +201,73 @@ export function Header({ currentView, setCurrentView }) {
             </NavItem>
           ))}
         </ul>
-        <div className="hidden items-center gap-4 lg:flex">
+        <div className="flex items-center gap-4">
           {user ? (
-            <motion.button
-              onClick={logout}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <Button
-                variant="filled"
-                color={isScrolling || !isHomePage ? "gray" : "white"}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
+            <>
+              <motion.button
+                onClick={logout}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                className="hidden lg:flex"
               >
-                <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-                Đăng xuất
-              </Button>
-            </motion.button>
-          ) : (
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <Link href="/auth/login" passHref>
                 <Button
                   variant="filled"
                   color={isScrolling || !isHomePage ? "gray" : "white"}
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
                 >
-                  <UserCircleIcon className="h-5 w-5" />
-                  Đăng nhập
+                  <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+                  Đăng xuất
                 </Button>
-              </Link>
-            </motion.div>
+              </motion.button>
+              <motion.button
+                onClick={logout}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                className="flex lg:hidden"
+              >
+                <Button
+                  variant="filled"
+                  color={isScrolling || !isHomePage ? "gray" : "white"}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
+                >
+                  <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+                </Button>
+              </motion.button>
+            </>
+          ) : (
+            <>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                className="hidden lg:flex"
+              >
+                <Link href="/auth/login" passHref>
+                  <Button
+                    variant="filled"
+                    color={isScrolling || !isHomePage ? "gray" : "white"}
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
+                  >
+                    <UserCircleIcon className="h-5 w-5" />
+                    Đăng nhập
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                className="flex lg:hidden"
+              >
+                <Link href="/auth/login" passHref>
+                  <Button
+                    variant="filled"
+                    color={isScrolling || !isHomePage ? "gray" : "white"}
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
+                  >
+                    <UserCircleIcon className="h-5 w-5" />
+                  </Button>
+                </Link>
+              </motion.div>
+            </>
           )}
         </div>
       </div>

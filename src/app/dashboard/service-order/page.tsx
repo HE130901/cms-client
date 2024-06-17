@@ -15,7 +15,7 @@ import ServiceOrderContent from "@/components/customer/service-order/ServiceOrde
 
 const ServiceOrderPage: React.FC = () => {
   return (
-    <div className="flex flex-1 overflow-auto pt-24">
+    <div className="flex flex-1 pt-24">
       <div className="flex-1">
         <Breadcrumb className="pl-4 pt-4">
           <BreadcrumbList>
@@ -32,7 +32,7 @@ const ServiceOrderPage: React.FC = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
+        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-auto rounded-md">
           <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight text-center transition-colors first:mt-0">
             Danh sách dịch vụ
           </h2>

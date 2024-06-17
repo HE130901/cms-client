@@ -68,7 +68,7 @@ const NicheSelector = ({ openModal }) => {
                   }
                 }}
                 className={`p-2 border rounded-md cursor-pointer transform transition-transform ${
-                  niche.status === "Unavailable"
+                  niche.status === "unavailable"
                     ? "bg-black text-white cursor-not-allowed"
                     : niche.status === "Booked"
                     ? "bg-gray-400 cursor-not-allowed"
