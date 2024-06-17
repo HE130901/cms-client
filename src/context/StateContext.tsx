@@ -9,7 +9,7 @@ const StateContext = createContext(null);
 export const useStateContext = () => {
   const context = useContext(StateContext);
   if (!context) {
-    throw new Error("useStateContext phải được sử dụng trong StateProvider");
+    throw new Error("useStateContext must be used within a StateProvider");
   }
   return context;
 };
@@ -63,7 +63,7 @@ export const StateProvider = ({ children }) => {
         router.push("/staff-dashboard");
       }
     } catch (error) {
-      console.error("Lỗi khi lấy thông tin người dùng hiện tại:", error);
+      console.error("Error fetching current user:", error);
     } finally {
       setLoading(false);
     }
@@ -81,12 +81,10 @@ export const StateProvider = ({ children }) => {
       } else if (role === "Staff" || role === "Manager") {
         router.push("/staff-dashboard");
       }
-      toast.success("Đăng nhập thành công!");
+      toast.success("Login successful!");
     } catch (error) {
-      console.error("Đăng nhập thất bại", error);
-      toast.error(
-        "Đăng nhập thất bại. Vui lòng kiểm tra thông tin đăng nhập của bạn."
-      );
+      console.error("Login failed", error);
+      toast.error("Login failed. Please check your login information.");
     }
   };
 
@@ -94,10 +92,10 @@ export const StateProvider = ({ children }) => {
     try {
       await axios.post("/api/auth/register", formData);
       router.push("/auth/login");
-      toast.success("Đăng ký thành công.");
+      toast.success("Registration successful.");
     } catch (error) {
-      console.error("Đăng ký thất bại", error);
-      toast.error("Đăng ký thất bại. Vui lòng thử lại sau.");
+      console.error("Registration failed", error);
+      toast.error("Registration failed. Please try again later.");
     }
   };
 
@@ -110,9 +108,9 @@ export const StateProvider = ({ children }) => {
   const fetchBuildings = async () => {
     try {
       const response = await axios.get("/api/buildings");
-      setBuildings(response.data.$values); // Extract the $values array
+      setBuildings(response.data.$values);
     } catch (error) {
-      console.error("Lỗi khi lấy danh sách tòa nhà:", error);
+      console.error("Error fetching buildings:", error);
     }
   };
 
@@ -121,7 +119,7 @@ export const StateProvider = ({ children }) => {
       const response = await axios.get(`/api/buildings/${buildingId}/floors`);
       setFloors(response.data.$values);
     } catch (error) {
-      console.error("Lỗi khi lấy danh sách tầng:", error);
+      console.error("Error fetching floors:", error);
     }
   };
 
@@ -132,7 +130,7 @@ export const StateProvider = ({ children }) => {
       );
       setAreas(response.data.$values);
     } catch (error) {
-      console.error("Lỗi khi lấy danh sách khu vực:", error);
+      console.error("Error fetching areas:", error);
     }
   };
 
@@ -143,7 +141,33 @@ export const StateProvider = ({ children }) => {
       );
       setNiches(response.data.$values);
     } catch (error) {
-      console.error("Lỗi khi lấy danh sách ô chứa:", error);
+      console.error("Error fetching niches:", error);
+    }
+  };
+
+  const fetchReservations = async (customerId) => {
+    try {
+      const response = await axios.get(
+        `/api/NicheReservations/Customer/${customerId}`
+      );
+      setReservations(response.data.$values);
+    } catch (error) {
+      console.error("Error fetching reservations:", error);
+    }
+  };
+
+  const deleteReservation = async (reservationId) => {
+    try {
+      await axios.delete(`/api/NicheReservations/${reservationId}`);
+      setReservations((prevReservations) =>
+        prevReservations.filter(
+          (reservation) => reservation.reservationId !== reservationId
+        )
+      );
+      toast.success("Reservation deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting reservation:", error);
+      toast.error("Failed to delete the reservation.");
     }
   };
 
@@ -187,6 +211,8 @@ export const StateProvider = ({ children }) => {
         fetchFloors,
         fetchAreas,
         fetchNiches,
+        fetchReservations,
+        deleteReservation,
         resetSelections,
         resetSectionAndNiche,
         resetNiche,

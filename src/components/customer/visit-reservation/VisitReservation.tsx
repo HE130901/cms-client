@@ -1,97 +1,107 @@
 "use client";
 
 import React, { useState } from "react";
+import ComboboxSelector from "@/components/customer/visit-reservation/ComboboxSelector";
+import { Button } from "@/components/ui/button";
 import axios from "@/utils/axiosConfig";
-const VisitReservation = () => {
-  const [customerId, setCustomerId] = useState("");
-  const [nicheId, setNicheId] = useState("");
-  const [visitDate, setVisitDate] = useState("");
-  const [message, setMessage] = useState("");
+import { toast } from "sonner";
+import { useStateContext } from "@/context/StateContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const visitSchema = z.object({
+  visitDate: z.string().refine(
+    (val) => {
+      const visitDate = new Date(val);
+      const today = new Date();
+      return visitDate >= today;
+    },
+    {
+      message: "Ngày đăng ký phải là ngày hiện tại hoặc sau đó.",
+    }
+  ),
+  note: z.string().optional(),
+});
 
-    const requestBody = {
-      customerId: parseInt(customerId),
-      nicheId: parseInt(nicheId),
-      visitDate,
+const VisitRegistrationPage = () => {
+  const { selectedNiche, user } = useStateContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(visitSchema),
+  });
+
+  const onSubmit = async (data) => {
+    if (!selectedNiche) {
+      toast.error("Vui lòng chọn một ô.");
+      return;
+    }
+
+    const dataToSubmit = {
+      customerId: user.customerId,
+      nicheId: selectedNiche.nicheId,
+      visitDate: data.visitDate,
+      note: data.note,
     };
 
+    setIsSubmitting(true);
     try {
-      const response = await axios.post(
-        "https://localhost:7148/api/VisitRegistrations",
-        requestBody
-      );
-      setMessage("Đăng ký viếng thành công!");
+      await axios.post("/api/VisitRegistrations", dataToSubmit);
+      toast.success("Đăng ký thăm viếng thành công!");
     } catch (error) {
-      setMessage("Đăng ký viếng thất bại. Vui lòng thử lại.");
+      console.error("Error submitting form:", error);
+      toast.error("Failed to create visit registration.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Đăng ký viếng</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Đăng ký viếng thăm</h1>
+      <div className="flex space-x-4 mb-4">
+        <ComboboxSelector />
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-4 p-4 bg-white rounded shadow-md"
+      >
         <div className="mb-4">
-          <label
-            htmlFor="customerId"
-            className="block text-gray-700 font-bold mb-2"
-          >
-            Customer ID
+          <label className="block text-sm font-medium text-gray-700">
+            Ngày viếng thăm
           </label>
           <input
-            type="number"
-            id="customerId"
-            value={customerId}
-            onChange={(e) => setCustomerId(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="datetime-local"
+            {...register("visitDate")}
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             required
           />
+          {errors.visitDate && (
+            <p className="mt-2 text-sm text-red-600">
+              {errors.visitDate.message}
+            </p>
+          )}
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="nicheId"
-            className="block text-gray-700 font-bold mb-2"
-          >
-            Niche ID
+          <label className="block text-sm font-medium text-gray-700">
+            Ghi chú
           </label>
-          <input
-            type="number"
-            id="nicheId"
-            value={nicheId}
-            onChange={(e) => setNicheId(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
+          <textarea
+            {...register("note")}
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
-        <div className="mb-4">
-          <label
-            htmlFor="visitDate"
-            className="block text-gray-700 font-bold mb-2"
-          >
-            Visit Date
-          </label>
-          <input
-            type="date"
-            id="visitDate"
-            value={visitDate}
-            onChange={(e) => setVisitDate(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-200"
-        >
-          Đăng ký
-        </button>
+        <Button type="submit" className="ml-2" disabled={isSubmitting}>
+          {isSubmitting ? "Đang gửi..." : "Xác nhận"}
+        </Button>
       </form>
-      {message && (
-        <p className="mt-4 text-center text-lg font-semibold">{message}</p>
-      )}
     </div>
   );
 };
 
-export default VisitReservation;
+export default VisitRegistrationPage;

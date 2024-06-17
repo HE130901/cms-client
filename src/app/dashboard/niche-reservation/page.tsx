@@ -10,6 +10,8 @@ import {
 import withAuth from "@/components/withAuth";
 import NicheReservationPage from "@/components/customer/niche-reservation/NicheReservationPage";
 
+import NicheReservationList from "@/components/customer/reservation-manager/NicheReservationList";
+
 const NicheBooking = () => {
   return (
     <div className="flex flex-1 overflow-auto pt-24">
@@ -39,6 +41,7 @@ const NicheBooking = () => {
         </div>
         <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-auto rounded-md">
           <NicheReservationPage />
+          <NicheReservationList />
         </main>
       </div>
     </div>

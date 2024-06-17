@@ -11,8 +11,7 @@ import NicheDetails from "@/components/customer/niche-reservation/NicheDetails";
 import NicheSelector from "@/components/customer/niche-reservation/NicheSelector";
 import ReservationForm from "@/components/customer/niche-reservation/ReservationForm";
 import { useStateContext } from "@/context/StateContext";
-
-import { CarouselPlugin } from "@/components/ui/carouselPlugin"; // Adjust the import path if necessary
+import { CarouselPlugin } from "@/components/ui/carouselPlugin";
 
 const NicheReservationPage = () => {
   const {
@@ -24,9 +23,11 @@ const NicheReservationPage = () => {
     fetchFloors,
     fetchAreas,
     fetchNiches,
+    fetchReservations,
     buildings,
     floors,
     areas,
+    user,
   } = useStateContext();
 
   const [isDetailsVisible, setIsDetailsVisible] = useState(false);
@@ -83,6 +84,9 @@ const NicheReservationPage = () => {
       selectedArea.areaId
     );
     setIsFormVisible(false);
+    if (user && user.customerId) {
+      fetchReservations(user.customerId);
+    }
   };
 
   return (
@@ -121,7 +125,6 @@ const NicheReservationPage = () => {
         selectedNiche={selectedNiche}
         onBook={openBookingForm}
       />
-
       <ReservationForm isVisible={isFormVisible} onClose={closeBookingForm} />
     </div>
   );
