@@ -89,17 +89,19 @@ const AreaSelector = () => {
             </Command>
           </PopoverContent>
         </Popover>
-        {areas.map((area) => (
-          <Button
-            key={area.areaId}
-            onClick={() => handleSelectArea(area)}
-            variant={
-              selectedArea?.areaId === area.areaId ? "default" : "outline"
-            }
-          >
-            {area.areaName}
-          </Button>
-        ))}
+        <div className="hidden md:flex space-x-2">
+          {areas.map((area) => (
+            <Button
+              key={area.areaId}
+              onClick={() => handleSelectArea(area)}
+              variant={
+                selectedArea?.areaId === area.areaId ? "default" : "outline"
+              }
+            >
+              {area.areaName}
+            </Button>
+          ))}
+        </div>
       </div>
     </div>
   );

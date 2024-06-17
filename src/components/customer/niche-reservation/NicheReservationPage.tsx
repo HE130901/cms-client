@@ -23,6 +23,7 @@ const NicheReservationPage = () => {
     fetchBuildings,
     fetchFloors,
     fetchAreas,
+    fetchNiches,
     buildings,
     floors,
     areas,
@@ -76,6 +77,11 @@ const NicheReservationPage = () => {
   };
 
   const closeBookingForm = () => {
+    fetchNiches(
+      selectedBuilding.buildingId,
+      selectedFloor.floorId,
+      selectedArea.areaId
+    );
     setIsFormVisible(false);
   };
 
@@ -93,7 +99,7 @@ const NicheReservationPage = () => {
             {loadingAreas ? <Skeleton height={50} /> : <AreaSelector />}
           </div>
         </div>
-        <div className="w-full md:w-1/3 flex items-center justify-center shadow-lg rounded-lg overflow-hidden">
+        <div className="w-full md:w-1/3 flex items-center justify-center shadow-lg rounded-lg overflow-hidden hidden md:flex">
           <CarouselPlugin />
         </div>
       </div>

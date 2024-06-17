@@ -47,7 +47,7 @@ const FloorSelector = () => {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-2">Chọn tầng</h2>
-      <div className="flex items-center space-x-2 mb-4">
+      <div className="flex flex-col md:flex-row space-x-2 mb-4">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -88,17 +88,19 @@ const FloorSelector = () => {
             </Command>
           </PopoverContent>
         </Popover>
-        {floors.map((floor) => (
-          <Button
-            key={floor.floorId}
-            onClick={() => handleSelectFloor(floor)}
-            variant={
-              selectedFloor?.floorId === floor.floorId ? "default" : "outline"
-            }
-          >
-            {floor.floorName}
-          </Button>
-        ))}
+        <div className="hidden md:flex space-x-2">
+          {floors.map((floor) => (
+            <Button
+              key={floor.floorId}
+              onClick={() => handleSelectFloor(floor)}
+              variant={
+                selectedFloor?.floorId === floor.floorId ? "default" : "outline"
+              }
+            >
+              {floor.floorName}
+            </Button>
+          ))}
+        </div>
       </div>
     </div>
   );

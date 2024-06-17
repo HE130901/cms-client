@@ -44,7 +44,7 @@ const BuildingSelector = () => {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-2">Chọn tòa nhà</h2>
-      <div className="flex items-center space-x-2">
+      <div className="flex flex-col md:flex-row space-x-2">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -85,19 +85,21 @@ const BuildingSelector = () => {
             </Command>
           </PopoverContent>
         </Popover>
-        {buildings.map((building) => (
-          <Button
-            key={building.buildingId}
-            onClick={() => handleSelectBuilding(building)}
-            variant={
-              selectedBuilding?.buildingId === building.buildingId
-                ? "default"
-                : "outline"
-            }
-          >
-            {building.buildingName}
-          </Button>
-        ))}
+        <div className="hidden md:flex space-x-2">
+          {buildings.map((building) => (
+            <Button
+              key={building.buildingId}
+              onClick={() => handleSelectBuilding(building)}
+              variant={
+                selectedBuilding?.buildingId === building.buildingId
+                  ? "default"
+                  : "outline"
+              }
+            >
+              {building.buildingName}
+            </Button>
+          ))}
+        </div>
       </div>
     </div>
   );
