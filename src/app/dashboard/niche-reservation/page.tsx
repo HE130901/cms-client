@@ -37,7 +37,7 @@ const NicheBooking = () => {
           </h2>
           <div className="flex-grow"></div>
         </div>
-        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-screen rounded-md">
+        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-auto rounded-md">
           <NicheReservationPage />
         </main>
       </div>

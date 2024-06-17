@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStateContext } from "@/context/StateContext";
 
 const NicheSelector = ({ openModal }) => {
@@ -13,6 +13,8 @@ const NicheSelector = ({ openModal }) => {
     fetchNiches,
   } = useStateContext();
 
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
   useEffect(() => {
     if (selectedBuilding && selectedFloor && selectedArea) {
       fetchNiches(
@@ -23,17 +25,30 @@ const NicheSelector = ({ openModal }) => {
     }
   }, [selectedBuilding, selectedFloor, selectedArea]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 1250); // Chọn breakpoint tùy thuộc vào yêu cầu của bạn
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const sortedNiches = [...niches].sort((a, b) => {
     const aName = parseInt(a.nicheName, 10);
     const bName = parseInt(b.nicheName, 10);
     return aName - bName;
   });
 
-  const rows = [];
-  const nichesPerRow = 20;
-  for (let i = 0; i < sortedNiches.length; i += nichesPerRow) {
-    rows.push(sortedNiches.slice(i, i + nichesPerRow));
-  }
+  const createRows = (items, itemsPerRow) => {
+    const rows = [];
+    for (let i = 0; i < items.length; i += itemsPerRow) {
+      rows.push(items.slice(i, i + itemsPerRow));
+    }
+    return rows;
+  };
 
   const floorLabels = {
     0: "Tầng 5",
@@ -43,41 +58,85 @@ const NicheSelector = ({ openModal }) => {
     4: "Tầng 1",
   };
 
+  const rows = isSmallScreen
+    ? createRows(sortedNiches, 5).reduce((acc, cur, idx) => {
+        if (idx % 4 === 0) acc.push([]);
+        acc[acc.length - 1].push(cur);
+        return acc;
+      }, [])
+    : createRows(sortedNiches, 20);
+
+  const renderRows = () => {
+    if (isSmallScreen) {
+      return rows.reverse().map((floorRows, floorIndex) => (
+        <div key={floorIndex} className="flex flex-col space-y-2">
+          <div className="flex items-center justify-center font-semibold pr-4">
+            {floorLabels[floorIndex]}
+          </div>
+          {floorRows.map((row, rowIndex) => (
+            <div key={rowIndex} className="flex space-x-2">
+              {row.map((niche) => (
+                <div
+                  key={niche.nicheId}
+                  onClick={() => {
+                    if (niche.status === "Available") {
+                      setSelectedNiche(niche);
+                      openModal();
+                    }
+                  }}
+                  className={`p-2 border rounded-md cursor-pointer transform transition-transform ${
+                    niche.status === "unavailable"
+                      ? "bg-black text-white cursor-not-allowed"
+                      : niche.status === "Booked"
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-white border hover:bg-orange-300 hover:scale-105"
+                  }`}
+                >
+                  <div>{niche.nicheName}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      ));
+    } else {
+      return rows.reverse().map((row, rowIndex) => (
+        <div key={rowIndex} className="flex space-x-2">
+          <div className="flex items-center justify-center font-semibold pr-4">
+            {floorLabels[rowIndex]}
+          </div>
+          {row.map((niche) => (
+            <div
+              key={niche.nicheId}
+              onClick={() => {
+                if (niche.status === "Available") {
+                  setSelectedNiche(niche);
+                  openModal();
+                }
+              }}
+              className={`p-2 border rounded-md cursor-pointer transform transition-transform ${
+                niche.status === "unavailable"
+                  ? "bg-black text-white cursor-not-allowed"
+                  : niche.status === "Booked"
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-white border hover:bg-orange-300 hover:scale-105"
+              }`}
+            >
+              <div>{niche.nicheName}</div>
+            </div>
+          ))}
+        </div>
+      ));
+    }
+  };
+
   return (
     <div className="text-center bg-orange-200 px-8 py-4 rounded-md shadow-md">
       <h2 className="text-xl text-center font-bold mb-4">
         {selectedBuilding?.buildingName} - {selectedFloor?.floorName} -{" "}
         {selectedArea?.areaName}
       </h2>
-      <div className="flex flex-col items-center space-y-4">
-        {rows.reverse().map((row, rowIndex) => (
-          <div key={rowIndex} className="flex space-x-2">
-            <div className="flex items-center justify-center font-semibold pr-4">
-              {floorLabels[rowIndex]}
-            </div>
-            {row.map((niche) => (
-              <div
-                key={niche.nicheId}
-                onClick={() => {
-                  if (niche.status === "Available") {
-                    setSelectedNiche(niche);
-                    openModal();
-                  }
-                }}
-                className={`p-2 border rounded-md cursor-pointer transform transition-transform ${
-                  niche.status === "unavailable"
-                    ? "bg-black text-white cursor-not-allowed"
-                    : niche.status === "Booked"
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-white border hover:bg-orange-300 hover:scale-105"
-                }`}
-              >
-                <div>{niche.nicheName}</div>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+      <div className="flex flex-col items-center space-y-4">{renderRows()}</div>
       <div className="mt-4 flex justify-center space-x-4">
         <div className="flex items-center space-x-2">
           <div className="w-4 h-4 bg-black"></div>

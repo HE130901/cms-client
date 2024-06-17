@@ -25,6 +25,9 @@ const bookingSchema = z.object({
         "Ngày hẹn ký hợp đồng phải trong vòng 7 ngày kể từ ngày hiện tại.",
     }
   ),
+  signAddress: z.string().min(1, "Địa chỉ ký hợp đồng là bắt buộc"),
+  phoneNumber: z.string().min(1, "Số điện thoại là bắt buộc"),
+  note: z.string().optional(),
 });
 
 const ReservationForm = ({ isVisible, onClose }) => {
@@ -45,7 +48,9 @@ const ReservationForm = ({ isVisible, onClose }) => {
       setValue("customerName", user.fullName);
       setValue("customerPhone", user.phone);
       setValue("customerAddress", user.address);
-      setValue("contractDate", new Date().toISOString().split("T")[0]);
+      setValue("contractDate", new Date().toISOString().slice(0, 16));
+      setValue("signAddress", user.address); // corrected line
+      setValue("phoneNumber", user.phone);
     }
   }, [setValue, user]);
 
@@ -54,6 +59,9 @@ const ReservationForm = ({ isVisible, onClose }) => {
       customerID: user.customerId,
       nicheID: selectedNiche?.nicheId,
       confirmationDate: data.contractDate,
+      signAddress: data.signAddress,
+      phoneNumber: data.phoneNumber,
+      note: data.note,
     };
 
     try {
@@ -104,35 +112,33 @@ const ReservationForm = ({ isVisible, onClose }) => {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Số điện thoại
+              Số điện thoại ký hợp đồng
             </label>
             <input
               type="text"
-              {...register("customerPhone")}
+              {...register("phoneNumber")}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
-              readOnly
             />
-            {errors.customerPhone && (
+            {errors.phoneNumber && (
               <p className="mt-2 text-sm text-red-600">
-                {errors.customerPhone.message}
+                {errors.phoneNumber.message}
               </p>
             )}
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Địa chỉ
+              Địa chỉ ký hợp đồng
             </label>
             <input
               type="text"
-              {...register("customerAddress")}
+              {...register("signAddress")} // corrected line
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
-              readOnly
             />
-            {errors.customerAddress && (
+            {errors.signAddress && (
               <p className="mt-2 text-sm text-red-600">
-                {errors.customerAddress.message}
+                {errors.signAddress.message}
               </p>
             )}
           </div>
@@ -152,7 +158,7 @@ const ReservationForm = ({ isVisible, onClose }) => {
               Ngày hẹn ký hợp đồng
             </label>
             <input
-              type="date"
+              type="datetime-local"
               {...register("contractDate")}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
@@ -162,6 +168,16 @@ const ReservationForm = ({ isVisible, onClose }) => {
                 {errors.contractDate.message}
               </p>
             )}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Ghi chú
+            </label>
+            <textarea
+              {...register("note")}
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
           </div>
           <div className="flex justify-end">
             <Button type="button" onClick={onClose}>
