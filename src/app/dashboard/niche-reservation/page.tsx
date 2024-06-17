@@ -7,8 +7,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import NicheBookingPage from "@/components/customer/niche-reservation/NicheBookingPage";
 import withAuth from "@/components/withAuth";
+import NicheReservationPage from "@/components/customer/niche-reservation/NicheReservationPage";
 
 const NicheBooking = () => {
   return (
@@ -34,7 +34,7 @@ const NicheBooking = () => {
           <h2 className="mt-10 scroll-m-20 pb-2 text-3xl font-semibold tracking-tight text-center transition-colors first:mt-0">
             Đặt ô chứa
           </h2>
-          <NicheBookingPage />
+          <NicheReservationPage />
         </main>
       </div>
     </div>

@@ -1,8 +1,7 @@
 "use client";
 
-import exampleImage from "@/assets/images/towersdsd.jpg"; // Adjust the path to your image accordingly
+import exampleImage from "@/assets/images/towersdsd.jpg";
 import AreaSelector from "@/components/customer/niche-reservation/AreaSelector";
-import BookingForm from "@/components/customer/niche-reservation/BookingForm";
 import BuildingSelector from "@/components/customer/niche-reservation/BuildingSelector";
 import FloorSelector from "@/components/customer/niche-reservation/FloorSelector";
 import NicheDetails from "@/components/customer/niche-reservation/NicheDetails";
@@ -10,8 +9,9 @@ import NicheSelector from "@/components/customer/niche-reservation/NicheSelector
 import { useStateContext } from "@/context/StateContext";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import ReservationForm from "@/components/customer/niche-reservation/ReservationForm";
 
-const NicheBookingPage = () => {
+const NicheReservationPage = () => {
   const {
     selectedBuilding,
     setSelectedBuilding,
@@ -100,9 +100,9 @@ const NicheBookingPage = () => {
         onBook={openBookingForm}
       />
 
-      <BookingForm isVisible={isFormVisible} onClose={closeBookingForm} />
+      <ReservationForm isVisible={isFormVisible} onClose={closeBookingForm} />
     </div>
   );
 };
 
-export default NicheBookingPage;
+export default NicheReservationPage;

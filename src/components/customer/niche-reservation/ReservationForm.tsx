@@ -27,7 +27,7 @@ const bookingSchema = z.object({
   ),
 });
 
-const BookingForm = ({ isVisible, onClose }) => {
+const ReservationForm = ({ isVisible, onClose }) => {
   const { selectedBuilding, selectedFloor, selectedArea, selectedNiche, user } =
     useStateContext();
 
@@ -177,4 +177,4 @@ const BookingForm = ({ isVisible, onClose }) => {
   );
 };
 
-export default BookingForm;
+export default ReservationForm;

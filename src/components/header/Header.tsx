@@ -82,6 +82,12 @@ const SidebarLink = ({ label, icon: Icon, href, active }) => (
 const Sidebar = ({ currentView, setCurrentView, userRole }) => (
   <div className="px-4 py-6 space-y-2">
     <SidebarLink
+      label="Trang chủ"
+      icon={HomeIcon}
+      href="/dashboard"
+      active={currentView === "dashboard"}
+    />
+    <SidebarLink
       label="Đặt ô chứa"
       icon={BuildingOfficeIcon}
       href="/dashboard/niche-reservation"

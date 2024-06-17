@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "@/utils/axiosConfig"; // Ensure you have axios configured properly
-
+import axios from "@/utils/axiosConfig";
 const VisitReservation = () => {
   const [customerId, setCustomerId] = useState("");
   const [nicheId, setNicheId] = useState("");
