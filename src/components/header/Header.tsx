@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,11 +15,21 @@ import {
   DocumentTextIcon,
   PencilSquareIcon,
   RectangleGroupIcon,
+  UserIcon,
+  ClipboardDocumentIcon,
+  ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 import logo from "@/assets/images/logo.png";
 import { useStateContext } from "@/context/StateContext";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 const NAV_MENU = [
   {
@@ -83,7 +94,6 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
       href="/dashboard/service-order"
       active={currentView === "serviceOrder"}
     />
-
     {userRole !== "Guest" && (
       <SidebarLink
         label="Quản lý hợp đồng"
@@ -92,18 +102,6 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
         active={currentView === "contractManager"}
       />
     )}
-    <SidebarLink
-      label="Quản lý đơn"
-      icon={RectangleGroupIcon}
-      href="/dashboard/reservation-manager"
-      active={currentView === "reservationManager"}
-    />
-    <SidebarLink
-      label="Quản lý tài khoản"
-      icon={RectangleGroupIcon}
-      href="/dashboard/profile-manager"
-      active={currentView === "profileManager"}
-    />
   </div>
 );
 
@@ -184,40 +182,51 @@ export function Header({ currentView, setCurrentView }) {
           ))}
         </ul>
         <div className="flex items-center gap-4">
-          {user ? (
-            <motion.button
-              onClick={logout}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="hidden lg:flex"
-            >
-              <button
-                variant="filled"
-                color={isScrolling || !isHomePage ? "gray" : "white"}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
-              >
-                <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-                Đăng xuất
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white">
+                <UserCircleIcon className="h-5 w-5" />
               </button>
-            </motion.button>
-          ) : (
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="hidden lg:flex"
-            >
-              <Link href="/auth/login" passHref>
-                <button
-                  variant="filled"
-                  color={isScrolling || !isHomePage ? "gray" : "white"}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
-                >
-                  <UserCircleIcon className="h-5 w-5" />
-                  Đăng nhập
-                </button>
-              </Link>
-            </motion.div>
-          )}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {user ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/profile-manager">
+                      <UserIcon className="h-5 w-5 mr-2" />
+                      Hồ sơ của tôi
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/reservation-manager">
+                      <ClipboardDocumentIcon className="h-5 w-5 mr-2" />
+                      Đơn của tôi
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout}>
+                    <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
+                    Đăng xuất
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/auth/login">
+                      <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
+                      Đăng nhập
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/auth/register">
+                      <UserIcon className="h-5 w-5 mr-2" />
+                      Đăng ký
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
