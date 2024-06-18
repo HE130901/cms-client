@@ -36,7 +36,7 @@ const NicheDetails = ({
             <div>
               <strong>Mô tả:</strong> {selectedNiche.nicheDescription}
             </div>
-            <div className="w-full flex items-center justify-center shadow-lg rounded-lg overflow-hidden md:hidden">
+            <div className="w-full flex items-center justify-center shadow-lg rounded-lg overflow-hidden">
               <CarouselPlugin />
             </div>
           </div>
