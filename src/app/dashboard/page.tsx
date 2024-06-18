@@ -1,5 +1,6 @@
 "use client";
 import ProductCollection from "@/components/customer/service-order/ProductCollection";
+import Component from "@/components/customer/dashboard";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,10 +13,10 @@ import withAuth from "@/components/withAuth";
 
 const CustomerDashboard = () => {
   return (
-    <div className="flex h-auto pt-16 ">
+    <div className="flex h-auto pt-16 pb-44">
       <div className="flex flex-1 overflow-auto">
         <div className="flex-1">
-          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
+          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-auto rounded-md">
             <Breadcrumb className="">
               <BreadcrumbList>
                 <BreadcrumbItem>
@@ -31,7 +32,7 @@ const CustomerDashboard = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <h1 className="text-2xl font-semibold mb-4">Dịch vụ</h1>
+            <Component />
           </main>
         </div>
       </div>

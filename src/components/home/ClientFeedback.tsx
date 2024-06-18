@@ -45,18 +45,17 @@ const testimonials = [
 const ClientFeedback: FC = () => {
   return (
     <div>
-      <section className="mx-auto grid gap-10 px-8 pb-10 lg:grid-cols-1 lg:gap-20 xl:grid-cols-2 xl:justify-items-center pt-8 bg-gray-100 pl-96">
-        <div className="flex flex-col justify-center items-center lg:items-start pl-56">
+      <section className="mx-auto grid gap-10 px-8 py-16 lg:grid-cols-2 xl:gap-20 xl:justify-items-center bg-gray-50">
+        <div className="flex flex-col justify-center items-center lg:items-start pl-48">
           <Typography
             variant="h2"
-            className="text-3xl font-semibold mb-4 text-center lg:text-left"
-            color="blue-gray"
+            className="text-3xl font-semibold mb-6 text-center lg:text-left text-blue-gray-900"
           >
             Các chỉ số nổi bật
           </Typography>
           <Typography
             variant="lead"
-            className="mt-3 w-full text-center lg:text-left text-gray-800"
+            className="w-full text-center lg:text-left text-gray-700"
           >
             Là dự án mang ý nghĩa tâm linh, đậm tính nhân văn và khác biệt hoàn
             toàn so với những nghĩa trang trước đây. An Bình Viên tự hào là
@@ -64,8 +63,8 @@ const ClientFeedback: FC = () => {
             trường và trường tồn với thời gian.
           </Typography>
         </div>
-        <div className="flex justify-center lg:justify-start pr-96">
-          <div className="grid grid-cols-2 gap-8 gap-x-8 xl:gap-x-16">
+        <div className="flex justify-center lg:justify-start">
+          <div className="grid grid-cols-2 gap-8">
             {STATS.map((props, key) => (
               <StatsCard key={key} {...props} />
             ))}
@@ -73,12 +72,11 @@ const ClientFeedback: FC = () => {
         </div>
       </section>
 
-      <section className="py-12 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto text-center">
           <Typography
             variant="h2"
-            className="text-3xl font-semibold mb-4"
-            color="blue-gray"
+            className="text-3xl font-semibold mb-6 text-blue-gray-900"
           >
             Khách hàng nói về chúng tôi
           </Typography>
@@ -91,14 +89,17 @@ const ClientFeedback: FC = () => {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-gray-100 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <img
                   src={testimonial.image}
                   alt={testimonial.name}
                   className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-500"
                 />
-                <Typography variant="h5" className="text-xl font-semibold mb-2">
+                <Typography
+                  variant="h5"
+                  className="text-xl font-semibold mb-2 text-gray-900"
+                >
                   {testimonial.name}
                 </Typography>
                 <Typography
