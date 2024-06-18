@@ -1,7 +1,6 @@
 "use client";
 
-import HeaderHome from "@/components/header/Header";
-import CallHotline from "@/components/home/call-hotline";
+import ClientFeedback from "@/components/home/ClientFeedback";
 import Hero from "@/components/home/hero";
 import Information from "@/components/home/information";
 
@@ -10,9 +9,9 @@ import Information from "@/components/home/information";
 const Home = () => {
   return (
     <div>
-      <HeaderHome />
       <Hero />
       <Information />
+      <ClientFeedback />s
     </div>
   );
 };

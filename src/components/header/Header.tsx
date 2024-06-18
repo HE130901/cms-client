@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +19,7 @@ import {
   UserIcon,
   ClipboardDocumentIcon,
   ArrowRightOnRectangleIcon,
+  UsersIcon,
 } from "@heroicons/react/24/solid";
 import logo from "@/assets/images/logo.png";
 import { useStateContext } from "@/context/StateContext";
@@ -30,24 +32,15 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
-const NAV_MENU = [
-  {
-    name: "Trang chủ",
-    icon: HomeIcon,
-    href: "/",
-  },
-  {
-    name: "Dịch vụ",
-    icon: StarIcon,
-    href: "/dashboard",
-  },
-  {
-    name: "Thông tin",
-    icon: InformationCircleIcon,
-    href: "/about",
-  },
-];
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 const SidebarLink = ({ label, icon: Icon, href, active }) => (
   <Link href={href}>
@@ -127,6 +120,58 @@ export function Header({ currentView, setCurrentView }) {
 
   const isHomePage = pathname === "/";
 
+  const components: { title: string; href: string; description: string }[] = [
+    {
+      title: "Đặt chỗ trực tuyến",
+      href: "/dashboard/niche-reservation",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos cumque, quas, quae, quidem dolorum voluptatum quia laborum voluptatem natus doloremque iusto.",
+    },
+    {
+      title: "Đăng ký viếng thăm",
+      href: "/dashboard/visit-registration",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos cumque, quas, quae, quidem dolorum voluptatum quia",
+    },
+    {
+      title: "Đặt dịch vụ ",
+      href: "/dashboard/service-order",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos cumque, quas, quae, quidem dolorum voluptatum quia",
+    },
+    {
+      title: "Các dịch vụ khác",
+      href: "/dashboard",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo",
+    },
+  ];
+  const ListItem = React.forwardRef<
+    React.ElementRef<"a">,
+    React.ComponentPropsWithoutRef<"a">
+  >(({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  });
+  ListItem.displayName = "ListItem";
+
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
@@ -163,24 +208,68 @@ export function Header({ currentView, setCurrentView }) {
             </motion.div>
           </Link>
         </div>
-        <ul className="hidden lg:flex items-center gap-6">
-          {NAV_MENU.map(({ name, icon: Icon, href }) => (
-            <li
-              key={name}
-              className="transition-transform duration-300 ease-in-out hover:scale-105"
-            >
-              <Link href={href}>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="flex items-center gap-2 font-medium cursor-pointer"
-                >
-                  <Icon className="h-5 w-5" />
-                  <span className="font-bold">{name}</span>
-                </motion.div>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Trang chủ</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <a
+                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                        href="/"
+                      >
+                        <div className="mb-2 mt-4 text-lg font-medium">
+                          An Bình Viên
+                        </div>
+                        <p className="text-sm leading-tight text-muted-foreground">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing
+                          elit. Quos cumque, quas, quae, quidem dolorum
+                          voluptatum quia laborum voluptatem natus doloremque
+                          iusto.
+                        </p>
+                      </a>
+                    </NavigationMenuLink>
+                  </li>
+                  <ListItem href="/" title="Giới thiệu chung">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </ListItem>
+                  <ListItem href="/dashboard" title="Dịch vụ">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </ListItem>
+                  <ListItem href="/contact" title="Liên hệ">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Dịch vụ</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                  {components.map((component) => (
+                    <ListItem
+                      key={component.title}
+                      title={component.title}
+                      href={component.href}
+                    >
+                      {component.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/contact" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Thông tin
+                </NavigationMenuLink>
               </Link>
-            </li>
-          ))}
-        </ul>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+
         <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -59,15 +59,21 @@ export const StateProvider = ({ children }) => {
         token,
       });
 
-      if (role === "Guest" || role === "Customer") {
-        router.push("/dashboard");
-      } else if (role === "Staff" || role === "Manager") {
-        router.push("/staff-dashboard");
-      }
+      console.log("User fetched successfully:", response.data);
     } catch (error) {
       console.error("Error fetching current user:", error);
+      setUser(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRoleBasedRedirection = (role) => {
+    console.log("Redirecting based on role:", role);
+    if (role === "Guest" || role === "Customer") {
+      router.push("/dashboard");
+    } else if (role === "Staff" || role === "Manager") {
+      router.push("/staff-dashboard");
     }
   };
 
@@ -78,11 +84,8 @@ export const StateProvider = ({ children }) => {
       localStorage.setItem("token", token);
       await fetchCurrentUser(token);
 
-      if (role === "Guest" || role === "Customer") {
-        router.push("/dashboard");
-      } else if (role === "Staff" || role === "Manager") {
-        router.push("/staff-dashboard");
-      }
+      console.log("User role after login:", role);
+      handleRoleBasedRedirection(role);
       toast.success("Login successful!");
     } catch (error) {
       console.error("Login failed", error);
@@ -157,6 +160,7 @@ export const StateProvider = ({ children }) => {
       console.error("Error fetching reservations:", error);
     }
   };
+
   const deleteReservation = async (reservationId) => {
     try {
       await axios.delete(`/api/NicheReservations/${reservationId}`);
@@ -252,6 +256,7 @@ export const StateProvider = ({ children }) => {
         login,
         register,
         logout,
+        handleRoleBasedRedirection, // Expose this function to be used explicitly
       }}
     >
       {children}

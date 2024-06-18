@@ -1,4 +1,5 @@
 "use client";
+import ProductCollection from "@/components/customer/service-order/ProductCollection";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,11 +32,6 @@ const CustomerDashboard = () => {
               </BreadcrumbList>
             </Breadcrumb>
             <h1 className="text-2xl font-semibold mb-4">Dịch vụ</h1>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-              cumque, quas, quae, quidem dolorum voluptatum quia laborum
-              voluptatem natus doloremque iusto.
-            </p>
           </main>
         </div>
       </div>

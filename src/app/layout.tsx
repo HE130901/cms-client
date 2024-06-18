@@ -1,3 +1,4 @@
+import Footer from "@/components/footer/footer";
 import Header from "@/components/header/Header";
 import CallHotline from "@/components/home/call-hotline";
 import { Toaster } from "@/components/ui/sonner";
@@ -18,13 +19,13 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <html>
-      <body className="">
+      <body className="bg-white">
         <StateProvider>
           <Header />
           {children}
-
           <CallHotline />
           <Toaster />
+          <Footer />
         </StateProvider>
       </body>
     </html>

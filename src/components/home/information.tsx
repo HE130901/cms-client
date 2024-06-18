@@ -1,6 +1,5 @@
 "use client";
 
-import { CarouselTransition } from "@/components/ui/carousel";
 import {
   Accordion,
   AccordionBody,
@@ -8,6 +7,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import React from "react";
+import { CarouselPlugin } from "../ui/carouselPlugin";
 
 const FAQS = [
   {
@@ -20,7 +20,7 @@ const FAQS = [
   },
   {
     title: "3. Dich vụ chăm sóc khách hàng 24/7",
-    desc: "",
+    desc: "Đầy đủ các dịch vụ tiện ích của hoa viên nghĩa trang cao cấp: Đền trình, Nhà tang lễ, Tịnh xá, Khu lưu trữ tro cốt...",
   },
   {
     title: "4. Sứ mệnh của Bình An Viên?",
@@ -30,46 +30,18 @@ const FAQS = [
 
 export default function Information() {
   const [open, setOpen] = React.useState(0);
-  const handleOpen = (value) => setOpen(open === value ? 0 : value);
+  const handleOpen = (value: number) => setOpen(open === value ? 0 : value);
 
   return (
-    <section className="container mx-auto flex flex-col items-center px-4 py-10 h-screen pt-20">
+    <section className="container mx-auto flex flex-col items-center px-4 py-10 h-auto pt-20">
       <Typography
-        variant="h6"
-        className="text-center mb-2 font-bold"
-        color="orange"
-        placeholder=""
-        onPointerEnterCapture={() => {}}
-        onPointerLeaveCapture={() => {}}
-      >
-        GIỚI THIỆU TỔNG QUAN
-      </Typography>
-      <Typography
-        variant="h3"
-        className="text-center font-bold"
+        variant="h2"
+        className="text-3xl font-semibold mb-4"
         color="blue-gray"
-        placeholder=""
-        onPointerEnterCapture={() => {}}
-        onPointerLeaveCapture={() => {}}
       >
-        AN BÌNH VIÊN
+        Giới thiệu tổng quan
       </Typography>
 
-      <Typography
-        variant="lead"
-        className="mt-2 lg:max-w-4xl mb-8 w-full text-center !text-gray-800 font-medium"
-        placeholder=""
-        onPointerEnterCapture={() => {}}
-        onPointerLeaveCapture={() => {}}
-      >
-        Con người ai cũng phải trải qua sinh-lão-bệnh-tử. Khi nhân duyên không
-        còn đủ đầy, chúng ta trở về với đất mẹ. Nhưng cái chết không là dấu chấm
-        hết của một đời người, cuộc sống của chúng ta vẫn còn tiếp diễn trong
-        lòng những người thương yêu và những thế hệ sau nữa. <br /> An Bình Viên
-        được xây nên không như là điểm đến cuối cùng của một đời người mà là
-        điểm khởi đầu của một cuộc sống tốt đẹp hơn và đề ghi nhớ một cuộc đời
-        đã được sống vẹn tròn.
-      </Typography>
       <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-4 ">
         <div className="mx-auto lg:px-20 flex flex-col">
           {FAQS.map(({ title, desc }, key) => (
@@ -78,25 +50,14 @@ export default function Information() {
               open={open === key + 1}
               onClick={() => handleOpen(key + 1)}
               className="mb-4"
-              placeholder=""
-              onPointerEnterCapture={() => {}}
-              onPointerLeaveCapture={() => {}}
             >
-              <AccordionHeader
-                className="text-left text-gray-900"
-                placeholder=""
-                onPointerEnterCapture={() => {}}
-                onPointerLeaveCapture={() => {}}
-              >
+              <AccordionHeader className="text-left text-gray-900">
                 {title}
               </AccordionHeader>
               <AccordionBody>
                 <Typography
                   color="blue-gray"
                   className="font-normal text-gray-500"
-                  placeholder=""
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
                 >
                   {desc}
                 </Typography>
@@ -104,7 +65,9 @@ export default function Information() {
             </Accordion>
           ))}
         </div>
-        <div className="mx-auto lg:px-20 h-96 flex items-center"></div>
+        <div className="mx-auto lg:px-20 h-96 flex items-center">
+          <CarouselPlugin />
+        </div>
       </div>
     </section>
   );

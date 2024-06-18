@@ -1,3 +1,4 @@
+//src/app/dashboard/niche-reservation/page.tsx
 "use client";
 import {
   Breadcrumb,
@@ -10,9 +11,7 @@ import {
 import withAuth from "@/components/withAuth";
 import NicheReservationPage from "@/components/customer/niche-reservation/NicheReservationPage";
 
-import NicheReservationList from "@/components/customer/reservation-manager/NicheReservationList";
-
-const NicheBooking = () => {
+const NicheReservations = () => {
   return (
     <div className="flex h-auto pt-16 justify-center">
       <div className="flex flex-1 overflow-auto">
@@ -44,4 +43,4 @@ const NicheBooking = () => {
   );
 };
 
-export default withAuth(NicheBooking);
+export default withAuth(NicheReservations);

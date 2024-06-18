@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Typography } from "@material-tailwind/react";
+import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,10 +24,10 @@ function Hero() {
 
       {/* Nội dung */}
       <div className="grid min-h-screen px-8">
-        <div className="container relative z-10 my-auto mx-auto grid place-items-center text-center">
+        <div className="container relative z-10 my-auto mx-auto grid place-items-start text-left">
           {/* Lớp nền trong suốt */}
           <motion.div
-            className="flex flex-col items-center rounded-lg p-8 md:p-12 bg-white/20 backdrop-blur-sm shadow-lg"
+            className="flex flex-col items-center rounded-lg p-8 md:p-12 bg-white/20 backdrop-blur-sm shadow-lg max-w-lg"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0 }}
@@ -35,28 +35,43 @@ function Hero() {
             <Image
               alt="ABV"
               src={logo}
-              height={300}
-              width={400}
+              height={150}
+              width={200}
               className="rounded-lg"
             />
-            <motion.p className="mt-4 mb-12 w-full text-white md:max-w-full lg:max-w-2xl text-xl md:text-2xl lg:text-3xl leading-snug tracking-wide text-shadow-md text-center gradient-text pt-2">
+            <motion.p className="mt-4 mb-4 w-full text-white text-lg leading-snug tracking-wide text-shadow-md items-center text-center">
               <span className="font-bold">
                 "Nơi an nghỉ cuối cùng
                 <br /> bình yên và trang trọng"
               </span>
             </motion.p>
+            <motion.p className="mt-2 mb-8 w-full text-white text-base leading-relaxed tracking-wide text-shadow-md">
+              Con người ai cũng phải trải qua sinh-lão-bệnh-tử. Khi nhân duyên
+              không còn đủ đầy, chúng ta trở về với đất mẹ. Nhưng cái chết không
+              là dấu chấm hết của một đời người, cuộc sống của chúng ta vẫn còn
+              tiếp diễn trong lòng những người thương yêu và những thế hệ sau
+              nữa. <br /> An Bình Viên được xây nên không như là điểm đến cuối
+              cùng của một đời người mà là điểm khởi đầu của một cuộc sống tốt
+              đẹp hơn và để ghi nhớ một cuộc đời đã được sống vẹn tròn.
+            </motion.p>
 
             <motion.div className="flex items-center gap-4">
-              <Link href="/dashboard">
+              <Link href="/">
                 <Button
-                  variant="gradient"
-                  className="shadow-lg hover:shadow-xl rounded-full px-8 py-4 text-sm md:text-base lg:text-lg animate-bounce bg-red-500 hover:bg-red-600"
+                  variant="secondary"
+                  className="shadow-lg hover:shadow-xl px-8 py-4 text-sm md:text-base lg:text-lg"
                   size="lg"
-                  placeholder="Button Placeholder"
-                  onPointerEnterCapture={() => {}}
-                  onPointerLeaveCapture={() => {}}
                 >
-                  Đặt chỗ ngay
+                  Xem chi tiết
+                </Button>
+              </Link>
+              <Link href="/auth/register">
+                <Button
+                  variant="destructive"
+                  className="shadow-lg hover:shadow-xl px-8 py-4 text-sm md:text-base lg:text-lg"
+                  size="lg"
+                >
+                  Đăng ký ngay
                 </Button>
               </Link>
             </motion.div>

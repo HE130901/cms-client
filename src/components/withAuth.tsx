@@ -1,4 +1,3 @@
-// src/components/withAuth.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -11,8 +10,10 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
     const router = useRouter();
 
     useEffect(() => {
-      if (!loading && !user) {
-        router.push("/auth/login");
+      if (!loading) {
+        if (!user) {
+          router.push("/auth/login");
+        }
       }
     }, [loading, user, router]);
 
@@ -24,7 +25,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
       return <WrappedComponent {...props} />;
     }
 
-    return null;
+    return null; // Prevent rendering the component if the user is not authenticated
   };
 };
 
