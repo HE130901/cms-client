@@ -1,10 +1,13 @@
 import { Typography } from "@material-tailwind/react";
 import StatsCard from "@/components/ui/stats-card";
 import { FC } from "react";
-
+import Image from "next/image";
+import CustomerPic1 from "@/assets/images/avatar1.jpg";
+import CustomerPic2 from "@/assets/images/avatar2.jpg";
+import CustomerPic3 from "@/assets/images/avatar3.jpg";
 const STATS = [
   {
-    count: "10,500+",
+    count: "1,500+",
     title: "Khách hàng",
   },
   {
@@ -12,7 +15,7 @@ const STATS = [
     title: "Năm kinh nghiệm",
   },
   {
-    count: "12,300+",
+    count: "2,300+",
     title: "Dịch vụ đã cung cấp",
   },
   {
@@ -26,19 +29,19 @@ const testimonials = [
     name: "Jessica Devis",
     title: "CEO @ Marketing Digital Ltd.",
     text: "It has been a game-changer for my business. Their dedication, expertise, and attention to detail have truly set them apart. I highly recommend their services!",
-    image: "/path-to-image/jessica-devis.jpg",
+    image: CustomerPic1,
   },
   {
     name: "Mary Joshiash",
     title: "Marketing @ Apple Inc.",
     text: "It understood my unique needs and delivered a tailored solution promptly. Their customer support is top-notch, and I appreciate their commitment.",
-    image: "/path-to-image/mary-joshiash.jpg",
+    image: CustomerPic2,
   },
   {
     name: "Marcell Glock",
     title: "CFO @ Apple Inc.",
     text: "They not only met but exceeded our expectations. Their innovative approach and technical proficiency have been instrumental in our success.",
-    image: "/path-to-image/marcell-glock.jpg",
+    image: CustomerPic3,
   },
 ];
 
@@ -91,10 +94,12 @@ const ClientFeedback: FC = () => {
                 key={index}
                 className="bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <img
+                <Image
                   src={testimonial.image}
                   alt={testimonial.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-500"
+                  width={100}
+                  height={100}
+                  className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-slate-500"
                 />
                 <Typography
                   variant="h5"

@@ -31,7 +31,7 @@ const VisitRegistration = () => {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <main className="px-4 md:px-8 py-6 bg-orange-100 mx-2 md:mx-4 my-4 h-auto rounded-md">
+        <main className="px-4 md:px-8 py-6 bg-slate-100 mx-2 md:mx-4 my-4 h-auto rounded-md">
           <VisitRegistrationPage />
           <VisitRegistrationList />
         </main>

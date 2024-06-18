@@ -238,7 +238,7 @@ export function Header({ currentView, setCurrentView }) {
                   <ListItem href="/dashboard" title="Dịch vụ">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   </ListItem>
-                  <ListItem href="/contact" title="Liên hệ">
+                  <ListItem href="/about" title="Thông tin">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   </ListItem>
                 </ul>
