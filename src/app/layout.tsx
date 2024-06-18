@@ -18,7 +18,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <html>
-      <body className="bg-amber-50">
+      <body className="">
         <StateProvider>
           <Header />
           {children}

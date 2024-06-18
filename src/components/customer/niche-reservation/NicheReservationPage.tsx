@@ -103,9 +103,6 @@ const NicheReservationPage = () => {
             {loadingAreas ? <Skeleton height={50} /> : <AreaSelector />}
           </div>
         </div>
-        <div className="w-full md:w-1/3 flex items-center justify-center shadow-lg rounded-lg overflow-hidden hidden md:flex">
-          <CarouselPlugin />
-        </div>
       </div>
       {selectedBuilding && selectedFloor && selectedArea && (
         <div className="flex justify-center my-6">

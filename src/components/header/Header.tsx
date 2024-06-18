@@ -1,6 +1,8 @@
 "use client";
-
-import logo from "@/assets/images/logo.png";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   HomeIcon,
   InformationCircleIcon,
@@ -13,34 +15,10 @@ import {
   PencilSquareIcon,
   RectangleGroupIcon,
 } from "@heroicons/react/24/solid";
-import { Button, Navbar as MTNavbar } from "@material-tailwind/react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import logo from "@/assets/images/logo.png";
 import { useStateContext } from "@/context/StateContext";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-
-interface NavItemProps {
-  children: React.ReactNode;
-  href: string;
-}
-
-function NavItem({ children, href }: NavItemProps) {
-  return (
-    <li className="transition-transform duration-300 ease-in-out hover:scale-105">
-      <Link href={href}>
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="flex items-center gap-2 font-medium cursor-pointer"
-        >
-          {children}
-        </motion.div>
-      </Link>
-    </li>
-  );
-}
 
 const NAV_MENU = [
   {
@@ -64,7 +42,7 @@ const SidebarLink = ({ label, icon: Icon, href, active }) => (
   <Link href={href}>
     <div
       className={`flex items-center px-4 py-2 text-gray-800 ${
-        active ? "bg-orange-300 text-white" : "hover:bg-orange-200"
+        active ? "bg-stone-300 text-white" : "hover:bg-stone-200"
       } rounded-md transition-colors duration-300`}
     >
       <Icon className={`h-5 w-5 ${active ? "text-white" : "text-gray-800"}`} />
@@ -130,11 +108,11 @@ const Sidebar = ({ currentView, setCurrentView, userRole }) => (
 );
 
 export function Header({ currentView, setCurrentView }) {
-  const [isScrolling, setIsScrolling] = React.useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const { user, logout } = useStateContext();
   const pathname = usePathname();
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleScroll() {
       if (window.scrollY > 0) {
         setIsScrolling(true);
@@ -144,20 +122,18 @@ export function Header({ currentView, setCurrentView }) {
     }
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const isHomePage = pathname === "/";
 
   return (
-    <MTNavbar
-      shadow={isScrolling || !isHomePage}
-      fullWidth
-      blurred={false}
-      className={`fixed top-0 z-50 border-0 transition-colors duration-300 ${
+    <header
+      className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
         isScrolling || !isHomePage
-          ? "bg-orange-200 shadow-lg text-black"
+          ? "bg-stone-100 shadow-lg text-black"
           : "bg-transparent shadow-none text-white"
       }`}
     >
@@ -165,13 +141,13 @@ export function Header({ currentView, setCurrentView }) {
         <div className="flex items-center">
           <Sheet>
             <SheetTrigger asChild>
-              <Button className="mr-4 p-2 bg-orange-500 text-white rounded-md shadow-md">
+              <button className="mr-4 p-2 bg-stone-400 text-white rounded-md shadow-md">
                 <Bars3Icon className="h-5 w-5" />
-              </Button>
+              </button>
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="w-64 bg-orange-100 rounded-md shadow-md"
+              className={`w-64 bg-slate-100 rounded-md shadow-md`}
             >
               <Sidebar
                 currentView={currentView}
@@ -185,99 +161,66 @@ export function Header({ currentView, setCurrentView }) {
               whileHover={{ scale: 1.05 }}
               className="rounded-lg overflow-hidden hover:cursor-pointer"
             >
-              <Image
-                alt="logo"
-                src={logo}
-                height={50}
-                width={150}
-                className="rounded-lg"
-              />
+              <Image alt="logo" src={logo} height={50} width={150} />
             </motion.div>
           </Link>
         </div>
-        <ul
-          className={`hidden lg:flex items-center gap-6 ${
-            isScrolling || !isHomePage ? "text-black" : "text-white"
-          }`}
-        >
+        <ul className="hidden lg:flex items-center gap-6">
           {NAV_MENU.map(({ name, icon: Icon, href }) => (
-            <NavItem key={name} href={href}>
-              <Icon className="h-5 w-5" />
-              <span className="font-bold">{name}</span>
-            </NavItem>
+            <li
+              key={name}
+              className="transition-transform duration-300 ease-in-out hover:scale-105"
+            >
+              <Link href={href}>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 font-medium cursor-pointer"
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="font-bold">{name}</span>
+                </motion.div>
+              </Link>
+            </li>
           ))}
         </ul>
         <div className="flex items-center gap-4">
           {user ? (
-            <>
-              <motion.button
-                onClick={logout}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="hidden lg:flex"
+            <motion.button
+              onClick={logout}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="hidden lg:flex"
+            >
+              <button
+                variant="filled"
+                color={isScrolling || !isHomePage ? "gray" : "white"}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
               >
-                <Button
-                  variant="filled"
-                  color={isScrolling || !isHomePage ? "gray" : "white"}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
-                >
-                  <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-                  Đăng xuất
-                </Button>
-              </motion.button>
-              <motion.button
-                onClick={logout}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="flex lg:hidden"
-              >
-                <Button
-                  variant="filled"
-                  color={isScrolling || !isHomePage ? "gray" : "white"}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
-                >
-                  <ArrowLeftOnRectangleIcon className="h-5 w-5" />
-                </Button>
-              </motion.button>
-            </>
+                <ArrowLeftOnRectangleIcon className="h-5 w-5" />
+                Đăng xuất
+              </button>
+            </motion.button>
           ) : (
-            <>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="hidden lg:flex"
-              >
-                <Link href="/auth/login" passHref>
-                  <Button
-                    variant="filled"
-                    color={isScrolling || !isHomePage ? "gray" : "white"}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
-                  >
-                    <UserCircleIcon className="h-5 w-5" />
-                    Đăng nhập
-                  </Button>
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="flex lg:hidden"
-              >
-                <Link href="/auth/login" passHref>
-                  <Button
-                    variant="filled"
-                    color={isScrolling || !isHomePage ? "gray" : "white"}
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
-                  >
-                    <UserCircleIcon className="h-5 w-5" />
-                  </Button>
-                </Link>
-              </motion.div>
-            </>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="hidden lg:flex"
+            >
+              <Link href="/auth/login" passHref>
+                <button
+                  variant="filled"
+                  color={isScrolling || !isHomePage ? "gray" : "white"}
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium transition-transform duration-300 transform rounded-full shadow-lg hover:scale-105 text-black border bg-white"
+                >
+                  <UserCircleIcon className="h-5 w-5" />
+                  Đăng nhập
+                </button>
+              </Link>
+            </motion.div>
           )}
         </div>
       </div>
-    </MTNavbar>
+    </header>
   );
 }
 

@@ -180,7 +180,7 @@ const ReservationForm = ({ isVisible, onClose }) => {
             />
           </div>
           <div className="flex justify-end">
-            <Button type="button" onClick={onClose}>
+            <Button variant="secondary" onClick={onClose}>
               Quay lại
             </Button>
             <Button type="submit" className="ml-2">

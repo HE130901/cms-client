@@ -48,7 +48,7 @@ const AreaSelector = () => {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-2">Chọn khu</h2>
-      <div className="flex items-center space-x-2 mb-4">
+      <div className="flex items-center space-x-2 ">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button

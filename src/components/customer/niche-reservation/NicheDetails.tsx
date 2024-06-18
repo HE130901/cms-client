@@ -1,14 +1,7 @@
-"use client";
-
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { CarouselPlugin } from "@/components/ui/carouselPlugin";
 
 const NicheDetails = ({
   isVisible,
@@ -22,39 +15,38 @@ const NicheDetails = ({
   return (
     <Dialog open={isVisible} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Thông tin chi tiết ô chứa</DialogTitle>
-        </DialogHeader>
+        <h2 className="text-xl font-bold mb-4">Thông tin chi tiết ô chứa</h2>
         {selectedNiche && (
-          <div className="mb-4">
-            <p>
+          <div className="space-y-4">
+            <div>
               <strong>Tòa nhà:</strong> {selectedBuilding?.buildingName}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Tầng:</strong> {selectedFloor?.floorName}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Khu:</strong> {selectedArea?.areaName}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Ô số:</strong> {selectedNiche.nicheName}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Trạng thái:</strong> {selectedNiche.status}
-            </p>
-            <p>
+            </div>
+            <div>
               <strong>Mô tả:</strong> {selectedNiche.nicheDescription}
-            </p>
+            </div>
+            <div className="w-full flex items-center justify-center shadow-lg rounded-lg overflow-hidden md:hidden">
+              <CarouselPlugin />
+            </div>
           </div>
         )}
-        <DialogFooter>
-          <Button type="button" variant={"secondary"} onClick={onClose}>
+        <DialogFooter className="flex justify-end">
+          <Button variant="secondary" onClick={onClose}>
             Quay lại
           </Button>
           {selectedNiche && selectedNiche.status === "Available" && (
-            <Button type="button" onClick={onBook}>
-              Đặt ô số {selectedNiche.nicheName}
-            </Button>
+            <Button onClick={onBook}>Đặt ô số {selectedNiche.nicheName}</Button>
           )}
         </DialogFooter>
       </DialogContent>

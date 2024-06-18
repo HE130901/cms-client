@@ -27,7 +27,7 @@ const NicheSelector = ({ openModal }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 1250); // Chọn breakpoint tùy thuộc vào yêu cầu của bạn
+      setIsSmallScreen(window.innerWidth <= 1250);
     };
 
     handleResize();
@@ -119,7 +119,7 @@ const NicheSelector = ({ openModal }) => {
                   ? "bg-black text-white cursor-not-allowed"
                   : niche.status === "Booked"
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-white border hover:bg-orange-300 hover:scale-105"
+                  : "bg-white border hover:bg-slate-200 hover:scale-105"
               }`}
             >
               <div>{niche.nicheName}</div>
@@ -131,7 +131,7 @@ const NicheSelector = ({ openModal }) => {
   };
 
   return (
-    <div className="text-center bg-orange-200 px-8 py-4 rounded-md shadow-md">
+    <div className="text-center bg-stone-200 px-8 py-4 rounded-md shadow-md">
       <h2 className="text-xl text-center font-bold mb-4">
         {selectedBuilding?.buildingName} - {selectedFloor?.floorName} -{" "}
         {selectedArea?.areaName}

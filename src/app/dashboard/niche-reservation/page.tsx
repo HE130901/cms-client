@@ -14,11 +14,11 @@ import NicheReservationList from "@/components/customer/reservation-manager/Nich
 
 const NicheBooking = () => {
   return (
-    <div className="flex flex-1 overflow-auto pt-24">
-      <div className="flex-1">
-        <div className="flex items-center justify-between pl-4 pt-4">
-          <div className="flex items-center flex-grow">
-            <Breadcrumb className="flex-grow">
+    <div className="flex h-auto pt-16 justify-center">
+      <div className="flex flex-1 overflow-auto">
+        <div className="flex-1">
+          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
+            <Breadcrumb className="">
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
@@ -33,16 +33,12 @@ const NicheBooking = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-          </div>
-          <h2 className="text-3xl font-semibold tracking-tight text-center flex-grow mr-56">
-            Đặt ô chứa
-          </h2>
-          <div className="flex-grow"></div>
+            <h1 className="text-2xl font-semibold mb-4 text-center">
+              Đặt ô chứa
+            </h1>
+            <NicheReservationPage />
+          </main>
         </div>
-        <main className="px-8 py-6 bg-orange-100 mx-4 my-4 h-auto rounded-md">
-          <NicheReservationPage />
-          <NicheReservationList />
-        </main>
       </div>
     </div>
   );
