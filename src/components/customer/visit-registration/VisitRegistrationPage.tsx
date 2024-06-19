@@ -55,7 +55,7 @@ const VisitRegistrationPage = () => {
     try {
       await axios.post("/api/VisitRegistrations", dataToSubmit);
       toast.success("Đăng ký thăm viếng thành công!");
-      fetchVisitRegistrations(user.customerId); // Fetch visit registrations after successful submission
+      fetchVisitRegistrations(user.customerId);
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Failed to create visit registration.");

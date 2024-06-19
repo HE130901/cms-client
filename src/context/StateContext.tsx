@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import axios from "@/utils/axiosConfig";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -110,41 +116,102 @@ export const StateProvider = ({ children }) => {
     router.push("/");
   };
 
-  const fetchBuildings = async () => {
+  // fetchBuildings setting the state and logging the data.
+  const fetchBuildings = useCallback(async () => {
     try {
-      const response = await axios.get("/api/buildings");
-      setBuildings(response.data.$values);
+      const response = await fetch("https://localhost:7148/api/Buildings");
+      const contentType = response.headers.get("content-type");
+
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Expected JSON response but received " + contentType);
+      }
+
+      const data = await response.json();
+
+      // Extract the building data from the response structure
+      const buildings = data.$values.map((building) => ({
+        buildingId: building.buildingId,
+        buildingName: building.buildingName,
+        buildingDescription: building.buildingDescription,
+        buildingPicture: building.buildingPicture,
+        floors: building.floors.$values,
+      }));
+
+      setBuildings(buildings);
+      console.log("Buildings fetched successfully:", buildings);
     } catch (error) {
       console.error("Error fetching buildings:", error);
     }
-  };
+  }, []);
 
-  const fetchFloors = async (buildingId) => {
+  const fetchFloors = useCallback(async (buildingId) => {
     try {
-      const response = await axios.get(`/api/buildings/${buildingId}/floors`);
-      setFloors(response.data.$values);
+      console.log("Fetching floors for building ID:", buildingId);
+      const response = await axios.get(`/api/Buildings/${buildingId}/floors`);
+      console.log("Floors response data:", response.data);
+      const floors = response.data.$values.map((floor) => ({
+        floorId: floor.floorId,
+        buildingId: floor.buildingId,
+        floorName: floor.floorName,
+        floorDescription: floor.floorDescription,
+        nichePrice: floor.nichePrice,
+        areas: floor.areas.$values,
+      }));
+      setFloors(floors);
+      console.log("Floors set in state:", floors);
     } catch (error) {
       console.error("Error fetching floors:", error);
     }
-  };
+  }, []);
 
-  const fetchAreas = async (buildingId, floorId) => {
+  const fetchAreas = useCallback(async (buildingId, floorId) => {
     try {
-      const response = await axios.get(
-        `/api/buildings/${buildingId}/floors/${floorId}/areas`
+      console.log(
+        "Fetching areas for building ID:",
+        buildingId,
+        "and floor ID:",
+        floorId
       );
-      setAreas(response.data.$values);
+      const response = await axios.get(
+        `/api/Buildings/${buildingId}/floors/${floorId}/areas`
+      );
+      console.log("Areas response data:", response.data);
+      const areas = response.data.$values.map((area) => ({
+        areaId: area.areaId,
+        floorId: area.floorId,
+        areaName: area.areaName,
+        areaDescription: area.areaDescription,
+        niches: area.niches.$values,
+      }));
+      setAreas(areas);
+      console.log("Areas set in state:", areas);
     } catch (error) {
       console.error("Error fetching areas:", error);
     }
-  };
+  }, []);
 
   const fetchNiches = async (buildingId, floorId, areaId) => {
     try {
-      const response = await axios.get(
-        `/api/buildings/${buildingId}/floors/${floorId}/areas/${areaId}/niches`
+      console.log(
+        "Fetching niches for building ID:",
+        buildingId,
+        "floor ID:",
+        floorId,
+        "and area ID:",
+        areaId
       );
-      setNiches(response.data.$values);
+      const response = await axios.get(
+        `/api/Buildings/${buildingId}/floors/${floorId}/areas/${areaId}/niches`
+      );
+      console.log("Niches response data:", response.data);
+      const niches = response.data.$values.map((niche) => ({
+        nicheId: niche.nicheId,
+        areaId: niche.areaId,
+        nicheName: niche.nicheName,
+        status: niche.status,
+      }));
+      setNiches(niches);
+      console.log("Niches set in state:", niches);
     } catch (error) {
       console.error("Error fetching niches:", error);
     }
@@ -256,7 +323,7 @@ export const StateProvider = ({ children }) => {
         login,
         register,
         logout,
-        handleRoleBasedRedirection, // Expose this function to be used explicitly
+        handleRoleBasedRedirection,
       }}
     >
       {children}

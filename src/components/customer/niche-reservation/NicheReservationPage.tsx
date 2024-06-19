@@ -1,17 +1,13 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-import AreaSelector from "@/components/customer/niche-reservation/AreaSelector";
-import BuildingSelector from "@/components/customer/niche-reservation/BuildingSelector";
-import FloorSelector from "@/components/customer/niche-reservation/FloorSelector";
+import CombinedSelector from "@/components/customer/niche-reservation/CombinedSelector";
 import NicheDetails from "@/components/customer/niche-reservation/NicheDetails";
 import NicheSelector from "@/components/customer/niche-reservation/NicheSelector";
 import ReservationForm from "@/components/customer/niche-reservation/ReservationForm";
 import { useStateContext } from "@/context/StateContext";
-import { CarouselPlugin } from "@/components/ui/carouselPlugin";
 
 const NicheReservationPage = () => {
   const {
@@ -30,39 +26,18 @@ const NicheReservationPage = () => {
     user,
   } = useStateContext();
 
-  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [loadingBuildings, setLoadingBuildings] = useState(true);
-  const [loadingFloors, setLoadingFloors] = useState(true);
-  const [loadingAreas, setLoadingAreas] = useState(true);
-  const [loadingNicheSelector, setLoadingNicheSelector] = useState(true);
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false); // Define the state variable
+  const [isFormVisible, setIsFormVisible] = useState(false); // Define the state variable
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchBuildings();
-      setLoadingBuildings(false);
-
-      if (selectedBuilding) {
-        await fetchFloors(selectedBuilding.buildingId);
-        setLoadingFloors(false);
-      }
-
-      if (selectedBuilding && selectedFloor) {
-        await fetchAreas(selectedBuilding.buildingId, selectedFloor.floorId);
-        setLoadingAreas(false);
-      }
-
-      setLoadingNicheSelector(false);
+      setLoading(false);
     };
 
     fetchData();
-  }, [
-    fetchBuildings,
-    fetchFloors,
-    fetchAreas,
-    selectedBuilding,
-    selectedFloor,
-  ]);
+  }, [fetchBuildings]);
 
   const openDetailsModal = () => {
     setIsDetailsVisible(true);
@@ -93,24 +68,13 @@ const NicheReservationPage = () => {
     <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row gap-6">
         <div className="flex-1 space-y-6">
-          <div>
-            {loadingBuildings ? <Skeleton height={50} /> : <BuildingSelector />}
-          </div>
-          <div>
-            {loadingFloors ? <Skeleton height={50} /> : <FloorSelector />}
-          </div>
-          <div>
-            {loadingAreas ? <Skeleton height={50} /> : <AreaSelector />}
-          </div>
+          {/* Using the combined selector */}
+          <div>{loading ? <Skeleton height={50} /> : <CombinedSelector />}</div>
         </div>
       </div>
       {selectedBuilding && selectedFloor && selectedArea && (
         <div className="flex justify-center my-6">
-          {loadingNicheSelector ? (
-            <Skeleton height={50} width={200} />
-          ) : (
-            <NicheSelector openModal={openDetailsModal} />
-          )}
+          <NicheSelector openModal={openDetailsModal} />
         </div>
       )}
       <NicheDetails
