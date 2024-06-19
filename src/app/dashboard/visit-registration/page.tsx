@@ -16,7 +16,7 @@ const VisitRegistration = () => {
     <div className="flex h-auto pt-16 justify-center">
       <div className="flex flex-1 overflow-auto">
         <div className="flex-1">
-          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
+          <div className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
             <Breadcrumb className="">
               <BreadcrumbList>
                 <BreadcrumbItem>
@@ -33,8 +33,7 @@ const VisitRegistration = () => {
               </BreadcrumbList>
             </Breadcrumb>
             <VisitRegistrationPage />
-            <VisitRegistrationList />
-          </main>
+          </div>
         </div>
       </div>
     </div>
