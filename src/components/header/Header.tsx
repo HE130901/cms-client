@@ -11,7 +11,7 @@ import {
   StarIcon,
   ShoppingCartIcon,
   UserCircleIcon,
-  ArrowLeftOnRectangleIcon,
+  PowerIcon,
   Bars3Icon,
   BuildingOfficeIcon,
   DocumentTextIcon,
@@ -301,7 +301,7 @@ export function Header({ currentView, setCurrentView }) {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout}>
-                    <ArrowLeftOnRectangleIcon className="h-5 w-5 mr-2" />
+                    <PowerIcon className="h-5 w-5 mr-2" />
                     Đăng xuất
                   </DropdownMenuItem>
                 </>
