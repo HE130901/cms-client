@@ -86,7 +86,7 @@ const CombinedSelector = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+    <div className="flex flex-col space-y-4">
       <div>
         {/* Building Selector */}
         <Popover open={buildingOpen} onOpenChange={setBuildingOpen}>
@@ -95,13 +95,13 @@ const CombinedSelector = () => {
               variant="outline"
               role="combobox"
               aria-expanded={buildingOpen}
-              className="w-full md:w-[200px] justify-between"
+              className="w-full justify-between"
             >
               {buildingValue || "Chọn tòa nhà..."}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-full md:w-[200px] p-0">
+          <PopoverContent className="w-full p-0">
             <Command>
               <CommandInput placeholder="Tìm kiếm tòa nhà..." />
               <CommandList>
@@ -140,13 +140,13 @@ const CombinedSelector = () => {
                 variant="outline"
                 role="combobox"
                 aria-expanded={floorOpen}
-                className="w-full md:w-[200px] justify-between"
+                className="w-full justify-between"
               >
                 {floorValue || "Chọn tầng..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full md:w-[200px] p-0">
+            <PopoverContent className="w-full p-0">
               <Command>
                 <CommandInput placeholder="Tìm kiếm tầng..." />
                 <CommandList>
@@ -186,13 +186,13 @@ const CombinedSelector = () => {
                 variant="outline"
                 role="combobox"
                 aria-expanded={areaOpen}
-                className="w-full md:w-[200px] justify-between"
+                className="w-full justify-between"
               >
                 {areaValue || "Chọn khu..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full md:w-[200px] p-0">
+            <PopoverContent className="w-full p-0">
               <Command>
                 <CommandInput placeholder="Tìm kiếm khu..." />
                 <CommandList>

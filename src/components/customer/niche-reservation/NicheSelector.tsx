@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useStateContext } from "@/context/StateContext";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const NicheSelector = ({ openModal }) => {
   const {
@@ -14,16 +16,18 @@ const NicheSelector = ({ openModal }) => {
   } = useStateContext();
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (selectedBuilding && selectedFloor && selectedArea) {
+      setLoading(true);
       fetchNiches(
         selectedBuilding.buildingId,
         selectedFloor.floorId,
         selectedArea.areaId
-      );
+      ).then(() => setLoading(false));
     }
-  }, [selectedBuilding, selectedFloor, selectedArea]);
+  }, [selectedBuilding, selectedFloor, selectedArea, fetchNiches]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -67,6 +71,16 @@ const NicheSelector = ({ openModal }) => {
     : createRows(sortedNiches, 20);
 
   const renderRows = () => {
+    if (loading) {
+      return (
+        <div className="flex flex-wrap justify-center space-x-2">
+          {Array.from({ length: 20 }).map((_, idx) => (
+            <Skeleton key={idx} height={50} width={50} />
+          ))}
+        </div>
+      );
+    }
+
     if (isSmallScreen) {
       return rows.reverse().map((floorRows, floorIndex) => (
         <div key={floorIndex} className="flex flex-col space-y-2">

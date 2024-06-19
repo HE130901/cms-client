@@ -190,7 +190,7 @@ export const StateProvider = ({ children }) => {
     }
   }, []);
 
-  const fetchNiches = async (buildingId, floorId, areaId) => {
+  const fetchNiches = useCallback(async (buildingId, floorId, areaId) => {
     try {
       console.log(
         "Fetching niches for building ID:",
@@ -215,7 +215,7 @@ export const StateProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching niches:", error);
     }
-  };
+  }, []);
 
   const fetchReservations = async (customerId) => {
     try {

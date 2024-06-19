@@ -13,28 +13,29 @@ import withAuth from "@/components/withAuth";
 
 const VisitRegistration = () => {
   return (
-    <div className="flex flex-1 overflow-auto pt-24">
-      <div className="flex-1">
-        <Breadcrumb className="pl-4 pt-4">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard">Dịch vụ</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Đăng ký viếng</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
-        <main className="px-4 md:px-8 py-6 bg-slate-100 mx-2 md:mx-4 my-4 h-auto rounded-md">
-          <VisitRegistrationPage />
-          <VisitRegistrationList />
-        </main>
+    <div className="flex h-auto pt-16 justify-center">
+      <div className="flex flex-1 overflow-auto">
+        <div className="flex-1">
+          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
+            <Breadcrumb className="">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard">Dịch vụ</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Đăng ký viếng</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <VisitRegistrationPage />
+            <VisitRegistrationList />
+          </main>
+        </div>
       </div>
     </div>
   );

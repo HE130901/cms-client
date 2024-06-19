@@ -26,9 +26,10 @@ const NicheReservationPage = () => {
     user,
   } = useStateContext();
 
-  const [isDetailsVisible, setIsDetailsVisible] = useState(false); // Define the state variable
-  const [isFormVisible, setIsFormVisible] = useState(false); // Define the state variable
+  const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [nicheLoading, setNicheLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,17 @@ const NicheReservationPage = () => {
 
     fetchData();
   }, [fetchBuildings]);
+
+  useEffect(() => {
+    if (selectedBuilding && selectedFloor && selectedArea) {
+      setNicheLoading(true);
+      fetchNiches(
+        selectedBuilding.buildingId,
+        selectedFloor.floorId,
+        selectedArea.areaId
+      ).then(() => setNicheLoading(false));
+    }
+  }, [selectedBuilding, selectedFloor, selectedArea, fetchNiches]);
 
   const openDetailsModal = () => {
     setIsDetailsVisible(true);
@@ -65,28 +77,34 @@ const NicheReservationPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="flex-1 space-y-6">
-          {/* Using the combined selector */}
-          <div>{loading ? <Skeleton height={50} /> : <CombinedSelector />}</div>
+    <div className="flex px-44">
+      <div className="p-4 w-1/6 pt-8">
+        <h1 className="text-2xl font-bold">Tìm kiếm</h1>
+        <div className="pt-4">
+          {loading ? <Skeleton height={50} /> : <CombinedSelector />}
         </div>
       </div>
-      {selectedBuilding && selectedFloor && selectedArea && (
-        <div className="flex justify-center my-6">
-          <NicheSelector openModal={openDetailsModal} />
-        </div>
-      )}
-      <NicheDetails
-        isVisible={isDetailsVisible}
-        onClose={closeDetailsModal}
-        selectedBuilding={selectedBuilding}
-        selectedFloor={selectedFloor}
-        selectedArea={selectedArea}
-        selectedNiche={selectedNiche}
-        onBook={openBookingForm}
-      />
-      <ReservationForm isVisible={isFormVisible} onClose={closeBookingForm} />
+      <div className="p-4 w-5/6">
+        {selectedBuilding && selectedFloor && selectedArea && (
+          <div className="flex justify-center my-6">
+            {nicheLoading ? (
+              <Skeleton height={200} width={1200} />
+            ) : (
+              <NicheSelector openModal={openDetailsModal} />
+            )}
+          </div>
+        )}
+        <NicheDetails
+          isVisible={isDetailsVisible}
+          onClose={closeDetailsModal}
+          selectedBuilding={selectedBuilding}
+          selectedFloor={selectedFloor}
+          selectedArea={selectedArea}
+          selectedNiche={selectedNiche}
+          onBook={openBookingForm}
+        />
+        <ReservationForm isVisible={isFormVisible} onClose={closeBookingForm} />
+      </div>
     </div>
   );
 };

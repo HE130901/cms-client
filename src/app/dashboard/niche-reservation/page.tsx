@@ -32,9 +32,7 @@ const NicheReservations = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <h1 className="text-2xl font-semibold mb-4 text-center">
-              Đặt ô chứa
-            </h1>
+
             <NicheReservationPage />
           </main>
         </div>
