@@ -16,7 +16,7 @@ const NicheReservations = () => {
     <div className="flex h-auto pt-16 justify-center">
       <div className="flex flex-1 overflow-auto">
         <div className="flex-1">
-          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
+          <div className="px-4 py-4 bg-stone-100 mx-4 my-4 h-auto rounded-md">
             <Breadcrumb className="">
               <BreadcrumbList>
                 <BreadcrumbItem>
@@ -34,7 +34,7 @@ const NicheReservations = () => {
             </Breadcrumb>
 
             <NicheReservationPage />
-          </main>
+          </div>
         </div>
       </div>
     </div>

@@ -15,6 +15,9 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains: ["i.ibb.co"], // Add the domains of the external images you are using
+  },
 };
 
 export default nextConfig;

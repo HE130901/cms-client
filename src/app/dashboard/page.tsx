@@ -16,7 +16,7 @@ const CustomerDashboard = () => {
     <div className="flex h-auto pt-16 pb-44">
       <div className="flex flex-1 overflow-auto">
         <div className="flex-1">
-          <main className="px-4 py-4 bg-stone-100 mx-4 my-4 h-auto rounded-md">
+          <div className="px-4 py-4 bg-stone-100 mx-4 my-4 h-auto rounded-md">
             <Breadcrumb className="">
               <BreadcrumbList>
                 <BreadcrumbItem>
@@ -33,7 +33,7 @@ const CustomerDashboard = () => {
               </BreadcrumbList>
             </Breadcrumb>
             <Component />
-          </main>
+          </div>
         </div>
       </div>
     </div>
