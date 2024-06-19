@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 const products = [
   {
@@ -21,7 +22,7 @@ const products = [
     price: 29.99,
     category: "Đồ cúng viếng",
     brand: "Hoa quả",
-    image: "/path/to/hoaqua.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 2,
@@ -29,7 +30,7 @@ const products = [
     price: 49.99,
     category: "Đồ cúng viếng",
     brand: "Vàng mã",
-    image: "/path/to/tienvang.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 3,
@@ -37,7 +38,7 @@ const products = [
     price: 79.99,
     category: "Đồ cúng viếng",
     brand: "Rượu, nước",
-    image: "/path/to/ruou.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 4,
@@ -45,7 +46,7 @@ const products = [
     price: 59.99,
     category: "Đồ cúng viếng",
     brand: "Đồ ăn",
-    image: "/path/to/xoi.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 5,
@@ -53,7 +54,7 @@ const products = [
     price: 24.99,
     category: "Đồ cúng viếng",
     brand: "Hoa quả",
-    image: "/path/to/hoa.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 6,
@@ -61,7 +62,7 @@ const products = [
     price: 59.99,
     category: "Đồ cúng viếng",
     brand: "Hoa quả",
-    image: "/path/to/traicay.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 7,
@@ -69,7 +70,7 @@ const products = [
     price: 39.99,
     category: "Đồ cúng viếng",
     brand: "Đồ ăn",
-    image: "/path/to/banhkeo.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 8,
@@ -77,7 +78,7 @@ const products = [
     price: 69.99,
     category: "Đồ cúng viếng",
     brand: "Combo",
-    image: "/path/to/combodaydu.png",
+    image: "https://i.ibb.co/ggTp6ZF/service.png",
   },
   {
     id: 9,
@@ -85,7 +86,7 @@ const products = [
     price: 69.99,
     category: "Dịch vụ",
     brand: "Combo",
-    image: "/path/to/combodaydu.png",
+    image: "https://i.ibb.co/vYHwTcf/Screenshot-2024-06-15-084451.png",
   },
   {
     id: 10,
@@ -93,7 +94,7 @@ const products = [
     price: 69.99,
     category: "Dịch vụ",
     brand: "Combo",
-    image: "/path/to/combodaydu.png",
+    image: "https://i.ibb.co/DDJkm9c/takecare.jpg",
   },
 ];
 
@@ -275,7 +276,7 @@ export default function Component() {
                 }`}
               >
                 <Link href="#" className="block" prefetch={false}>
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
                     width={400}

@@ -9,6 +9,7 @@ import {
   HomeIcon,
   InformationCircleIcon,
   StarIcon,
+  ShoppingCartIcon,
   UserCircleIcon,
   ArrowLeftOnRectangleIcon,
   Bars3Icon,
@@ -284,6 +285,12 @@ export function Header({ currentView, setCurrentView }) {
                     <Link href="/dashboard/profile-manager">
                       <UserIcon className="h-5 w-5 mr-2" />
                       Hồ sơ của tôi
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/ShoppingCart">
+                      <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                      Giỏ hàng
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
