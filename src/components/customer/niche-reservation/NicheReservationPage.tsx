@@ -88,15 +88,13 @@ const NicheReservationPage = () => {
           </div>
         </div>
         <div className="p-4 w-full md:w-5/6">
-          {selectedBuilding && selectedFloor && selectedArea && (
-            <div className="flex justify-center my-6">
-              {nicheLoading ? (
-                <Skeleton height={200} width="100%" />
-              ) : (
-                <NicheSelector openModal={openDetailsModal} />
-              )}
-            </div>
-          )}
+          <div className="flex justify-center my-6">
+            {nicheLoading ? (
+              <Skeleton height={200} width="100%" />
+            ) : (
+              <NicheSelector openModal={openDetailsModal} />
+            )}
+          </div>
           <NicheDetails
             isVisible={isDetailsVisible}
             onClose={closeDetailsModal}

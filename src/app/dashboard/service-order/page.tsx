@@ -13,7 +13,23 @@ import {
 } from "@/components/ui/breadcrumb";
 import ProductPage from "@/components/customer/service-order/ProductPage";
 
+import { useState, useEffect } from "react";
+import Loading from "@/components/ui/Loading";
+
 const ServiceOrderPage: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="flex h-auto pt-16 justify-center">
       <div className="flex flex-1 overflow-auto">

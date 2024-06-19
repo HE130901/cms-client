@@ -11,7 +11,23 @@ import {
 import withAuth from "@/components/withAuth";
 import NicheReservationPage from "@/components/customer/niche-reservation/NicheReservationPage";
 
+import React, { useState, useEffect } from "react";
+import Loading from "@/components/ui/Loading";
+
 const NicheReservations = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="flex h-auto pt-16 justify-center">
       <div className="flex flex-1 overflow-auto">

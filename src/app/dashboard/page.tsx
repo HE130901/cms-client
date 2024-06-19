@@ -1,5 +1,4 @@
 "use client";
-import ProductCollection from "@/components/customer/service-order/ProductCollection";
 import Component from "@/components/customer/dashboard";
 import {
   Breadcrumb,
@@ -10,13 +9,28 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import withAuth from "@/components/withAuth";
+import React, { useState, useEffect } from "react";
+import Loading from "@/components/ui/Loading";
 
 const CustomerDashboard = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="flex h-auto pt-16 pb-44">
       <div className="flex flex-1 overflow-auto">
         <div className="flex-1">
-          <div className="px-4 py-4 bg-stone-100 mx-4 my-4 h-auto rounded-md">
+          <div className="px-4 py-4 bg-stone-100 mx-4 my-4 h-screen rounded-md">
             <Breadcrumb className="">
               <BreadcrumbList>
                 <BreadcrumbItem>

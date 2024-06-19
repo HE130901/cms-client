@@ -27,7 +27,7 @@ const NicheSelector = ({ openModal }) => {
         selectedArea.areaId
       ).then(() => setLoading(false));
     }
-  }, [selectedBuilding, selectedFloor, selectedArea]);
+  }, [selectedBuilding, selectedFloor, selectedArea, fetchNiches]);
 
   useEffect(() => {
     const handleResize = () => {
