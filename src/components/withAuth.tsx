@@ -5,15 +5,13 @@ import { useRouter } from "next/navigation";
 import { useStateContext } from "@/context/StateContext";
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
-  return (props: any) => {
+  const WithAuth = (props: any) => {
     const { user, loading } = useStateContext();
     const router = useRouter();
 
     useEffect(() => {
-      if (!loading) {
-        if (!user) {
-          router.push("/auth/login");
-        }
+      if (!loading && !user) {
+        router.push("/auth/login");
       }
     }, [loading, user, router]);
 
@@ -27,6 +25,12 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
 
     return null; // Prevent rendering the component if the user is not authenticated
   };
+
+  WithAuth.displayName = `withAuth(${
+    WrappedComponent.displayName || WrappedComponent.name || "Component"
+  })`;
+
+  return WithAuth;
 };
 
 export default withAuth;

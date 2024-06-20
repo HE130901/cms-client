@@ -5,6 +5,7 @@ import Image from "next/image";
 import CustomerPic1 from "@/assets/images/avatar1.jpg";
 import CustomerPic2 from "@/assets/images/avatar2.jpg";
 import CustomerPic3 from "@/assets/images/avatar3.jpg";
+
 const STATS = [
   {
     count: "1,500+",
@@ -114,7 +115,7 @@ const ClientFeedback: FC = () => {
                   {testimonial.title}
                 </Typography>
                 <Typography variant="body1" className="text-gray-700 italic">
-                  "{testimonial.text}"
+                  &quot;{testimonial.text}&quot;
                 </Typography>
               </div>
             ))}

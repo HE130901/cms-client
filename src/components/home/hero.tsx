@@ -41,8 +41,8 @@ function Hero() {
             />
             <motion.p className="mt-4 mb-4 w-full text-white text-lg leading-snug tracking-wide text-shadow-md items-center text-center">
               <span className="font-bold">
-                "Nơi an nghỉ cuối cùng
-                <br /> bình yên và trang trọng"
+                &quot;Nơi an nghỉ cuối cùng
+                <br /> bình yên và trang trọng&quot;
               </span>
             </motion.p>
             <motion.p className="mt-2 mb-8 w-full text-white text-base leading-relaxed tracking-wide text-shadow-md">
